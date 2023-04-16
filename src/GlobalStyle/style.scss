@@ -1,0 +1,24 @@
+:root {
+  --dark-primary-color: #05141c;
+  --dark-secondary-color: #1b2730;
+  --button-primary-color: #4f84eb;
+  --button-secondary-color: #334d6e;
+  --dark-login-primary-color: #112645;
+  --dark-login-secondary-color: #547597;
+  --dark-color: #fff;
+  --dark-second-cl: #ccc;
+  --br-primary: 0.6rem;
+  --bd-primary-color: #ccc;
+  --bd-focus-color: #5b90ce;
+  --color-link: #4f84eb;
+}
+body {
+  font-family: "roboto", sans-serif;
+}
+
+.left {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  float: left;
+}

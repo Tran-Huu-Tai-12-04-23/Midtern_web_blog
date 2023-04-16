@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import GlobalStyles from "./GlobalStyle";
+import Home from "./Layout/Home";
+import Sign from "./Layout/Sign";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <GlobalStyles>
+        <Router>
+          <Routes>
+            <Route path="/sign-to-website" element={<Sign />}></Route>
+            {/*
+            <Route path="/register" element={<Register />}></Route>
+            <Route path="/admin" element={<Admin />}></Route>
+            <Route path="/products" element={<ShowProduct />}></Route>
+            <Route path="/detail-item" element={<DetailItem />}></Route>
+            <Route path="/post-new-item" element={<PostNewItem />}></Route>
+            <Route path="/store" element={<Store />}></Route> */}
+            <Route path="/" element={<Home />}></Route>
+          </Routes>
+        </Router>
+      </GlobalStyles>
     </div>
   );
 }
