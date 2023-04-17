@@ -10,6 +10,7 @@ const modal = ({ children, style, setActive = () => {} }) => {
         backgroundColor: "rgba(0, 0, 0, 0.2)",
         backdropFilter: "blur(1rem)",
         animation: "scale .4s ease-in-out",
+        zIndex: "20000000000",
         ...style,
       }}
       onClick={() => setActive(false)}

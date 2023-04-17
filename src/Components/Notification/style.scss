@@ -1,0 +1,66 @@
+.notification {
+  min-width: 300px;
+  border-radius: 0.5rem;
+  background-color: rgba(255, 255, 255, 1);
+  backdrop-filter: blur(1rem);
+  padding: 2.2rem;
+  top: 6rem;
+  color: #000;
+  overflow: hidden;
+  animation: showNotification 5s cubic-bezier(0, 1.5, 0.6, 1.32);
+  animation-delay: 0.2s;
+  margin-bottom: 20px;
+  height: 3.5rem;
+  transform: translateX(120%);
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 100%;
+    border-radius: 1rem;
+    background-color: var(--tag-cl);
+    animation: showLineNodi 3s ease-in-out;
+    animation-delay: 0.5s;
+  }
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 100%;
+    width: 0.5rem;
+    border-radius: 1rem;
+    background-color: var(--tag-cl);
+  }
+
+  .icon-close-notification {
+    position: absolute;
+    top: 0.1rem;
+    right: 0.1rem;
+    font-size: 2rem;
+  }
+}
+@keyframes showNotification {
+  0% {
+    transform: translateX(250%);
+  }
+  20% {
+    transform: translateX(0%);
+  }
+  80% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(120%);
+  }
+}
+@keyframes showLineNodi {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}

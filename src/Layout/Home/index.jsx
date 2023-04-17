@@ -1,10 +1,20 @@
-import "./style.scss";
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { ContextLogin } from "../../Context";
+
 import Header from "../../Components/Header";
 import Sidebar from "../../Components/Sidebar";
 import Content from "../../Components/Content";
 import ChatList from "../../Components/ChatList";
 
 const Home = () => {
+  const [login, seLogin] = useContext(ContextLogin);
+  const history = useNavigate();
+  useEffect(() => {
+    if (!login.isLogin) {
+      history("/sign-to-website");
+    }
+  }, [login]);
   return (
     <div
       className="home bg-main container-fluid "
@@ -15,7 +25,7 @@ const Home = () => {
     >
       <div className="row ">
         <div className="col-12 mb-5">
-          <Header />
+          <Header login={login} setLogin={seLogin} />
         </div>
         <div className="col-3">
           <Sidebar />

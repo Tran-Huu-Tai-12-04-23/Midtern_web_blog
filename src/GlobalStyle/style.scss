@@ -121,3 +121,21 @@
     opacity: 0;
   }
 }
+
+.hover-close:hover {
+  color: #e53a45;
+  scale: 1.4;
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.MuiPaper-root.MuiMenu-paper.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation8.MuiPopover-paper.css-1ka5eyc-MuiPaper-root-MuiMenu-paper-MuiPopover-paper {
+  background-color: #1b2730;
+  color: #fff;
+  min-width: 150px;
+  border-radius: 1rem;
+}
+
+.hover-bg:hover {
+  background-color: rgba(34, 29, 29, 0.4) !important;
+}

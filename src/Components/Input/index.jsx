@@ -14,6 +14,8 @@ const Input = ({
   icon = "",
   type = "text",
   notification = "",
+  handleFocus = () => {},
+  handleBlur = () => {},
 }) => {
   const [lock, setLock] = useState(false);
   const [typeInput, setType] = useState(type);
@@ -42,6 +44,8 @@ const Input = ({
         placeholder=" "
         value={value}
         onChange={handleChange}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         type={typeInput}
       ></input>
       <div className="label">
@@ -55,7 +59,7 @@ const Input = ({
         <FiEyeOff className="icon-lock" onClick={showPass} />
       )}
       {notification && (
-        <span className="notification" style={{ fontWeight: 600 }}>
+        <span className="tag-dialog" style={{ fontWeight: 600 }}>
           {notification}
         </span>
       )}

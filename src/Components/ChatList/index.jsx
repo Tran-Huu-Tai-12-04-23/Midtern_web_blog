@@ -33,129 +33,42 @@ const ChatList = () => {
               overflowY: "scroll",
             }}
           >
-            <ButtonCustom
-              iconLeft={
-                <img
-                  src="https://www.venuscinema.vn/uploaded/phim/avata.jpg"
-                  className="avatar "
-                  style={{
-                    marginRight: "1rem",
-                  }}
-                ></img>
-              }
-              iconRight={
-                <ButtonCustom
-                  name="Send"
-                  color="#fff"
-                  backgroundColor="#4f84eb"
-                  height="2rem"
-                  style={{
-                    borderRadius: "2rem",
-                    fontWeight: "bold",
-                    fontSize: ".8rem",
-                    marginLeft: "auto",
-                  }}
-                />
-              }
-              backgroundColor="transparent"
-              color="#fff"
-              width="100%"
-              height="4rem"
+            <div
+              className="start"
               style={{
                 justifyContent: "start",
                 fontWeight: 600,
                 borderRadius: 0,
                 fontSize: ".6rem",
               }}
-              name="Thanh Bam"
             >
-              <div className="start ">
-                <div class="active-user "></div>
-                <span className="cl-second fs-small">Active</span>
+              <img
+                src="https://www.venuscinema.vn/uploaded/phim/avata.jpg"
+                className="avatar "
+                style={{
+                  marginRight: "1rem",
+                }}
+              ></img>
+              <div className="">
+                <span>Thanh Bam</span>
+                <div className="start mt-2">
+                  <div className="active-user "></div>
+                  <span className="cl-second fs-small">Active</span>
+                </div>
               </div>
-            </ButtonCustom>
-            <ButtonCustom
-              iconLeft={
-                <img
-                  src="https://www.venuscinema.vn/uploaded/phim/avata.jpg"
-                  className="avatar "
-                  style={{
-                    marginRight: "1rem",
-                  }}
-                ></img>
-              }
-              iconRight={
-                <ButtonCustom
-                  name="Send"
-                  color="#fff"
-                  backgroundColor="#4f84eb"
-                  height="2rem"
-                  style={{
-                    borderRadius: "2rem",
-                    fontWeight: "bold",
-                    fontSize: ".8rem",
-                    marginLeft: "auto",
-                  }}
-                />
-              }
-              backgroundColor="transparent"
-              color="#fff"
-              width="100%"
-              height="4rem"
-              style={{
-                justifyContent: "start",
-                fontWeight: 600,
-                borderRadius: 0,
-                fontSize: ".6rem",
-              }}
-              name="Thanh Bam"
-            >
-              <div className="start ">
-                <div class="active-user "></div>
-                <span className="cl-second fs-small">Active</span>
-              </div>
-            </ButtonCustom>
-            <ButtonCustom
-              iconLeft={
-                <img
-                  src="https://www.venuscinema.vn/uploaded/phim/avata.jpg"
-                  className="avatar "
-                  style={{
-                    marginRight: "1rem",
-                  }}
-                ></img>
-              }
-              iconRight={
-                <ButtonCustom
-                  name="Send"
-                  color="#fff"
-                  backgroundColor="#4f84eb"
-                  height="2rem"
-                  style={{
-                    borderRadius: "2rem",
-                    fontWeight: "bold",
-                    fontSize: ".8rem",
-                    marginLeft: "auto",
-                  }}
-                />
-              }
-              backgroundColor="transparent"
-              color="#fff"
-              width="100%"
-              height="4rem"
-              style={{
-                justifyContent: "start",
-                fontWeight: 600,
-                borderRadius: 0,
-                fontSize: ".6rem",
-              }}
-              name="Thanh Bam"
-            >
-              <div className="start ">
-                <div class="active-user "></div>
-                <span className="cl-second fs-small">Active</span>
-              </div>
-            </ButtonCustom>
+              <ButtonCustom
+                name="Send"
+                color="#fff"
+                backgroundColor="#4f84eb"
+                height="2rem"
+                style={{
+                  borderRadius: "2rem",
+                  fontWeight: "bold",
+                  fontSize: ".8rem",
+                  marginLeft: "auto",
+                }}
+              />
+            </div>
           </div>
         </div>
       </div>

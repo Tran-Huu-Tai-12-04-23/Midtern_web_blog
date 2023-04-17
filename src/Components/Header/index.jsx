@@ -1,19 +1,57 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./style.scss";
 import logo from "../../Assets/img/logo.png";
 
 import Search from "../Search";
 import ButtonCustom from "../ButtonCustom";
 import Modal from "../Modal";
+import MenuCustom from "../MenuCustom";
 
 import { BiHomeAlt } from "react-icons/bi";
 import { BsBellFill } from "react-icons/bs";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { CgMenuGridO } from "react-icons/cg";
+import { RiProfileLine } from "react-icons/ri";
+import { ImNewspaper } from "react-icons/im";
+import { CiLogout } from "react-icons/ci";
 
-const Header = () => {
+const Header = ({ login, setLogin }) => {
+  const history = useNavigate();
   const [modalMenu, setModalMenu] = useState(false);
-  console.log(modalMenu);
+  const [menuItems, setMenuItems] = useState([
+    {
+      name: "Profile",
+      icon: (
+        <RiProfileLine style={{ fontSize: "1.5rem", marginRight: "1rem" }} />
+      ),
+      handleClick: () => {},
+    },
+    {
+      name: "My Posts",
+      icon: (
+        <ImNewspaper
+          style={{ fontSize: "1.5rem", marginRight: "1rem" }}
+        ></ImNewspaper>
+      ),
+      handleClick: () => {},
+    },
+    {
+      name: "Log Out",
+      icon: <CiLogout style={{ fontSize: "1.5rem", marginRight: "1rem" }} />,
+      handleClick: () => {
+        history("/sign-to-website");
+        localStorage.clear();
+        setLogin({
+          isLogin: false,
+          userName: null,
+          user_id: null,
+        });
+      },
+    },
+  ]);
+
   return (
     <>
       <div className="wrapper-header w-100   pt-3" style={{}}>
@@ -75,46 +113,72 @@ const Header = () => {
                   marginRight: "1rem",
                 }}
               ></div>
-              <ButtonCustom
-                backgroundColor="rgba(255, 255, 255, .1)"
-                color="#fff"
-                iconLeft={
-                  <img
-                    src="https://cdnimg.vietnamplus.vn/uploaded/bokttj/2023_01_02/avatar_the_way_of_water.jpg"
+              {/* login === true */}
+              <MenuCustom />
+              {login.isLogin && (
+                <>
+                  <MenuCustom menuItems={menuItems}>
+                    <ButtonCustom
+                      backgroundColor="rgba(255, 255, 255, .1)"
+                      color="#fff"
+                      iconLeft={
+                        <img
+                          src="https://cdnimg.vietnamplus.vn/uploaded/bokttj/2023_01_02/avatar_the_way_of_water.jpg"
+                          style={{
+                            fontSize: "1.5rem",
+                            marginRight: ".5rem",
+                            width: "1.5rem",
+                            height: "1.5rem",
+                            color: "#19A7CE",
+                            borderRadius: "50%",
+                          }}
+                        />
+                      }
+                      iconRight={
+                        <IoMdArrowDropdown
+                          style={{
+                            fontSize: "1.5rem",
+                          }}
+                        />
+                      }
+                      width="unset"
+                      height="2.3rem"
+                      style={{
+                        fontWeight: 600,
+                        marginRight: "1rem",
+                        minWidth: "120px",
+                      }}
+                      name="Huu Tai"
+                    />
+                  </MenuCustom>
+                  <CgMenuGridO
+                    className="icon-menu"
                     style={{
-                      fontSize: "1.5rem",
-                      marginRight: ".5rem",
-                      width: "1.5rem",
-                      height: "1.5rem",
-                      color: "#19A7CE",
-                      borderRadius: "50%",
+                      fontSize: "2rem",
+                      marginLeft: ".5rem",
                     }}
+                    onClick={() => setModalMenu(!modalMenu)}
                   />
-                }
-                iconRight={
-                  <IoMdArrowDropdown
+                </>
+              )}
+
+              {/* Login === false */}
+              {!login.isLogin && (
+                <Link to="/sign-to-website">
+                  <ButtonCustom
+                    backgroundColor="#027aff"
+                    color="#fff"
+                    width="unset"
+                    height="2rem"
                     style={{
-                      fontSize: "1.5rem",
+                      fontWeight: 600,
+                      marginRight: "1rem",
+                      minWidth: "120px",
                     }}
+                    name="Login"
                   />
-                }
-                width="unset"
-                height="2rem"
-                style={{
-                  fontWeight: 600,
-                  marginRight: "1rem",
-                  minWidth: "120px",
-                }}
-                name="Huu Tai"
-              />
-              <CgMenuGridO
-                className="icon-menu"
-                style={{
-                  fontSize: "2rem",
-                  marginLeft: ".5rem",
-                }}
-                onClick={() => setModalMenu(!modalMenu)}
-              />
+                </Link>
+              )}
             </div>
           </div>
         </div>

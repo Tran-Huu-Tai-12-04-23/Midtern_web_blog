@@ -1,6 +1,6 @@
-import { useState } from "react";
-
-import { Checkbox } from "@mui/material";
+import { useContext, useState } from "react";
+import { Link } from "react-router-dom";
+import { v4 as uuid } from "uuid";
 
 import "./style.scss";
 
@@ -9,6 +9,7 @@ import ButtonCustom from "../../Components/ButtonCustom";
 
 import logo from "../../Assets/img/logo.png";
 import logoGoogle from "../../Assets/img/logoGoogle.png";
+import { ContextNotification } from "../../Context";
 
 import { BiUser } from "react-icons/bi";
 import { FiLock } from "react-icons/fi";
@@ -21,35 +22,93 @@ const FormRegister = ({ onSwitchRoute }) => {
   const [usernameNotification, setUsernameNotification] = useState("");
   const [confirmPasswordNotification, setConfirmPasswordNotification] =
     useState("");
+  const setNotifications = useContext(ContextNotification);
 
-  function enterUsername(e) {
-    setUserName(e.target.value);
+  function checkUsername(e) {
     if (!username) {
       setUsernameNotification("Username is empty");
+      return false;
     } else {
       setUsernameNotification("");
+      return true;
     }
   }
-  function changePass(e) {
-    setPassword(e.target.value);
+  function checkPass(e) {
     if (!password) {
       setPasswordNotification("Password is empty!!");
+      return false;
     } else if (password.length < 6) {
       setPasswordNotification("Password must be at least 6!!");
+      return false;
+    } else if (password !== confirmPassword) {
+      setPasswordNotification("Password and confirm password is not match!!");
+      return false;
     } else {
       setPasswordNotification("");
+      return true;
     }
   }
-  function changeConfirmPassword(e) {
-    setConfirmPassword(e.target.value);
+  function checkConfirmPassword(e) {
     if (!confirmPassword) {
       setConfirmPasswordNotification("Confirm password is empty!!");
+      return false;
     } else if (confirmPassword.length < 6) {
       setConfirmPasswordNotification("Confirm password must be at least 6!!");
+      return false;
+    } else if (password !== confirmPassword) {
+      setPasswordNotification("Confirm password and password is not match!!");
+      return false;
     } else {
       setConfirmPasswordNotification("");
+      return true;
     }
   }
+  const submitData = async () => {
+    let formData = {
+      username: username,
+      password: password,
+      confirm_password: confirmPassword,
+    };
+    try {
+      const response = await fetch(
+        "http://localhost/api-web-blog/user?action=register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+      const data = await response.json();
+      if (data.status === true) {
+        setNotifications((prev) => {
+          return [
+            ...prev,
+            {
+              text: data.message,
+              type: "success",
+              id: uuid(),
+            },
+          ];
+        });
+        onSwitchRoute();
+      } else {
+        setNotifications((prev) => {
+          return [
+            ...prev,
+            {
+              text: data.message,
+              type: "err",
+              id: uuid(),
+            },
+          ];
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div className="col-6">
       <div
@@ -61,7 +120,9 @@ const FormRegister = ({ onSwitchRoute }) => {
         }}
       >
         <div className="form center flex-wrap flex-column w-100" style={{}}>
-          <img src={logo}></img>
+          <Link to="/">
+            <img src={logo}></img>
+          </Link>
           <h1
             className="mb-5"
             style={{
@@ -79,7 +140,7 @@ const FormRegister = ({ onSwitchRoute }) => {
             width="70%"
             height="3rem"
             value={username}
-            handleChange={enterUsername}
+            handleChange={(e) => setUserName(e.target.value)}
             icon={
               <BiUser
                 style={{
@@ -98,8 +159,8 @@ const FormRegister = ({ onSwitchRoute }) => {
             variant="Password"
             width="70%"
             height="3rem"
+            handleChange={(e) => setPassword(e.target.value)}
             value={password}
-            handleChange={changePass}
             icon={
               <FiLock
                 style={{
@@ -119,7 +180,7 @@ const FormRegister = ({ onSwitchRoute }) => {
             width="70%"
             height="3rem"
             value={confirmPassword}
-            handleChange={changeConfirmPassword}
+            handleChange={(e) => setConfirmPassword(e.target.value)}
             icon={
               <FiLock
                 style={{
@@ -135,6 +196,17 @@ const FormRegister = ({ onSwitchRoute }) => {
             style={{
               marginTop: "3rem",
               fontWeight: "600",
+            }}
+            handleClick={() => {
+              if (checkPass() && checkConfirmPassword() && checkUsername()) {
+                if (
+                  !usernameNotification &&
+                  !passwordNotification &&
+                  !confirmPasswordNotification
+                ) {
+                  submitData();
+                }
+              }
             }}
           />
           <div
