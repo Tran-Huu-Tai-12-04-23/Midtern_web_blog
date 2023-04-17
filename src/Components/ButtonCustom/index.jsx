@@ -1,3 +1,4 @@
+import { Children } from "react";
 import "./style.scss";
 
 import { Button } from "@mui/material";
@@ -11,23 +12,30 @@ const ButtonCustom = ({
   style = {},
   width = "5rem",
   height = "3rem",
+  children,
   handleClick = () => {},
 }) => {
   return (
     <Button
       variant="text"
-      className="button center"
+      className=" button center"
       style={{
-        ...style,
         color: color,
         backgroundColor: backgroundColor,
         width: width,
         height: height,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        ...style,
       }}
       onClick={handleClick}
     >
       {iconLeft && iconLeft}
-      {name}
+      <div className="d-flex justify-content-center align-items-center flex-column">
+        <span className="mt-1">{name}</span>
+        {children && children}
+      </div>
       {iconRight && iconRight}
     </Button>
   );

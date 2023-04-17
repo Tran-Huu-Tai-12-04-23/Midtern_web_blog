@@ -13,11 +13,14 @@ import logoGoogle from "../../Assets/img/logoGoogle.png";
 import { BiUser } from "react-icons/bi";
 import { FiLock } from "react-icons/fi";
 
-const FormLogin = ({ onSwitchRoute }) => {
+const FormRegister = ({ onSwitchRoute }) => {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordNotification, setPasswordNotification] = useState("");
   const [usernameNotification, setUsernameNotification] = useState("");
+  const [confirmPasswordNotification, setConfirmPasswordNotification] =
+    useState("");
 
   function enterUsername(e) {
     setUserName(e.target.value);
@@ -35,6 +38,16 @@ const FormLogin = ({ onSwitchRoute }) => {
       setPasswordNotification("Password must be at least 6!!");
     } else {
       setPasswordNotification("");
+    }
+  }
+  function changeConfirmPassword(e) {
+    setConfirmPassword(e.target.value);
+    if (!confirmPassword) {
+      setConfirmPasswordNotification("Confirm password is empty!!");
+    } else if (confirmPassword.length < 6) {
+      setConfirmPasswordNotification("Confirm password must be at least 6!!");
+    } else {
+      setConfirmPasswordNotification("");
     }
   }
   return (
@@ -55,7 +68,7 @@ const FormLogin = ({ onSwitchRoute }) => {
               fontSize: "1.5rem",
             }}
           >
-            Hello!!
+            Start with new account?
           </h1>
           <Input
             css={{
@@ -95,63 +108,34 @@ const FormLogin = ({ onSwitchRoute }) => {
               />
             }
           />
-          <div
-            className="mt-4 d-flex justify-content-between align-items-center"
-            style={{
-              width: "70%",
+          <Input
+            css={{
+              color: "var(--dark-color)",
+              marginTop: "3.5rem",
             }}
-          >
-            <div className="left">
-              <Checkbox
+            notification={confirmPasswordNotification}
+            type="password"
+            variant="Confirm password"
+            width="70%"
+            height="3rem"
+            value={confirmPassword}
+            handleChange={changeConfirmPassword}
+            icon={
+              <FiLock
                 style={{
-                  color: "var(--dark-color)",
+                  marginRight: ".3rem",
                 }}
               />
-              <label
-                htmlFor=""
-                style={{
-                  color: "var(--dark-second-cl)",
-                  fontSize: ".8rem",
-                }}
-              >
-                Remember Me
-              </label>
-            </div>
-            <a
-              href="#"
-              className=""
-              style={{
-                color: "var(--color-link)",
-              }}
-            >
-              Recovery Password
-            </a>
-          </div>
-          <ButtonCustom
-            name="Login"
-            width="70%"
-            style={{
-              fontWeight: "600",
-              marginTop: "3rem",
-            }}
-          />
-          <ButtonCustom
-            name="Login with google"
-            width="70%"
-            style={{
-              marginTop: "2rem",
-            }}
-            backgroundColor="#4d6d8f"
-            iconLeft={
-              <img
-                style={{
-                  width: "2rem",
-                  height: "2rem",
-                  marginRight: "1rem",
-                }}
-                src={logoGoogle}
-              ></img>
             }
+          />
+
+          <ButtonCustom
+            name="Create account"
+            width="70%"
+            style={{
+              marginTop: "3rem",
+              fontWeight: "600",
+            }}
           />
           <div
             style={{
@@ -160,7 +144,7 @@ const FormLogin = ({ onSwitchRoute }) => {
             }}
             className="center ml-2"
           >
-            <span className="span p-2">Do you have account yet?</span>
+            <span className="span p-2">Have you ready your account ?</span>
             <span
               className=""
               style={{
@@ -169,7 +153,7 @@ const FormLogin = ({ onSwitchRoute }) => {
               }}
               onClick={onSwitchRoute}
             >
-              Sign Up
+              Sign In
             </span>
           </div>
         </div>
@@ -177,4 +161,4 @@ const FormLogin = ({ onSwitchRoute }) => {
     </div>
   );
 };
-export default FormLogin;
+export default FormRegister;

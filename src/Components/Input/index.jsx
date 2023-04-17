@@ -13,6 +13,7 @@ const Input = ({
   height = "3rem",
   icon = "",
   type = "text",
+  notification = "",
 }) => {
   const [lock, setLock] = useState(false);
   const [typeInput, setType] = useState(type);
@@ -52,6 +53,11 @@ const Input = ({
       )}
       {type === "password" && lock && (
         <FiEyeOff className="icon-lock" onClick={showPass} />
+      )}
+      {notification && (
+        <span className="notification" style={{ fontWeight: 600 }}>
+          {notification}
+        </span>
       )}
     </div>
   );

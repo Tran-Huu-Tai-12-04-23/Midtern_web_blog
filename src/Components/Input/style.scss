@@ -2,7 +2,11 @@
   font-size: 1rem;
   position: relative;
   border-radius: var(--br-primary);
-
+  .notification {
+    color: #DF2E38;
+    float: left;
+    // position: absolute;
+  }
   input {
     position: relative;
     z-index: 1;

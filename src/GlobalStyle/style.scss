@@ -10,10 +10,14 @@
   --br-primary: 0.6rem;
   --bd-primary-color: #ccc;
   --bd-focus-color: #5b90ce;
-  --color-link: #4f84eb;
+  --color-link: #039be5;
+  --bg-second: #1b2730;
 }
-body {
-  font-family: "roboto", sans-serif;
+.bg-main {
+  background-color: #05141c;
+}
+.br-primary {
+  border-radius: 2rem;
 }
 
 .left {
@@ -21,4 +25,99 @@ body {
   justify-content: start;
   align-items: center;
   float: left;
+}
+.bd-primary {
+  border: 1px solid #3c71a3;
+}
+
+@keyframes scale {
+  from {
+    scale: 0;
+  }
+  to {
+    scale: 1;
+  }
+}
+.bg-second {
+  background-color: var(--bg-second);
+}
+.avatar {
+  border-radius: 50%;
+  height: 3rem;
+  width: 3rem;
+}
+.cl-second {
+  color: #ccc;
+}
+.bold {
+  font-weight: bold;
+}
+
+.fs-small {
+  font-size: 0.6rem;
+}
+.hidden-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.reset {
+  border: none;
+  outline: none;
+}
+.reset:focus {
+  border: none;
+  outline: none;
+}
+
+.column {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.start {
+  display: flex;
+  justify-content: Start;
+  align-items: center;
+}
+.active-user {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 0.8rem;
+  width: 0.8rem;
+  border-radius: 50%;
+  background-color: #46ab5e;
+  margin-right: 0.5rem;
+}
+
+.active-user::before,
+.active-user::after {
+  position: absolute;
+  content: "";
+  height: 3em;
+  width: 3em;
+  border: 1em solid #0060fa;
+  border-radius: 50%;
+  animation: loader_79178 2s linear infinite;
+}
+
+.active-user::after {
+  opacity: 0;
+  animation-delay: 1s;
+}
+
+@keyframes loader_79178 {
+  0% {
+    border: 1em solid #6ee48a;
+    transform: scale(0);
+    opacity: 1;
+  }
+
+  100% {
+    border: 0 solid #6ee48a;
+    transform: scale(1);
+    opacity: 0;
+  }
 }
