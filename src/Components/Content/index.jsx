@@ -1,7 +1,7 @@
 import "./style.scss";
 import CreateNewFeed from "./CreateNewFeed";
 import Information from "./Information";
-const Content = () => {
+const Content = ({ setShowModalPost = () => {} }) => {
   return (
     <div
       className="wrapper-Content w-100 hidden-scroll"
@@ -11,7 +11,7 @@ const Content = () => {
         paddingBottom: "2rem",
       }}
     >
-      <CreateNewFeed />
+      <CreateNewFeed handLeShowModalPost={() => setShowModalPost(true)} />
       <Information />
       <Information />
       <Information />

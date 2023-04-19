@@ -4,7 +4,7 @@ import ButtonCustom from "../ButtonCustom";
 import { BiPhotoAlbum } from "react-icons/bi";
 import { BsCameraVideo } from "react-icons/bs";
 
-const CreateNewFeed = () => {
+const CreateNewFeed = ({ handLeShowModalPost = () => {} }) => {
   return (
     <div
       className="wrapper-CreateNewFeed w-100 bg-second br-primary p-4"
@@ -32,6 +32,10 @@ const CreateNewFeed = () => {
             borderRadius: "3rem",
             justifyContent: "start",
             paddingLeft: "1rem",
+          }}
+          handleClick={(e) => {
+            e.stopPropagation();
+            handLeShowModalPost();
           }}
         />
       </div>

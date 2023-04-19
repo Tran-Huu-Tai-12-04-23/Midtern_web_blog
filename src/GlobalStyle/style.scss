@@ -139,3 +139,9 @@
 .hover-bg:hover {
   background-color: rgba(34, 29, 29, 0.4) !important;
 }
+
+.end {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
