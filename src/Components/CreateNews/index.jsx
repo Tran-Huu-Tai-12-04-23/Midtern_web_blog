@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { v4 as uuid } from "uuid";
 
 import { MdClose } from "react-icons/md";
@@ -10,10 +10,12 @@ import { ContextNotification } from "../../Context";
 import { api } from "../../util/index";
 
 const CreateNews = ({ login, show, setModalPost = () => {} }) => {
-  const [mode, setMode] = useState("public");
+  const [mode, setMode] = useState(false);
   const [fileVideo, setFileVideo] = useState(null);
   const [filePhoto, setFilePhoto] = useState(null);
-  const [content, setContent] = useState("file");
+  const [photoPreview, setPhotoPreview] = useState("");
+  const [videoPreview, setVideoPreview] = useState("");
+  const [content, setContent] = useState("");
   const setNotifications = useContext(ContextNotification);
   const handleSelectVideo = (e) => {
     setFileVideo(e.target.files[0]);
@@ -22,6 +24,30 @@ const CreateNews = ({ login, show, setModalPost = () => {} }) => {
     setFilePhoto(e.target.files[0]);
   };
 
+  useEffect(() => {
+    function handleImageChange(filePhoto) {
+      if (filePhoto) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          setPhotoPreview(reader.result);
+        };
+        reader.readAsDataURL(filePhoto);
+      }
+    }
+    handleImageChange(filePhoto);
+  }, [filePhoto]);
+  useEffect(() => {
+    function handleImageChange(fileVideo) {
+      if (fileVideo) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          setVideoPreview(reader.result);
+        };
+        reader.readAsDataURL(fileVideo);
+      }
+    }
+    handleImageChange(fileVideo);
+  }, [fileVideo]);
   const post = () => {
     if (!fileVideo && !filePhoto && !setContent) {
       setNotifications((prev) => {
@@ -40,6 +66,7 @@ const CreateNews = ({ login, show, setModalPost = () => {} }) => {
       formData.append("photo", filePhoto);
       formData.append("video", fileVideo);
       formData.append("user_id", login.user_id);
+      formData.append("mode", mode);
 
       let headers = new Headers();
       headers.append("Accept", "application/json");
@@ -56,7 +83,36 @@ const CreateNews = ({ login, show, setModalPost = () => {} }) => {
           return response.json();
         })
         .then((data) => {
-          console.log(data);
+          setContent("");
+          setMode(false);
+          setFilePhoto(null);
+          setFileVideo(null);
+          setVideoPreview(null);
+          setPhotoPreview(null);
+          setModalPost(false);
+          if (data.status == true) {
+            setNotifications((prev) => {
+              return [
+                ...prev,
+                {
+                  text: "Post new feed successfully!!",
+                  type: "success",
+                  id: uuid(),
+                },
+              ];
+            });
+          } else {
+            setNotifications((prev) => {
+              return [
+                ...prev,
+                {
+                  text: "Post new feed failed!!",
+                  type: "err",
+                  id: uuid(),
+                },
+              ];
+            });
+          }
         })
         .catch((error) => {
           console.error("There was a problem with the fetch operation:", error);
@@ -81,13 +137,12 @@ const CreateNews = ({ login, show, setModalPost = () => {} }) => {
       }}
     >
       <div
-        className="position-absolute"
+        className="position-absolute "
         style={{
           top: "40%",
           left: "50%",
           transform: "translate(-50%, -50%)",
           maxWidth: "40rem",
-          maxHeight: "30rem",
           width: "40rem",
           backgroundColor: "#131b22",
           borderRadius: "1rem",
@@ -196,8 +251,32 @@ const CreateNews = ({ login, show, setModalPost = () => {} }) => {
                   height: " 3rem",
                   padding: ".5rem 1rem",
                 }}
+                value={content}
                 onChange={(e) => setContent(e.target.value)}
               />
+            </div>
+            <div
+              className="w-100 hidden-scroll"
+              style={{
+                maxHeight: "45vh",
+                overflow: "scroll",
+              }}
+            >
+              <img
+                src={photoPreview}
+                alt=""
+                className="w-100"
+                style={{ borderRadius: "1rem" }}
+              />
+              {videoPreview && (
+                <video
+                  controls
+                  width="100%"
+                  style={{ borderRadius: "1rem", marginTop: "2rem" }}
+                >
+                  <source src={videoPreview} type="video/mp4" />
+                </video>
+              )}
             </div>
             <div className="w-100 end">
               <ButtonCustom
@@ -226,7 +305,7 @@ const CreateNews = ({ login, show, setModalPost = () => {} }) => {
                 onChange={handleSelectVideo}
               />
               <ButtonCustom
-                name="video"
+                name="Photo"
                 height="2.5rem"
                 backgroundColor="transparent"
                 iconLeft={

@@ -28,7 +28,7 @@ const Notification = ({ type = "err", text = "", keyProp, id }) => {
     } else if (type === "success") {
       setColor("#00FFCA");
     }
-  }, type);
+  }, [type]);
   return (
     <div
       className="notification d-flex justify-content-between align-items-center"
