@@ -1,6 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { v4 as uuid } from "uuid";
+import { db } from "../../firebase";
+import { collection, query, onSnapshot, where } from "firebase/firestore";
+import { verifyPass } from "../../util/index";
+import { UserAuth } from "../../AuthenticationGoogleAccount";
 
 import { Checkbox } from "@mui/material";
 
@@ -12,18 +16,24 @@ import ButtonCustom from "../../Components/ButtonCustom";
 import logo from "../../Assets/img/logo.png";
 import logoGoogle from "../../Assets/img/logoGoogle.png";
 
-import { ContextNotification, ContextLogin } from "../../Context";
+import {
+  NotificationContext,
+  LoginContext,
+  LoaderContext,
+} from "../../Context";
 
 import { BiUser } from "react-icons/bi";
 import { FiLock } from "react-icons/fi";
 
 const FormLogin = ({ onSwitchRoute }) => {
+  const [loader, setLoader] = useContext(LoaderContext);
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [passwordNotification, setPasswordNotification] = useState("");
   const [usernameNotification, setUsernameNotification] = useState("");
-  const setNotifications = useContext(ContextNotification);
-  const [login, seLogin] = useContext(ContextLogin);
+  const setNotifications = useContext(NotificationContext);
+  const [login, seLogin] = useContext(LoginContext);
+  const { googleSignIn } = UserAuth();
 
   function checkUsername(e) {
     if (!username) {
@@ -48,81 +58,89 @@ const FormLogin = ({ onSwitchRoute }) => {
   }
   const history = useNavigate();
   useEffect(() => {
-    if (login.isLogin) {
+    if (login) {
       history("/");
     }
   }, [login]);
   const submitData = async () => {
-    let formData = {
-      username: username,
-      password: password,
-    };
-    try {
-      const response = await fetch(
-        "http://localhost/api-web-blog/user?action=login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
-      const res = await response.json();
-      setPassword("");
-      setUserName("");
-      if (res.status === true) {
-        const user = JSON.parse(res.data);
-        const storeLogin = {
-          isLogin: true,
-          username: user.username,
-          user_id: user.user_id,
-        };
-        seLogin({
-          isLogin: true,
-          username: user.username,
-          user_id: user.user_id,
-        });
-        localStorage.setItem("login", JSON.stringify(storeLogin));
-        // history.push("/");
+    const q = query(collection(db, "user"), where("username", "==", username));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      if (querySnapshot.empty) {
         setNotifications((prev) => {
           return [
             ...prev,
             {
-              text: res.message,
-              type: "success",
-              id: uuid(),
-            },
-          ];
-        });
-        history("/");
-      } else {
-        setNotifications((prev) => {
-          return [
-            ...prev,
-            {
-              text: res.message,
+              text: "User not found",
               type: "err",
               id: uuid(),
             },
           ];
         });
+      } else {
+        const doc = querySnapshot.docs[0];
+        if (verifyPass(password, doc.data().password)) {
+          handleLogin(doc.id, doc.data().username);
+        } else {
+          setNotifications((prev) => {
+            return [
+              ...prev,
+              {
+                text: "Password is not matches",
+                type: "err",
+                id: uuid(),
+              },
+            ];
+          });
+        }
       }
+      return () => unsubscribe;
+    });
+  };
+
+  const handleLogin = (userId, username) => {
+    const storeLogin = {
+      username: username,
+      userId: userId,
+    };
+    seLogin({
+      username: username,
+    });
+    localStorage.setItem("login", JSON.stringify(storeLogin));
+    setNotifications((prev) => {
+      return [
+        ...prev,
+        {
+          text: "Login successfully!!",
+          type: "success",
+          id: uuid(),
+        },
+      ];
+    });
+    setLoader(true);
+    history("/");
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      await googleSignIn();
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
+
   return (
-    <div className="col-6">
+    <div className="col-xl-6 col-lg-6 col-md-12">
       <div
-        className="wrapper-form h-100 w-100 center"
+        className="wrapper-form h-100 w-100"
         style={{
           minHeight: "100vh",
-          width: "50vw",
           backgroundColor: "var(--dark-login-secondary-color)",
         }}
       >
-        <div className="form center flex-wrap flex-column w-100" style={{}}>
+        <div
+          className="form w-100 center flex-wrap flex-column w-100"
+          style={{}}
+        >
           <Link to="/">
             <img src={logo}></img>
           </Link>
@@ -225,6 +243,7 @@ const FormLogin = ({ onSwitchRoute }) => {
             style={{
               marginTop: "2rem",
             }}
+            handleClick={handleGoogleSignIn}
             backgroundColor="#4d6d8f"
             iconLeft={
               <img

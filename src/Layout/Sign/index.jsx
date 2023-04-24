@@ -22,7 +22,7 @@ const Sign = () => {
       <div className="container-fluid p-0 overflow-hidden ">
         <div className="row">
           {!page && <FormRegister onSwitchRoute={() => setPage(!page)} />}
-          <div className="col-lg-6 col-xl-6 center mt-5">
+          <div className="col-lg-6 col-xl-6 center mt-5 d-xl-block d-lg-block d-none">
             <Slider dataImage={[signIn2, signIn1, signIn2]} />
           </div>
 

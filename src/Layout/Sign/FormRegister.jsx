@@ -1,5 +1,13 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { db } from "../../firebase/index.js";
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  getDocs,
+} from "firebase/firestore";
+import { hashPass } from "../../util/index.js";
 import { v4 as uuid } from "uuid";
 
 import "./style.scss";
@@ -9,7 +17,7 @@ import ButtonCustom from "../../Components/ButtonCustom";
 
 import logo from "../../Assets/img/logo.png";
 import logoGoogle from "../../Assets/img/logoGoogle.png";
-import { ContextNotification } from "../../Context";
+import { NotificationContext } from "../../Context";
 
 import { BiUser } from "react-icons/bi";
 import { FiLock } from "react-icons/fi";
@@ -22,7 +30,7 @@ const FormRegister = ({ onSwitchRoute }) => {
   const [usernameNotification, setUsernameNotification] = useState("");
   const [confirmPasswordNotification, setConfirmPasswordNotification] =
     useState("");
-  const setNotifications = useContext(ContextNotification);
+  const setNotifications = useContext(NotificationContext);
 
   function checkUsername(e) {
     if (!username) {
@@ -63,54 +71,82 @@ const FormRegister = ({ onSwitchRoute }) => {
       return true;
     }
   }
-  const submitData = async () => {
-    let formData = {
-      username: username,
-      password: password,
-      confirm_password: confirmPassword,
-    };
-    try {
-      const response = await fetch(
-        "http://localhost/api-web-blog/user?action=register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
+  function register(event) {
+    checkUsernameExists(username)
+      .then(function (res) {
+        if (res === true) {
+          setNotifications((prev) => {
+            return [
+              ...prev,
+              {
+                text: "User already registered",
+                id: uuid(),
+                type: "warn",
+              },
+            ];
+          });
+        } else {
+          saveIntoFirebase();
         }
-      );
-      const data = await response.json();
-      if (data.status === true) {
+      })
+      .catch(function (err) {
         setNotifications((prev) => {
           return [
             ...prev,
             {
-              text: data.message,
+              text: err,
+              id: uuid(),
+              type: "err",
+            },
+          ];
+        });
+      });
+  }
+
+  function saveIntoFirebase() {
+    addDoc(collection(db, "user"), {
+      username: username,
+      password: hashPass(password),
+      confirm_password: confirmPassword,
+      createdAt: serverTimestamp(),
+    })
+      .then(() => {
+        setPassword("");
+        setConfirmPassword("");
+        setUserName("");
+        setNotifications((prev) => {
+          return [
+            ...prev,
+            {
+              text: "Create new account successfully",
               type: "success",
               id: uuid(),
             },
           ];
         });
-        onSwitchRoute();
-      } else {
+        onSwitchRoute(true);
+      })
+      .catch((error) => {
         setNotifications((prev) => {
           return [
             ...prev,
             {
-              text: data.message,
+              text: "Create new account failed",
               type: "err",
               id: uuid(),
             },
           ];
         });
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+      });
+  }
+  async function checkUsernameExists(username) {
+    const querySnapshot = await getDocs(collection(db, "user"));
+    const users = querySnapshot.docs.map((doc) => doc.data());
+    return users.some((user) => user.username === username);
+  }
+
   return (
-    <div className="col-6">
+    <div className=" col-xl-6 col-lg-6 col-md-12">
       <div
         className="wrapper-form h-100 w-100 center"
         style={{
@@ -204,7 +240,7 @@ const FormRegister = ({ onSwitchRoute }) => {
                   !passwordNotification &&
                   !confirmPasswordNotification
                 ) {
-                  submitData();
+                  register();
                 }
               }
             }}

@@ -1,19 +1,23 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Redi } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  redirect,
+} from "react-router-dom";
 
 import GlobalStyles from "./GlobalStyle";
 import Home from "./Layout/Home";
 import Sign from "./Layout/Sign";
 import Notification from "./Components/Notification";
-import { ContextNotification, ContextLogin } from "./Context";
+import { NotificationContext, LoginContext, LoaderContext } from "./Context";
+import AuthenticationGoogleAccount from "./AuthenticationGoogleAccount";
+import Loader from "././Components/Loader";
 
 function App() {
-  const [login, setLogin] = useState({
-    isLogin: false,
-    userName: null,
-    user_id: null,
-  });
+  const [login, setLogin] = useState(null);
   const [notifications, setNotifications] = useState([]);
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
     const storeUser = localStorage.getItem("login");
@@ -38,35 +42,33 @@ function App() {
 
   return (
     <div className="App">
-      <ContextNotification.Provider value={setNotifications}>
-        <ContextLogin.Provider value={[login, setLogin]}>
-          <GlobalStyles>
-            <Router>
-              <Routes>
-                <Route path="/sign-to-website" element={<Sign />}></Route>
-                {/*
-            <Route path="/register" element={<Register />}></Route>
-            <Route path="/admin" element={<Admin />}></Route>
-            <Route path="/products" element={<ShowProduct />}></Route>
-            <Route path="/detail-item" element={<DetailItem />}></Route>
-            <Route path="/post-new-item" element={<PostNewItem />}></Route>
-            <Route path="/store" element={<Store />}></Route> */}
-                <Route path="/" element={<Home />}></Route>
-              </Routes>
-            </Router>
-          </GlobalStyles>
-          <div
-            className="notification-list position-fixed "
-            style={{
-              top: "1rem",
-              right: "1rem",
-              zIndex: "10000000000",
-            }}
-          >
-            {loadNotifications()}
-          </div>
-        </ContextLogin.Provider>
-      </ContextNotification.Provider>
+      <AuthenticationGoogleAccount setLogin={setLogin} setLoader={setLoader}>
+        <LoaderContext.Provider value={[loader, setLoader]}>
+          <NotificationContext.Provider value={setNotifications}>
+            <LoginContext.Provider value={[login, setLogin]}>
+              <GlobalStyles>
+                <Router>
+                  <Routes>
+                    <Route path="/sign-to-website" element={<Sign />}></Route>
+                    <Route path="/" element={<Home />}></Route>
+                  </Routes>
+                </Router>
+                <Loader show={loader} />
+              </GlobalStyles>
+              <div
+                className="notification-list position-fixed "
+                style={{
+                  top: "1rem",
+                  right: "1rem",
+                  zIndex: "10000000000",
+                }}
+              >
+                {loadNotifications()}
+              </div>
+            </LoginContext.Provider>
+          </NotificationContext.Provider>
+        </LoaderContext.Provider>
+      </AuthenticationGoogleAccount>
     </div>
   );
 }

@@ -1,4 +1,9 @@
 import { createContext } from "react";
+// notification context
+export const NotificationContext = createContext();
 
-export const ContextNotification = createContext();
-export const ContextLogin = createContext();
+// login context
+export const LoginContext = createContext();
+
+// loader context
+export const LoaderContext = createContext();

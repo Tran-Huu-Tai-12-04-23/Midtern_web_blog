@@ -6,10 +6,10 @@ import { RiFileWarningLine } from "react-icons/ri";
 import { FcCheckmark } from "react-icons/fc";
 import { IoCloseOutline } from "react-icons/io5";
 
-import { ContextNotification } from "../../Context";
+import { NotificationContext } from "../../Context";
 
 const Notification = ({ type = "err", text = "", keyProp, id }) => {
-  const setNotifications = useContext(ContextNotification);
+  const setNotifications = useContext(NotificationContext);
   const [color, setColor] = useState();
   useEffect(() => {
     const timeout = setTimeout(() => {

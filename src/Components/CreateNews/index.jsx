@@ -6,8 +6,7 @@ import { HiOutlineLockClosed, HiOutlineLockOpen } from "react-icons/hi";
 import { AiOutlineVideoCamera } from "react-icons/ai";
 import { MdOutlineAddAPhoto } from "react-icons/md";
 import ButtonCustom from "../ButtonCustom";
-import { ContextNotification } from "../../Context";
-import { api } from "../../util/index";
+import { NotificationContext } from "../../Context";
 
 const CreateNews = ({ login, show, setModalPost = () => {} }) => {
   const [mode, setMode] = useState(false);
@@ -16,7 +15,7 @@ const CreateNews = ({ login, show, setModalPost = () => {} }) => {
   const [photoPreview, setPhotoPreview] = useState("");
   const [videoPreview, setVideoPreview] = useState("");
   const [content, setContent] = useState("");
-  const setNotifications = useContext(ContextNotification);
+  const setNotifications = useContext(NotificationContext);
   const handleSelectVideo = (e) => {
     setFileVideo(e.target.files[0]);
   };

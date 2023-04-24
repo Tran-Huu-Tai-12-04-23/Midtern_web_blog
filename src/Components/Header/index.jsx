@@ -43,11 +43,7 @@ const Header = ({ login, setLogin }) => {
       handleClick: () => {
         history("/sign-to-website");
         localStorage.clear();
-        setLogin({
-          isLogin: false,
-          userName: null,
-          user_id: null,
-        });
+        setLogin(null);
       },
     },
   ]);
@@ -115,7 +111,7 @@ const Header = ({ login, setLogin }) => {
               ></div>
               {/* login === true */}
               <MenuCustom />
-              {login.isLogin && (
+              {login && (
                 <>
                   <MenuCustom menuItems={menuItems}>
                     <ButtonCustom
@@ -163,7 +159,7 @@ const Header = ({ login, setLogin }) => {
               )}
 
               {/* Login === false */}
-              {!login.isLogin && (
+              {!login && (
                 <Link to="/sign-to-website">
                   <ButtonCustom
                     backgroundColor="#027aff"
