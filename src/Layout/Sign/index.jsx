@@ -3,7 +3,6 @@ import { useState } from "react";
 import "./style.scss";
 import signIn1 from "../../Assets/img/signIn1.png";
 import signIn2 from "../../Assets/img/signIn2.png";
-import logo from "../../Assets/img/logo.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import FormLogin from "./FormLogin";

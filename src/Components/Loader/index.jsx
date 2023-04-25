@@ -8,6 +8,7 @@ const Loader = ({ show }) => {
         left: 0,
         right: 0,
         bottom: 0,
+        zIndex: "100",
         backdropFilter: "blur(1rem)",
         backgroundColor: "rgba(0,0,0,.3)",
         display: show ? "flex" : "none",

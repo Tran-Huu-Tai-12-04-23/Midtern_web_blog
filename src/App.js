@@ -1,74 +1,63 @@
-import { useState, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  redirect,
-} from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import GlobalStyles from "./GlobalStyle";
+import GlobalStyles from "./GlobalStyle/index";
 import Home from "./Layout/Home";
 import Sign from "./Layout/Sign";
-import Notification from "./Components/Notification";
-import { NotificationContext, LoginContext, LoaderContext } from "./Context";
-import AuthenticationGoogleAccount from "./AuthenticationGoogleAccount";
-import Loader from "././Components/Loader";
+import Loader from "./Components/Loader";
+import {
+  LoaderContext,
+  NotificationContext,
+  AuthContext,
+} from "./Context/index.js";
 
 function App() {
-  const [login, setLogin] = useState(null);
-  const [notifications, setNotifications] = useState([]);
-  const [loader, setLoader] = useState(false);
+  const [user, setUser] = React.useState(null);
+  const [loader, setLoader] = React.useState(false);
+  const [notifications, setNotifications] = React.useState([]);
 
   useEffect(() => {
-    const storeUser = localStorage.getItem("login");
-    if (storeUser) {
-      setLogin(JSON.parse(storeUser));
+    let user = sessionStorage.getItem("login");
+    if (user) {
+      setUser(JSON.parse(user));
     }
   }, []);
 
   const loadNotifications = () => {
-    return notifications.map((notification) => {
-      return (
-        <div key={notification.id}>
-          <Notification
-            text={notification.text}
-            type={notification.type}
-            id={notification.id}
-          />
-        </div>
-      );
-    });
+    return notifications.map((n, i) => (
+      <div className={`notification ${n.type}`} key={i}>
+        {n.message}
+      </div>
+    ));
   };
 
   return (
-    <div className="App">
-      <AuthenticationGoogleAccount setLogin={setLogin} setLoader={setLoader}>
-        <LoaderContext.Provider value={[loader, setLoader]}>
-          <NotificationContext.Provider value={setNotifications}>
-            <LoginContext.Provider value={[login, setLogin]}>
-              <GlobalStyles>
-                <Router>
-                  <Routes>
-                    <Route path="/sign-to-website" element={<Sign />}></Route>
-                    <Route path="/" element={<Home />}></Route>
-                  </Routes>
-                </Router>
-                <Loader show={loader} />
-              </GlobalStyles>
-              <div
-                className="notification-list position-fixed "
-                style={{
-                  top: "1rem",
-                  right: "1rem",
-                  zIndex: "10000000000",
-                }}
-              >
-                {loadNotifications()}
-              </div>
-            </LoginContext.Provider>
-          </NotificationContext.Provider>
-        </LoaderContext.Provider>
-      </AuthenticationGoogleAccount>
+    <div className="app">
+      <LoaderContext.Provider value={[loader, setLoader]}>
+        <NotificationContext.Provider value={setNotifications}>
+          <AuthContext.Provider value={{ user, setUser }}>
+            <GlobalStyles>
+              <Router>
+                <Routes>
+                  <Route path="/sign-to-website" element={<Sign />} />
+                  <Route path="/" element={<Home />} />
+                </Routes>
+              </Router>
+            </GlobalStyles>
+            <div
+              className="notification-list position-fixed "
+              style={{
+                top: "1rem",
+                right: "1rem",
+                zIndex: "10000000000",
+              }}
+            >
+              {loadNotifications()}
+            </div>
+            <Loader show={loader} />
+          </AuthContext.Provider>
+        </NotificationContext.Provider>
+      </LoaderContext.Provider>
     </div>
   );
 }

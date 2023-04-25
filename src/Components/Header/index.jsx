@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { logOut } from "../../firebase/AuthGoogle.js";
+import { auth } from "../../firebase/index.js";
+import { signOut } from "firebase/auth";
 import "./style.scss";
 import logo from "../../Assets/img/logo.png";
 
@@ -17,7 +20,7 @@ import { RiProfileLine } from "react-icons/ri";
 import { ImNewspaper } from "react-icons/im";
 import { CiLogout } from "react-icons/ci";
 
-const Header = ({ login, setLogin }) => {
+const Header = ({ user, setUser }) => {
   const history = useNavigate();
   const [modalMenu, setModalMenu] = useState(false);
   const [menuItems, setMenuItems] = useState([
@@ -41,9 +44,17 @@ const Header = ({ login, setLogin }) => {
       name: "Log Out",
       icon: <CiLogout style={{ fontSize: "1.5rem", marginRight: "1rem" }} />,
       handleClick: () => {
-        history("/sign-to-website");
-        localStorage.clear();
-        setLogin(null);
+        sessionStorage.clear();
+        setUser(null);
+        auth.signOut().then(
+          function () {
+            history("/sign-to-website");
+            console.log("Signed Out");
+          },
+          function (error) {
+            console.error("Sign Out Error", error);
+          }
+        );
       },
     },
   ]);
@@ -109,9 +120,9 @@ const Header = ({ login, setLogin }) => {
                   marginRight: "1rem",
                 }}
               ></div>
-              {/* login === true */}
+              {/* user === true */}
               <MenuCustom />
-              {login && (
+              {user && (
                 <>
                   <MenuCustom menuItems={menuItems}>
                     <ButtonCustom
@@ -158,8 +169,8 @@ const Header = ({ login, setLogin }) => {
                 </>
               )}
 
-              {/* Login === false */}
-              {!login && (
+              {/* user === false */}
+              {!user && (
                 <Link to="/sign-to-website">
                   <ButtonCustom
                     backgroundColor="#027aff"
@@ -171,7 +182,7 @@ const Header = ({ login, setLogin }) => {
                       marginRight: "1rem",
                       minWidth: "120px",
                     }}
-                    name="Login"
+                    name="user"
                   />
                 </Link>
               )}

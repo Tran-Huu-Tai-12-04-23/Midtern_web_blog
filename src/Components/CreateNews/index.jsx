@@ -8,7 +8,7 @@ import { MdOutlineAddAPhoto } from "react-icons/md";
 import ButtonCustom from "../ButtonCustom";
 import { NotificationContext } from "../../Context";
 
-const CreateNews = ({ login, show, setModalPost = () => {} }) => {
+const CreateNews = ({ user, show, setModalPost = () => {} }) => {
   const [mode, setMode] = useState(false);
   const [fileVideo, setFileVideo] = useState(null);
   const [filePhoto, setFilePhoto] = useState(null);
@@ -64,7 +64,7 @@ const CreateNews = ({ login, show, setModalPost = () => {} }) => {
       formData.append("content", content);
       formData.append("photo", filePhoto);
       formData.append("video", fileVideo);
-      formData.append("user_id", login.user_id);
+      formData.append("user_id", user.user_id);
       formData.append("mode", mode);
 
       let headers = new Headers();

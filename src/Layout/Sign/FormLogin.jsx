@@ -1,10 +1,12 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 import { db } from "../../firebase";
 import { collection, query, onSnapshot, where } from "firebase/firestore";
 import { verifyPass } from "../../util/index";
-import { UserAuth } from "../../AuthenticationGoogleAccount";
+import { googleSignIn } from "../../firebase/AuthGoogle.js";
+import { auth } from "./../../firebase/index";
+import { onAuthStateChanged } from "firebase/auth";
 
 import { Checkbox } from "@mui/material";
 
@@ -16,24 +18,18 @@ import ButtonCustom from "../../Components/ButtonCustom";
 import logo from "../../Assets/img/logo.png";
 import logoGoogle from "../../Assets/img/logoGoogle.png";
 
-import {
-  NotificationContext,
-  LoginContext,
-  LoaderContext,
-} from "../../Context";
-
+import { NotificationContext, LoaderContext, AuthContext } from "../../Context";
 import { BiUser } from "react-icons/bi";
 import { FiLock } from "react-icons/fi";
 
 const FormLogin = ({ onSwitchRoute }) => {
+  const { user, setUser } = useContext(AuthContext);
   const [loader, setLoader] = useContext(LoaderContext);
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [passwordNotification, setPasswordNotification] = useState("");
   const [usernameNotification, setUsernameNotification] = useState("");
   const setNotifications = useContext(NotificationContext);
-  const [login, seLogin] = useContext(LoginContext);
-  const { googleSignIn } = UserAuth();
 
   function checkUsername(e) {
     if (!username) {
@@ -58,10 +54,10 @@ const FormLogin = ({ onSwitchRoute }) => {
   }
   const history = useNavigate();
   useEffect(() => {
-    if (login) {
+    if (user) {
       history("/");
     }
-  }, [login]);
+  }, [user]);
   const submitData = async () => {
     const q = query(collection(db, "user"), where("username", "==", username));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -96,16 +92,23 @@ const FormLogin = ({ onSwitchRoute }) => {
       return () => unsubscribe;
     });
   };
-
-  const handleLogin = (userId, username) => {
+  const saveStoreLocal = (uid, displayName, email = "", photoUrl = "") => {
     const storeLogin = {
-      username: username,
-      userId: userId,
+      displayName: username,
+      email: email,
+      photoUrl: photoUrl,
+      userId: uid,
     };
-    seLogin({
-      username: username,
+    sessionStorage.setItem("login", JSON.stringify(storeLogin));
+  };
+  const handleLogin = (userId, username) => {
+    saveStoreLocal(userId, username);
+    setUser({
+      displayName: username,
+      email: "",
+      uid: userId,
+      photoUrl: "",
     });
-    localStorage.setItem("login", JSON.stringify(storeLogin));
     setNotifications((prev) => {
       return [
         ...prev,
@@ -127,6 +130,27 @@ const FormLogin = ({ onSwitchRoute }) => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        const { displayName, email, uid, photoURL } = currentUser;
+        saveStoreLocal(displayName, email, uid, photoURL);
+        setUser({
+          displayName,
+          email,
+          uid,
+          photoURL,
+        });
+        setLoader(true);
+      } else {
+        setUser(null);
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   return (
     <div className="col-xl-6 col-lg-6 col-md-12">

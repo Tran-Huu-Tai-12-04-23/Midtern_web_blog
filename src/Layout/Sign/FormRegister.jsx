@@ -17,7 +17,7 @@ import ButtonCustom from "../../Components/ButtonCustom";
 
 import logo from "../../Assets/img/logo.png";
 import logoGoogle from "../../Assets/img/logoGoogle.png";
-import { NotificationContext } from "../../Context";
+import { NotificationContext } from "../../Context/index.js";
 
 import { BiUser } from "react-icons/bi";
 import { FiLock } from "react-icons/fi";
