@@ -89,14 +89,16 @@ const FormLogin = ({ onSwitchRoute }) => {
           });
         }
       }
-      return () => unsubscribe;
+      return () => {
+        unsubscribe();
+      };
     });
   };
   const saveStoreLocal = (uid, displayName, email = "", photoUrl = "") => {
     const storeLogin = {
       displayName: username,
       email: email,
-      photoUrl: photoUrl,
+      photoURL: photoUrl,
       userId: uid,
     };
     sessionStorage.setItem("login", JSON.stringify(storeLogin));
@@ -107,17 +109,7 @@ const FormLogin = ({ onSwitchRoute }) => {
       displayName: username,
       email: "",
       uid: userId,
-      photoUrl: "",
-    });
-    setNotifications((prev) => {
-      return [
-        ...prev,
-        {
-          text: "Login successfully!!",
-          type: "success",
-          id: uuid(),
-        },
-      ];
+      photoURL: "",
     });
     setLoader(true);
     history("/");

@@ -19,6 +19,7 @@ import { CgMenuGridO } from "react-icons/cg";
 import { RiProfileLine } from "react-icons/ri";
 import { ImNewspaper } from "react-icons/im";
 import { CiLogout } from "react-icons/ci";
+import avatar_default from "../../Assets/img/avatar_default.jpg";
 
 const Header = ({ user, setUser }) => {
   const history = useNavigate();
@@ -58,7 +59,6 @@ const Header = ({ user, setUser }) => {
       },
     },
   ]);
-
   return (
     <>
       <div className="wrapper-header w-100   pt-3" style={{}}>
@@ -130,7 +130,11 @@ const Header = ({ user, setUser }) => {
                       color="#fff"
                       iconLeft={
                         <img
-                          src="https://cdnimg.vietnamplus.vn/uploaded/bokttj/2023_01_02/avatar_the_way_of_water.jpg"
+                          src={
+                            user.photoURL === ""
+                              ? avatar_default
+                              : user.photoURL
+                          }
                           style={{
                             fontSize: "1.5rem",
                             marginRight: ".5rem",

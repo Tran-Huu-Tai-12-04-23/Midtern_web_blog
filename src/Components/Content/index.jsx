@@ -1,7 +1,18 @@
 import "./style.scss";
+import { v4 as uuid } from "uuid";
+
 import CreateNewFeed from "./CreateNewFeed";
 import Information from "./Information";
-const Content = ({ setShowModalPost = () => {} }) => {
+const Content = ({ newFeeds, setShowModalPost = () => {} }) => {
+  function loadNewFeeds() {
+    return newFeeds.map((newFeed) => {
+      return (
+        <div key={uuid}>
+          <Information data={newFeed} />
+        </div>
+      );
+    });
+  }
   return (
     <div
       className="wrapper-Content w-100 hidden-scroll"
@@ -12,10 +23,7 @@ const Content = ({ setShowModalPost = () => {} }) => {
       }}
     >
       <CreateNewFeed handLeShowModalPost={() => setShowModalPost(true)} />
-      <Information />
-      <Information />
-      <Information />
-      <Information />
+      {loadNewFeeds()}
     </div>
   );
 };

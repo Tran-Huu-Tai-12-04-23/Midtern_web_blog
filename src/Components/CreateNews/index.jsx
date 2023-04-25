@@ -1,4 +1,14 @@
 import { useState, useContext, useEffect } from "react";
+import { storage } from "../../firebase/index.js";
+import { db } from "../../firebase/index.js";
+import { collection, addDoc } from "firebase/firestore";
+import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  uploadBytes,
+} from "firebase/storage";
+
 import { v4 as uuid } from "uuid";
 
 import { MdClose } from "react-icons/md";
@@ -8,7 +18,12 @@ import { MdOutlineAddAPhoto } from "react-icons/md";
 import ButtonCustom from "../ButtonCustom";
 import { NotificationContext } from "../../Context";
 
-const CreateNews = ({ user, show, setModalPost = () => {} }) => {
+const CreateNews = ({
+  user,
+  show,
+  setModalPost = () => {},
+  setNewFeeds = () => {},
+}) => {
   const [mode, setMode] = useState(false);
   const [fileVideo, setFileVideo] = useState(null);
   const [filePhoto, setFilePhoto] = useState(null);
@@ -47,7 +62,7 @@ const CreateNews = ({ user, show, setModalPost = () => {} }) => {
     }
     handleImageChange(fileVideo);
   }, [fileVideo]);
-  const post = () => {
+  const post = async () => {
     if (!fileVideo && !filePhoto && !setContent) {
       setNotifications((prev) => {
         return [
@@ -60,64 +75,86 @@ const CreateNews = ({ user, show, setModalPost = () => {} }) => {
         ];
       });
     } else {
-      let formData = new FormData();
-      formData.append("content", content);
-      formData.append("photo", filePhoto);
-      formData.append("video", fileVideo);
-      formData.append("user_id", user.user_id);
-      formData.append("mode", mode);
-
-      let headers = new Headers();
-      headers.append("Accept", "application/json");
-
-      fetch("http://localhost/api-web-blog/user?action=post", {
-        method: "POST",
-        headers: headers,
-        body: formData,
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          setContent("");
-          setMode(false);
-          setFilePhoto(null);
-          setFileVideo(null);
-          setVideoPreview(null);
-          setPhotoPreview(null);
-          setModalPost(false);
-          if (data.status == true) {
-            setNotifications((prev) => {
-              return [
-                ...prev,
-                {
-                  text: "Post new feed successfully!!",
-                  type: "success",
-                  id: uuid(),
-                },
-              ];
-            });
-          } else {
-            setNotifications((prev) => {
-              return [
-                ...prev,
-                {
-                  text: "Post new feed failed!!",
-                  type: "err",
-                  id: uuid(),
-                },
-              ];
-            });
-          }
-        })
-        .catch((error) => {
-          console.error("There was a problem with the fetch operation:", error);
-        });
+      uploadFiles(filePhoto, fileVideo);
     }
   };
+  async function uploadFiles(filePhoto, fileVideo) {
+    try {
+      let photoUrl = "";
+      let videoUrl = "";
+      if (filePhoto) {
+        const fileRef = ref(storage, `images/${filePhoto.name}-${uuid()}`);
+        const snapshot = await uploadBytes(fileRef, filePhoto);
+        photoUrl = await getDownloadURL(snapshot.ref);
+      }
+
+      if (fileVideo) {
+        const fileRef = ref(storage, `videos/${fileVideo.name}-${uuid()}`);
+        const snapshot = await uploadBytes(fileRef, fileVideo);
+        videoUrl = await getDownloadURL(snapshot.ref);
+        console.log("Video URL:", videoUrl);
+      }
+      if (videoUrl && photoUrl) {
+        addNewPost(content, photoUrl, videoUrl, mode);
+      } else if (videoUrl) {
+        addNewPost(content, "", videoUrl, mode);
+      } else if (photoUrl) {
+        addNewPost(content, photoUrl, "", mode);
+      } else {
+        addNewPost(content, "", "", mode);
+      }
+    } catch (error) {
+      console.error("Error uploading files:", error);
+    }
+  }
+
+  async function addNewPost(content, photoUrl, videoUrl, mode) {
+    if (mode == false) {
+      setNewFeeds((prev) => {
+        return [
+          ...prev,
+          {
+            content: content,
+            photoUrl,
+            videoUrl,
+            mode,
+          },
+        ];
+      });
+    }
+    addDoc(collection(db, "posts"), {
+      content,
+      photoUrl,
+      videoUrl,
+      id: user.id ? user.id : uuid(),
+      mode: mode,
+    })
+      .then(() => {
+        setNotifications((prev) => {
+          return [
+            ...prev,
+            {
+              text: "Uploading successfully!!",
+              id: uuid(),
+              type: "success",
+            },
+          ];
+        });
+        setModalPost(false);
+        clearForm();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  function clearForm() {
+    setContent("");
+    setFilePhoto(null);
+    setFileVideo(null);
+    setPhotoPreview(null);
+    setVideoPreview(null);
+  }
 
   return (
     <div

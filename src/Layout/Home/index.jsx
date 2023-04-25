@@ -12,6 +12,7 @@ const Home = ({}) => {
   const { user, setUser } = useContext(AuthContext);
   const [loader, setLoader] = useContext(LoaderContext);
   const history = useNavigate();
+  const [newFeeds, setNewFeeds] = useState([]);
 
   const [modalPost, setModalPost] = useState(false);
   useEffect(() => {
@@ -36,7 +37,12 @@ const Home = ({}) => {
         overflow: "hidden",
       }}
     >
-      <CreateNews user={user} show={modalPost} setModalPost={setModalPost} />
+      <CreateNews
+        setNewFeeds={setNewFeeds}
+        user={user}
+        show={modalPost}
+        setModalPost={setModalPost}
+      />
       <div className="row ">
         <div className="col-12 mb-5">
           <Header user={user} setUser={setUser} />
@@ -45,7 +51,7 @@ const Home = ({}) => {
           <Sidebar />
         </div>
         <div className="col-6">
-          <Content setShowModalPost={setModalPost} />
+          <Content newFeeds={newFeeds} setShowModalPost={setModalPost} />
         </div>
         <div className="col-3">
           <ChatList />
