@@ -1,6 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LoaderContext, AuthContext } from "../../Context";
+import { AuthUserUseContext } from "../../Context/AuthUser";
+import { AppStoreUseContext } from "../../Context/AppStore";
 
 import Header from "../../Components/Header";
 import Sidebar from "../../Components/Sidebar";
@@ -9,10 +10,9 @@ import ChatList from "../../Components/ChatList";
 import CreateNews from "../../Components/CreateNews";
 
 const Home = ({}) => {
-  const { user, setUser } = useContext(AuthContext);
-  const [loader, setLoader] = useContext(LoaderContext);
+  const { user, setUser } = AuthUserUseContext();
+  const { setLoader } = AppStoreUseContext();
   const history = useNavigate();
-  const [newFeeds, setNewFeeds] = useState([]);
 
   const [modalPost, setModalPost] = useState(false);
   useEffect(() => {
@@ -23,8 +23,10 @@ const Home = ({}) => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setLoader(false);
-    }, 1000);
+      if (setLoader) {
+        setLoader(false);
+      }
+    }, 500);
     return () => {
       clearTimeout(timer);
     };
@@ -38,20 +40,22 @@ const Home = ({}) => {
       }}
     >
       <CreateNews
-        setNewFeeds={setNewFeeds}
-        user={user}
-        show={modalPost}
+        user={user ? user : {}}
+        modalPost={modalPost}
         setModalPost={setModalPost}
       />
       <div className="row ">
         <div className="col-12 mb-5">
-          <Header user={user} setUser={setUser} />
+          <Header
+            user={user ? user : {}}
+            setUser={setUser ? setUser : () => {}}
+          />
         </div>
         <div className="col-3">
           <Sidebar />
         </div>
         <div className="col-6">
-          <Content newFeeds={newFeeds} setShowModalPost={setModalPost} />
+          <Content setShowModalPost={setModalPost} />
         </div>
         <div className="col-3">
           <ChatList />

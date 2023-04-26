@@ -1,14 +1,17 @@
+import { memo } from "react";
 import "./style.scss";
 import { v4 as uuid } from "uuid";
+import { AppStoreUseContext } from "../../Context/AppStore";
 
 import CreateNewFeed from "./CreateNewFeed";
 import Information from "./Information";
-const Content = ({ newFeeds, setShowModalPost = () => {} }) => {
+const Content = ({ setShowModalPost = () => {} }) => {
+  const { posts } = AppStoreUseContext();
   function loadNewFeeds() {
-    return newFeeds.map((newFeed) => {
+    return posts.map((newFeed) => {
       return (
-        <div key={uuid}>
-          <Information data={newFeed} />
+        <div key={uuid()}>
+          <Information data={newFeed.post} />
         </div>
       );
     });
@@ -27,4 +30,4 @@ const Content = ({ newFeeds, setShowModalPost = () => {} }) => {
     </div>
   );
 };
-export default Content;
+export default memo(Content);

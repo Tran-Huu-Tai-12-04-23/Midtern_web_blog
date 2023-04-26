@@ -3,6 +3,8 @@ import ButtonCustom from "../ButtonCustom";
 import { IoHeartSharp } from "react-icons/io5";
 import { MdModeComment } from "react-icons/md";
 import { RiShareForwardFill } from "react-icons/ri";
+import avatar_default from "../../Assets/img/avatar_default.jpg";
+import { formatDate } from "../../util/index";
 
 const Information = ({ data }) => {
   return (
@@ -15,14 +17,16 @@ const Information = ({ data }) => {
       <div className="w-100 d-flex justify-content-start align-items-center">
         <ButtonCustom name="" width="3rem" backgroundColor="transparent">
           <img
-            src="https://www.venuscinema.vn/uploaded/phim/avata.jpg"
+            src={data.avatarUrl ? data.avatarUrl : avatar_default}
             className="avatar "
             style={{}}
           ></img>
         </ButtonCustom>
         <div className="column g-0">
-          <label className="">Huu tai</label>
-          <span className="cl-second fs-small ">2 minutes ago</span>
+          <label className="">{data.displayName}</label>
+          <span className="cl-second fs-small ">
+            {formatDate(data.createdAt)}
+          </span>
         </div>
       </div>
       <div

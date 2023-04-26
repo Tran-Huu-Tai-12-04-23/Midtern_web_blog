@@ -1,13 +1,14 @@
 import { useState, useContext, useEffect } from "react";
 import { storage } from "../../firebase/index.js";
 import { db } from "../../firebase/index.js";
-import { collection, addDoc } from "firebase/firestore";
+
 import {
   ref,
   uploadBytesResumable,
   getDownloadURL,
   uploadBytes,
 } from "firebase/storage";
+import { addDocument } from "../../firebase/service.js";
 
 import { v4 as uuid } from "uuid";
 
@@ -16,52 +17,41 @@ import { HiOutlineLockClosed, HiOutlineLockOpen } from "react-icons/hi";
 import { AiOutlineVideoCamera } from "react-icons/ai";
 import { MdOutlineAddAPhoto } from "react-icons/md";
 import ButtonCustom from "../ButtonCustom";
-import { NotificationContext } from "../../Context";
+import { AppStoreUseContext } from "../../Context/AppStore";
 
-const CreateNews = ({
-  user,
-  show,
-  setModalPost = () => {},
-  setNewFeeds = () => {},
-}) => {
+const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
   const [mode, setMode] = useState(false);
   const [fileVideo, setFileVideo] = useState(null);
   const [filePhoto, setFilePhoto] = useState(null);
   const [photoPreview, setPhotoPreview] = useState("");
   const [videoPreview, setVideoPreview] = useState("");
   const [content, setContent] = useState("");
-  const setNotifications = useContext(NotificationContext);
+  const { setNotifications, setProcessUpload } = AppStoreUseContext();
+
   const handleSelectVideo = (e) => {
     setFileVideo(e.target.files[0]);
+    handleVideoChange(e.target.files[0]);
+    e.target.value = "";
   };
   const handleSelectPhoto = (e) => {
     setFilePhoto(e.target.files[0]);
+    handleImageChange(e.target.files[0]);
+    e.target.value = "";
   };
 
-  useEffect(() => {
-    function handleImageChange(filePhoto) {
-      if (filePhoto) {
-        const reader = new FileReader();
-        reader.onload = () => {
-          setPhotoPreview(reader.result);
-        };
-        reader.readAsDataURL(filePhoto);
-      }
+  function handleImageChange(filePhoto) {
+    if (filePhoto) {
+      const url = URL.createObjectURL(filePhoto);
+      setPhotoPreview(url);
     }
-    handleImageChange(filePhoto);
-  }, [filePhoto]);
-  useEffect(() => {
-    function handleImageChange(fileVideo) {
-      if (fileVideo) {
-        const reader = new FileReader();
-        reader.onload = () => {
-          setVideoPreview(reader.result);
-        };
-        reader.readAsDataURL(fileVideo);
-      }
+  }
+  function handleVideoChange(fileVideo) {
+    if (fileVideo) {
+      const url = URL.createObjectURL(fileVideo);
+      setVideoPreview(url);
     }
-    handleImageChange(fileVideo);
-  }, [fileVideo]);
+  }
+
   const post = async () => {
     if (!fileVideo && !filePhoto && !setContent) {
       setNotifications((prev) => {
@@ -78,30 +68,34 @@ const CreateNews = ({
       uploadFiles(filePhoto, fileVideo);
     }
   };
+
   async function uploadFiles(filePhoto, fileVideo) {
+    setProcessUpload(true);
     try {
-      let photoUrl = "";
-      let videoUrl = "";
-      if (filePhoto) {
+      if (filePhoto && fileVideo) {
+        const fileRefPhoto = ref(storage, `images/${filePhoto.name}-${uuid()}`);
+        const snapshotPhoto = await uploadBytes(fileRefPhoto, filePhoto);
+        const photoUrl = await getDownloadURL(snapshotPhoto.ref);
+        const fileRefVideo = ref(storage, `videos/${fileVideo.name}-${uuid()}`);
+        const snapshotVideo = await uploadBytes(fileRefVideo, fileVideo);
+        const videoUrl = await getDownloadURL(snapshotVideo.ref);
+        setProcessUpload(false);
+        addNewPost(content, photoUrl, videoUrl, mode);
+      } else if (filePhoto) {
         const fileRef = ref(storage, `images/${filePhoto.name}-${uuid()}`);
         const snapshot = await uploadBytes(fileRef, filePhoto);
-        photoUrl = await getDownloadURL(snapshot.ref);
-      }
-
-      if (fileVideo) {
+        const photoUrl = await getDownloadURL(snapshot.ref);
+        addNewPost(content, photoUrl, "", mode);
+        setProcessUpload(false);
+      } else if (fileVideo) {
         const fileRef = ref(storage, `videos/${fileVideo.name}-${uuid()}`);
         const snapshot = await uploadBytes(fileRef, fileVideo);
-        videoUrl = await getDownloadURL(snapshot.ref);
-        console.log("Video URL:", videoUrl);
-      }
-      if (videoUrl && photoUrl) {
-        addNewPost(content, photoUrl, videoUrl, mode);
-      } else if (videoUrl) {
+        const videoUrl = await getDownloadURL(snapshot.ref);
         addNewPost(content, "", videoUrl, mode);
-      } else if (photoUrl) {
-        addNewPost(content, photoUrl, "", mode);
+        setProcessUpload(false);
       } else {
         addNewPost(content, "", "", mode);
+        setProcessUpload(false);
       }
     } catch (error) {
       console.error("Error uploading files:", error);
@@ -109,43 +103,29 @@ const CreateNews = ({
   }
 
   async function addNewPost(content, photoUrl, videoUrl, mode) {
-    if (mode == false) {
-      setNewFeeds((prev) => {
-        return [
-          ...prev,
-          {
-            content: content,
-            photoUrl,
-            videoUrl,
-            mode,
-          },
-        ];
-      });
-    }
-    addDoc(collection(db, "posts"), {
+    setModalPost(false);
+    setProcessUpload(true);
+    addDocument("posts", {
       content,
       photoUrl,
       videoUrl,
-      id: user.id ? user.id : uuid(),
+      user_id: user.id,
+      displayName: user.displayName,
+      avatarUrl: user.photoURL,
       mode: mode,
-    })
-      .then(() => {
-        setNotifications((prev) => {
-          return [
-            ...prev,
-            {
-              text: "Uploading successfully!!",
-              id: uuid(),
-              type: "success",
-            },
-          ];
-        });
-        setModalPost(false);
-        clearForm();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    });
+    setProcessUpload(false);
+    clearForm();
+    setNotifications((prev) => {
+      return [
+        ...prev,
+        {
+          text: "Upload successfully!!",
+          type: "success",
+          id: uuid(),
+        },
+      ];
+    });
   }
 
   function clearForm() {
@@ -166,7 +146,7 @@ const CreateNews = ({
         right: 0,
         bottom: 0,
         zIndex: "1000000000000000",
-        display: show ? "" : "none",
+        display: modalPost ? "" : "none",
       }}
       onClick={() => {
         setModalPost(false);
@@ -185,7 +165,7 @@ const CreateNews = ({
           padding: "1rem",
           boxShadow: "-3px 7px 234px -17px rgba(31,123,230,0.75)",
           transition: ".4s",
-          top: show ? "40%" : "-40%",
+          top: modalPost ? "40%" : "-40%",
         }}
         onClick={(e) => {
           e.stopPropagation();
@@ -306,12 +286,11 @@ const CreateNews = ({
               />
               {videoPreview && (
                 <video
+                  style={{ borderRadius: "1rem", marginTop: "2rem" }}
+                  src={videoPreview}
                   controls
                   width="100%"
-                  style={{ borderRadius: "1rem", marginTop: "2rem" }}
-                >
-                  <source src={videoPreview} type="video/mp4" />
-                </video>
+                />
               )}
             </div>
             <div className="w-100 end">

@@ -18,18 +18,19 @@ import ButtonCustom from "../../Components/ButtonCustom";
 import logo from "../../Assets/img/logo.png";
 import logoGoogle from "../../Assets/img/logoGoogle.png";
 
-import { NotificationContext, LoaderContext, AuthContext } from "../../Context";
+import { AuthUserUseContext } from "../../Context/AuthUser";
+import { AppStoreUseContext } from "../../Context/AppStore";
 import { BiUser } from "react-icons/bi";
 import { FiLock } from "react-icons/fi";
+import { addDocument } from "../../firebase/service";
 
 const FormLogin = ({ onSwitchRoute }) => {
-  const { user, setUser } = useContext(AuthContext);
-  const [loader, setLoader] = useContext(LoaderContext);
+  const { user, setUser } = AuthUserUseContext();
+  const { loader, setLoader, setNotifications } = AppStoreUseContext();
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [passwordNotification, setPasswordNotification] = useState("");
   const [usernameNotification, setUsernameNotification] = useState("");
-  const setNotifications = useContext(NotificationContext);
 
   function checkUsername(e) {
     if (!username) {
@@ -59,7 +60,10 @@ const FormLogin = ({ onSwitchRoute }) => {
     }
   }, [user]);
   const submitData = async () => {
-    const q = query(collection(db, "user"), where("username", "==", username));
+    const q = query(
+      collection(db, "users"),
+      where("displayName", "==", username)
+    );
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       if (querySnapshot.empty) {
         setNotifications((prev) => {
@@ -99,7 +103,7 @@ const FormLogin = ({ onSwitchRoute }) => {
       displayName: username,
       email: email,
       photoURL: photoUrl,
-      userId: uid,
+      id: uid,
     };
     sessionStorage.setItem("login", JSON.stringify(storeLogin));
   };
@@ -108,7 +112,7 @@ const FormLogin = ({ onSwitchRoute }) => {
     setUser({
       displayName: username,
       email: "",
-      uid: userId,
+      id: userId,
       photoURL: "",
     });
     setLoader(true);
@@ -125,13 +129,25 @@ const FormLogin = ({ onSwitchRoute }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      console.log(currentUser);
       if (currentUser) {
         const { displayName, email, uid, photoURL } = currentUser;
-        saveStoreLocal(displayName, email, uid, photoURL);
+        let isNewUser =
+          currentUser.metadata.creationTime ===
+          currentUser.metadata.lastSignInTime;
+        if (isNewUser) {
+          let id = addDocument("users", {
+            displayName,
+            email,
+            id: uid,
+            photoURL,
+          });
+        }
+        saveStoreLocal(uid, displayName, email, photoURL);
         setUser({
           displayName,
           email,
-          uid,
+          id: uid,
           photoURL,
         });
         setLoader(true);

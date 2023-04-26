@@ -1,14 +1,8 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { db } from "../../firebase/index.js";
-import {
-  collection,
-  addDoc,
-  serverTimestamp,
-  getDocs,
-} from "firebase/firestore";
 import { hashPass } from "../../util/index.js";
 import { v4 as uuid } from "uuid";
+import { AppStoreUseContext } from "../../Context/AppStore.js";
 
 import "./style.scss";
 
@@ -16,11 +10,10 @@ import Input from "../../Components/Input";
 import ButtonCustom from "../../Components/ButtonCustom";
 
 import logo from "../../Assets/img/logo.png";
-import logoGoogle from "../../Assets/img/logoGoogle.png";
-import { NotificationContext } from "../../Context/index.js";
 
 import { BiUser } from "react-icons/bi";
 import { FiLock } from "react-icons/fi";
+import { addDocument, checkUsernameExists } from "../../firebase/service.js";
 
 const FormRegister = ({ onSwitchRoute }) => {
   const [username, setUserName] = useState("");
@@ -30,7 +23,7 @@ const FormRegister = ({ onSwitchRoute }) => {
   const [usernameNotification, setUsernameNotification] = useState("");
   const [confirmPasswordNotification, setConfirmPasswordNotification] =
     useState("");
-  const setNotifications = useContext(NotificationContext);
+  const { setNotifications } = AppStoreUseContext();
 
   function checkUsername(e) {
     if (!username) {
@@ -72,48 +65,33 @@ const FormRegister = ({ onSwitchRoute }) => {
     }
   }
   function register(event) {
-    checkUsernameExists(username)
-      .then(function (res) {
-        if (res === true) {
-          setNotifications((prev) => {
-            return [
-              ...prev,
-              {
-                text: "User already registered",
-                id: uuid(),
-                type: "warn",
-              },
-            ];
-          });
-        } else {
-          saveIntoFirebase();
-        }
-      })
-      .catch(function (err) {
-        setNotifications((prev) => {
-          return [
-            ...prev,
-            {
-              text: err,
-              id: uuid(),
-              type: "err",
-            },
-          ];
-        });
+    let check = checkUsernameExists(username);
+    if (!check) {
+      setNotifications((prev) => {
+        return [
+          ...prev,
+          {
+            text: "User already registered",
+            id: uuid(),
+            type: "warn",
+          },
+        ];
       });
+    } else {
+      saveIntoFirebase();
+    }
   }
 
   function saveIntoFirebase() {
-    addDoc(collection(db, "user"), {
-      username: username,
+    addDocument("users", {
       password: hashPass(password),
-      confirm_password: confirmPassword,
-      createdAt: serverTimestamp(),
+      id: uuid(),
+      displayName: username,
+      email: "",
+      photoURL: "",
     })
-      .then(() => {
-        setPassword("");
-        setConfirmPassword("");
-        setUserName("");
+      .then((res) => {
+        onSwitchRoute(true);
         setNotifications((prev) => {
           return [
             ...prev,
@@ -124,25 +102,10 @@ const FormRegister = ({ onSwitchRoute }) => {
             },
           ];
         });
-        onSwitchRoute(true);
       })
-      .catch((error) => {
-        setNotifications((prev) => {
-          return [
-            ...prev,
-            {
-              text: "Create new account failed",
-              type: "err",
-              id: uuid(),
-            },
-          ];
-        });
+      .catch((err) => {
+        console.error(err);
       });
-  }
-  async function checkUsernameExists(username) {
-    const querySnapshot = await getDocs(collection(db, "user"));
-    const users = querySnapshot.docs.map((doc) => doc.data());
-    return users.some((user) => user.username === username);
   }
 
   return (

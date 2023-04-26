@@ -1,10 +1,14 @@
+import { useState } from "react";
 import "./style.scss";
 import ButtonCustom from "../ButtonCustom";
 
 import { BiPhotoAlbum } from "react-icons/bi";
 import { BsCameraVideo } from "react-icons/bs";
+import ProcessUpload from "../ProcessUpload";
+import { AppStoreUseContext } from "../../Context/AppStore";
 
 const CreateNewFeed = ({ handLeShowModalPost = () => {} }) => {
+  const { processUpload } = AppStoreUseContext();
   return (
     <div
       className="wrapper-CreateNewFeed w-100 bg-second br-primary p-4"
@@ -78,6 +82,7 @@ const CreateNewFeed = ({ handLeShowModalPost = () => {} }) => {
           }}
         />
       </div>
+      {processUpload && <ProcessUpload />}
     </div>
   );
 };
