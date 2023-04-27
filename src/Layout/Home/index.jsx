@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthUserUseContext } from "../../Context/AuthUser";
 import { AppStoreUseContext } from "../../Context/AppStore";
@@ -8,6 +8,7 @@ import Sidebar from "../../Components/Sidebar";
 import Content from "../../Components/Content";
 import ChatList from "../../Components/ChatList";
 import CreateNews from "../../Components/CreateNews";
+import ChatBox from "../../Components/ChatBox";
 
 const Home = ({}) => {
   const { user, setUser } = AuthUserUseContext();
@@ -22,14 +23,7 @@ const Home = ({}) => {
   }, [user]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (setLoader) {
-        setLoader(false);
-      }
-    }, 500);
-    return () => {
-      clearTimeout(timer);
-    };
+    setLoader(false);
   }, []);
   return (
     <div
@@ -51,18 +45,19 @@ const Home = ({}) => {
             setUser={setUser ? setUser : () => {}}
           />
         </div>
-        <div className="col-3">
+        <div className="col-2">
           <Sidebar />
         </div>
-        <div className="col-6">
+        <div className="col-8">
           <Content setShowModalPost={setModalPost} />
         </div>
-        <div className="col-3">
+        <div className="col-2">
           <ChatList />
         </div>
       </div>
+      <ChatBox />
     </div>
   );
 };
 
-export default Home;
+export default memo(Home);

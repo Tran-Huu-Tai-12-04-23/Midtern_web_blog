@@ -6,6 +6,7 @@ import { AppStoreUseContext } from "../../Context/AppStore";
 import CreateNewFeed from "./CreateNewFeed";
 import Information from "./Information";
 const Content = ({ setShowModalPost = () => {} }) => {
+  console.log("rendering content");
   const { posts } = AppStoreUseContext();
   function loadNewFeeds() {
     return posts.map((newFeed) => {
@@ -18,10 +19,10 @@ const Content = ({ setShowModalPost = () => {} }) => {
   }
   return (
     <div
-      className="wrapper-Content w-100 hidden-scroll"
+      className="wrapper-Content w-100  custom-scroll"
       style={{
         height: "calc(100vh - 8rem)",
-        overflow: "scroll",
+        overflow: "auto",
         paddingBottom: "2rem",
       }}
     >

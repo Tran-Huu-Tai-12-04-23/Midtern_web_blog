@@ -12,6 +12,7 @@ import {
 } from "firebase/firestore";
 import useFirestore from "../hooks/useFireStore";
 import { AuthUserUseContext } from "./AuthUser";
+import { listenToFriends, getFriendsFromId } from "../firebase/service";
 
 const AppStoreContext = createContext();
 
@@ -21,15 +22,10 @@ function AppStore({ children }) {
   const [notifications, setNotifications] = useState([]);
   const [posts, setPosts] = useState([]);
   const [processUpload, setProcessUpload] = useState(false);
-
-  const usersCondition = useMemo(() => {
-    return {
-      fieldName: "id",
-      operator: "!=",
-      compareValue: user ? user.id : uuid(),
-    };
-  }, [user]);
-  const listUser = useFirestore("users", usersCondition);
+  const [friends, setFriends] = useState([]);
+  const [friendsId, setFriendsId] = useState([]);
+  const [selectUserChat, setSelectUserChat] = useState(null);
+  const [showChatBox, setShowChatBox] = useState(false);
 
   const loadNotifications = () => {
     return notifications.map((n, i) => (
@@ -51,6 +47,45 @@ function AppStore({ children }) {
     });
     return subscribe;
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      const unsubscribe = listenToFriends(user.id, (friendsId) => {
+        setFriendsId(friendsId);
+      });
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (friendsId.length > 0) {
+      getFriendsFromId(friendsId).then((res) => {
+        setFriends(res);
+      });
+    }
+  }, [friendsId]);
+  
+  const usersCondition = useMemo(() => {
+    if (user && friendsId) {
+      const compareValue = [...friendsId, user.id];
+      return {
+        fieldName: "id",
+        operator: "not-in",
+        compareValue: compareValue,
+      };
+    } else if (user) {
+      return {
+        fieldName: "id",
+        operator: "not-in",
+        compareValue: [user.id],
+      };
+    } else {
+      return {};
+    }
+  }, [user, friendsId]);
+
+  const listUser = useFirestore("users", usersCondition);
+  const listMessages = useFirestore("message", null, null, "createdAt");
+  
   return (
     <AppStoreContext.Provider
       value={{
@@ -62,6 +97,12 @@ function AppStore({ children }) {
         processUpload,
         setProcessUpload,
         listUser,
+        friends,
+        showChatBox,
+        setShowChatBox,
+        selectUserChat,
+        setSelectUserChat,
+        listMessages,
       }}
     >
       <div

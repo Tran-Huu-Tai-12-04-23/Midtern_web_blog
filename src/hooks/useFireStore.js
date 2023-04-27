@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import { db } from "../firebase/index";
+import { useState, useEffect } from "react";
 import {
   collection,
   query,
@@ -8,42 +8,57 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 
-const useFirestore = (nameCollection, condition) => {
-  console.log(condition);
+const useFirestore = (nameCollection, condition, condition2, createdAt) => {
   const [documents, setDocuments] = useState([]);
+  useEffect(() => {
+    let collectionRef = collection(db, nameCollection);
 
-  React.useEffect(() => {
-    let collectionRef;
-
-    if (db) {
-      collectionRef = query(collection(db, nameCollection));
-
-      if (condition) {
-        if (!condition.compareValue || !condition.compareValue.length) {
-          setDocuments([]);
-          return;
-        }
-
-        collectionRef = query(
-          collectionRef,
-          where(condition.fieldName, condition.operator, condition.compareValue)
-        );
+    if (condition) {
+      const { fieldName, operator, compareValue } = condition;
+      if (!compareValue || !compareValue.length) {
+        setDocuments([]);
+        return;
       }
-      collectionRef = query(collectionRef, orderBy("id"));
+      collectionRef = query(
+        collectionRef,
+        where(fieldName, operator, compareValue)
+      );
+    }
 
-      const unsubscribe = onSnapshot(collectionRef, (snapshot) => {
-        const documents = snapshot.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }));
+    if (condition2) {
+      const { fieldName, operator, compareValue } = condition2;
+      collectionRef = query(
+        collectionRef,
+        where(fieldName, operator, compareValue)
+      );
+    }
+    if (createdAt) {
+      collectionRef = query(collectionRef, orderBy(createdAt));
+    }
 
-        setDocuments(documents);
+    const unsubscribe = onSnapshot(collectionRef, (snapshot) => {
+      const documents = snapshot.docs.map((doc) => {
+        if (nameCollection === "users") {
+          return {
+            ...doc.data(),
+            user_id: doc.data().id,
+            id: doc.id,
+          };
+        } else {
+          return {
+            ...doc.data(),
+            id: doc.id,
+          };
+        }
       });
 
-      return unsubscribe;
-    }
-  }, [db, nameCollection, condition]);
+      setDocuments(documents);
+    });
+
+    return unsubscribe;
+  }, [nameCollection, condition, condition2]);
 
   return documents;
 };
+
 export default useFirestore;

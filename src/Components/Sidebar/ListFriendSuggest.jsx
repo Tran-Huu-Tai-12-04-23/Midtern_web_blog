@@ -2,14 +2,17 @@ import { memo } from "react";
 import ButtonCustom from "../../Components/ButtonCustom";
 import { AppStoreUseContext } from "../../Context/AppStore";
 import avatar_default from "../../Assets/img/avatar_default.jpg";
+import { addFriend } from "../../firebase/service";
+import { AuthUserUseContext } from "../../Context/AuthUser";
 
 const ListFriendSuggest = () => {
   const { listUser } = AppStoreUseContext();
+  const { user } = AuthUserUseContext();
   const loaderListSuggestFriend = () => {
-    return listUser.map((user) => {
+    return listUser.map((guest) => {
       return (
         <div
-          key={user.id}
+          key={guest.id}
           className="hover-bg p-2 br-primary"
           style={{
             display: "flex",
@@ -19,14 +22,21 @@ const ListFriendSuggest = () => {
         >
           <div className="d-flex start">
             <img
-              src={user.photoURL ? user.photoURL : avatar_default}
+              src={guest.photoURL ? guest.photoURL : avatar_default}
               className="avatar "
               style={{
                 marginRight: "1rem",
               }}
             ></img>
 
-            <span className="cl-second fs-small">@{user.displayName}</span>
+            <span
+              className="cl-second fs-small "
+              style={{
+                fontSize: "1rem",
+              }}
+            >
+              @{guest.displayName}
+            </span>
           </div>
           <ButtonCustom
             backgroundColor="transparent"
@@ -38,6 +48,12 @@ const ListFriendSuggest = () => {
               fontWeight: 600,
               borderRadius: 0,
               fontSize: ".6rem",
+            }}
+            handleClick={() => {
+              if (user.id && guest.user_id) {
+                addFriend(user.id, guest.user_id);
+                addFriend(guest.user_id, user.id);
+              }
             }}
             name="Follow"
           ></ButtonCustom>
@@ -57,7 +73,7 @@ const ListFriendSuggest = () => {
               overflowY: "scroll",
             }}
           >
-            {loaderListSuggestFriend()}
+            {listUser.length > 0 && loaderListSuggestFriend()}
           </div>
         </div>
       </div>

@@ -79,7 +79,11 @@ const FormLogin = ({ onSwitchRoute }) => {
       } else {
         const doc = querySnapshot.docs[0];
         if (verifyPass(password, doc.data().password)) {
-          handleLogin(doc.id, doc.data().username);
+          handleLogin(
+            doc.data().id,
+            doc.data().displayName,
+            doc.data().photoURL
+          );
         } else {
           setNotifications((prev) => {
             return [
@@ -107,13 +111,13 @@ const FormLogin = ({ onSwitchRoute }) => {
     };
     sessionStorage.setItem("login", JSON.stringify(storeLogin));
   };
-  const handleLogin = (userId, username) => {
-    saveStoreLocal(userId, username);
+  const handleLogin = (userId, username, photoURL) => {
+    saveStoreLocal(userId, username, "", photoURL);
     setUser({
       displayName: username,
       email: "",
       id: userId,
-      photoURL: "",
+      photoURL: photoURL,
     });
     setLoader(true);
     history("/");
@@ -129,7 +133,6 @@ const FormLogin = ({ onSwitchRoute }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      console.log(currentUser);
       if (currentUser) {
         const { displayName, email, uid, photoURL } = currentUser;
         let isNewUser =
@@ -141,6 +144,7 @@ const FormLogin = ({ onSwitchRoute }) => {
             email,
             id: uid,
             photoURL,
+            friends: [],
           });
         }
         saveStoreLocal(uid, displayName, email, photoURL);

@@ -6,8 +6,13 @@ import { BiPhotoAlbum } from "react-icons/bi";
 import { BsCameraVideo } from "react-icons/bs";
 import ProcessUpload from "../ProcessUpload";
 import { AppStoreUseContext } from "../../Context/AppStore";
+import { AuthUserUseContext } from "../../Context/AuthUser";
+
+import avatar_default from "../../Assets/img/avatar_default.jpg";
 
 const CreateNewFeed = ({ handLeShowModalPost = () => {} }) => {
+  const { user } = AuthUserUseContext();
+  // console.log(user);
   const { processUpload } = AppStoreUseContext();
   return (
     <div
@@ -19,7 +24,7 @@ const CreateNewFeed = ({ handLeShowModalPost = () => {} }) => {
     >
       <div className="w-100 d-flex justify-content-between align-items-center">
         <img
-          src="https://www.venuscinema.vn/uploaded/phim/avata.jpg"
+          src={user ? user.photoURL : avatar_default}
           className="avatar "
           style={{
             marginRight: "1rem",

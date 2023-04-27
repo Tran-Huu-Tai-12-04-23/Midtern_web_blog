@@ -88,7 +88,9 @@ const FormRegister = ({ onSwitchRoute }) => {
       id: uuid(),
       displayName: username,
       email: "",
-      photoURL: "",
+      photoURL:
+        "https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg",
+      friends: [],
     })
       .then((res) => {
         onSwitchRoute(true);

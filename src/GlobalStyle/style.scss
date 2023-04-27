@@ -59,7 +59,21 @@
 .hidden-scroll::-webkit-scrollbar {
   display: none;
 }
+.custom-scroll::-webkit-scrollbar {
+  border-radius: 10px !important;
+  background: linear-gradient(left, #0a51c5, #2c67c5) !important;
+  box-shadow: inset 0 0 1px 1px #2f76bd !important;
+}
 
+.custom-scroll::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: linear-gradient(left, #fff, #e4e4e4);
+  border: 1px solid #aaa;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+  background: #3a7ce7;
+}
 .reset {
   border: none;
   outline: none;
@@ -145,4 +159,38 @@
   display: flex;
   justify-content: end;
   align-items: center;
+}
+
+.show-modal-chat-box {
+  animation: showModalChatBox 0.4s ease-in-out forwards;
+}
+
+@keyframes showModalChatBox {
+  from {
+    // scale: 0;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  to {
+    // scale: 1;
+    opacity: 1;
+    width: 20rem;
+    height: 25rem;
+  }
+}
+
+.show-select-user-animation {
+  animation: showSelectUserAnimation 0.4s ease-in-out forwards;
+}
+
+@keyframes showSelectUserAnimation {
+  from {
+    transform: translateX(10rem) rotate(360deg);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) rotate(0);
+    opacity: 1;
+  }
 }

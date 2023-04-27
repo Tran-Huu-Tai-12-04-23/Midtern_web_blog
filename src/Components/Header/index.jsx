@@ -159,7 +159,7 @@ const Header = ({ user, setUser }) => {
                         marginRight: "1rem",
                         minWidth: "120px",
                       }}
-                      name="Huu Tai"
+                      name={user ? user.displayName : "default"}
                     />
                   </MenuCustom>
                   <CgMenuGridO

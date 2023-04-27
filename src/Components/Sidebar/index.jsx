@@ -5,7 +5,7 @@ const Sidebar = () => {
   return (
     <div
       className="wrapper-sidebar"
-      style={{ width: "80%", marginLeft: "1rem" }}
+      style={{ width: "95%", marginLeft: "1rem" }}
     >
       <div className="container-fluid">
         <div className="row">

@@ -2,7 +2,7 @@ import "./style.scss";
 import { useContext, useEffect, useState } from "react";
 
 import { BiError } from "react-icons/bi";
-import { RiFileWarningLine } from "react-icons/ri";
+import { CiCircleInfo } from "react-icons/ci";
 import { FcCheckmark } from "react-icons/fc";
 import { IoCloseOutline } from "react-icons/io5";
 
@@ -43,7 +43,7 @@ const Notification = ({ type = "err", text = "", keyProp, id }) => {
         <BiError style={{ color: "#E21818", fontSize: "2rem" }} />
       )}
       {type === "warn" && (
-        <RiFileWarningLine style={{ color: "#E21818", fontSize: "2rem" }} />
+        <CiCircleInfo style={{ color: "#cc9900", fontSize: "2rem" }} />
       )}
       {type === "success" && (
         <FcCheckmark style={{ color: "#00FFCA", fontSize: "2rem" }} />

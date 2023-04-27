@@ -5,6 +5,7 @@ import "./style.scss";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
 const Input = ({
+  handleKeyPressEnter = () => {},
   css = {},
   value = "",
   variant = "default",
@@ -14,6 +15,7 @@ const Input = ({
   icon = "",
   type = "text",
   notification = "",
+  placeholder = "",
   handleFocus = () => {},
   handleBlur = () => {},
 }) => {
@@ -41,7 +43,12 @@ const Input = ({
       }}
     >
       <input
-        placeholder=" "
+        onKeyPress={(e) => {
+          if (e.key === "Enter") {
+            handleKeyPressEnter();
+          }
+        }}
+        placeholder={placeholder}
         value={value}
         onChange={handleChange}
         onFocus={handleFocus}
