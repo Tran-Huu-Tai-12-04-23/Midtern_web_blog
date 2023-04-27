@@ -1,4 +1,5 @@
 import { Children } from "react";
+import { useNavigate } from "react-router-dom";
 import "./style.scss";
 
 import { Button } from "@mui/material";
@@ -11,10 +12,13 @@ const ButtonCustom = ({
   backgroundColor = "#334d6e",
   style = {},
   width = "5rem",
-  height = "3rem",
+  height = "2rem",
   children,
   handleClick = () => {},
+  link,
 }) => {
+  const history = useNavigate();
+
   return (
     <Button
       variant="text"
@@ -29,7 +33,13 @@ const ButtonCustom = ({
         alignItems: "center",
         ...style,
       }}
-      onClick={handleClick}
+      onClick={
+        link
+          ? () => {
+              history(link);
+            }
+          : handleClick
+      }
     >
       {iconLeft && iconLeft}
       <div className="d-flex justify-content-center align-items-center flex-column">

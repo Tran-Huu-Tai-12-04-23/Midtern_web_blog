@@ -8,7 +8,6 @@ const AuthContext = createContext();
 function AuthUser({ children }) {
   const [user, setUser] = useState(null);
   const history = useNavigate();
-
   useEffect(() => {
     let user = sessionStorage.getItem("login");
     if (user) {
@@ -16,7 +15,6 @@ function AuthUser({ children }) {
       history("/");
     }
   }, []);
-
   return (
     <AuthContext.Provider value={{ user, setUser }}>
       {children}

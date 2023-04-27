@@ -1,19 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useEffect, memo } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Home from "./Layout/Home";
 import Sign from "./Layout/Sign";
 import AppStore from "./Context/AppStore";
+import Profile from "./Layout/Profile";
+import { AuthUserUseContext } from "./Context/AuthUser";
+import AuthUser from "./Context/AuthUser";
 
 function App() {
   return (
-    <AppStore>
-      <Routes>
-        <Route path="/sign-to-website" element={<Sign />} />
-        <Route path="/" element={<Home />} />
-      </Routes>
-    </AppStore>
+    <AuthUser>
+      <AppStore>
+        <Routes>
+          <Route path="/sign-to-website" element={<Sign />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </AppStore>
+    </AuthUser>
   );
 }
 
-export default App;
+export default memo(App);

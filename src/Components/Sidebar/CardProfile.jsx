@@ -74,6 +74,7 @@ const CardProfile = () => {
           borderRadius: 0,
         }}
         name="Profile"
+        link="/profile"
       />
     </div>
   );

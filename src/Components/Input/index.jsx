@@ -14,6 +14,7 @@ const Input = ({
   height = "3rem",
   icon = "",
   type = "text",
+  iconRight = "",
   notification = "",
   placeholder = "",
   handleFocus = () => {},
@@ -37,9 +38,10 @@ const Input = ({
     <div
       className="input"
       style={{
-        ...css,
         width: width,
         height: height,
+        border: "1px solid var(--bd-primary-color)",
+        ...css,
       }}
     >
       <input
@@ -70,6 +72,7 @@ const Input = ({
           {notification}
         </span>
       )}
+      {iconRight && iconRight}
     </div>
   );
 };

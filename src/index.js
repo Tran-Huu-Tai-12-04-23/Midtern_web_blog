@@ -4,16 +4,13 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router } from "react-router-dom";
 import GlobalStyles from "./GlobalStyle/index";
-import AuthUser from "./Context/AuthUser";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Router>
       <GlobalStyles>
-        <AuthUser>
-          <App />
-        </AuthUser>
+        <App />
       </GlobalStyles>
     </Router>
   </React.StrictMode>
