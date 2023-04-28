@@ -19,10 +19,13 @@ import { CgMenuGridO } from "react-icons/cg";
 import { RiProfileLine } from "react-icons/ri";
 import { ImNewspaper } from "react-icons/im";
 import { CiLogout } from "react-icons/ci";
+import { FaFacebookMessenger } from "react-icons/fa";
 import avatar_default from "../../Assets/img/avatar_default.jpg";
+import { AuthUserUseContext } from "../../Context/AuthUser.js";
 
-const Header = ({ user, setUser }) => {
+const Header = () => {
   const history = useNavigate();
+  const { user, setUser } = AuthUserUseContext();
   const [modalMenu, setModalMenu] = useState(false);
   const [menuItems, setMenuItems] = useState([
     {
@@ -70,6 +73,7 @@ const Header = ({ user, setUser }) => {
                 style={{
                   width: "14rem",
                 }}
+                onClick={() => history("/")}
               ></img>
               <Search />
             </div>
@@ -77,6 +81,7 @@ const Header = ({ user, setUser }) => {
               <ButtonCustom
                 backgroundColor="#fff"
                 color="#000"
+                handleClick={() => history("/")}
                 iconLeft={
                   <BiHomeAlt
                     style={{
@@ -93,6 +98,27 @@ const Header = ({ user, setUser }) => {
                   marginRight: "1rem",
                 }}
                 name="Home"
+              />
+              <ButtonCustom
+                backgroundColor="#fff"
+                color="#000"
+                handleClick={() => history("/chat")}
+                iconLeft={
+                  <FaFacebookMessenger
+                    style={{
+                      fontSize: "1.5rem",
+                      // marginRight: ".5rem",
+                      color: "#19A7CE",
+                    }}
+                  />
+                }
+                width="unset"
+                height="2rem"
+                style={{
+                  fontWeight: 600,
+                  marginRight: "1rem",
+                }}
+                name=""
               />
               <div className="position-relative ">
                 <BsBellFill

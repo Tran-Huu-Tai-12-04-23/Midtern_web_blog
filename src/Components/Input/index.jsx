@@ -19,6 +19,7 @@ const Input = ({
   placeholder = "",
   handleFocus = () => {},
   handleBlur = () => {},
+  className,
 }) => {
   const [lock, setLock] = useState(false);
   const [typeInput, setType] = useState(type);
@@ -36,15 +37,17 @@ const Input = ({
 
   return (
     <div
-      className="input"
+      className={`input ${className}`}
       style={{
         width: width,
         height: height,
+        fontSize: ".8rem",
         border: "1px solid var(--bd-primary-color)",
         ...css,
       }}
     >
       <input
+        className={`${className}`}
         onKeyPress={(e) => {
           if (e.key === "Enter") {
             handleKeyPressEnter();

@@ -26,6 +26,9 @@ function AppStore({ children }) {
   const [friendsId, setFriendsId] = useState([]);
   const [selectUserChat, setSelectUserChat] = useState(null);
   const [showChatBox, setShowChatBox] = useState(false);
+  const [userChat, setUserChat] = useState({
+    id: -1,
+  });
 
   const loadNotifications = () => {
     return notifications.map((n, i) => (
@@ -63,7 +66,7 @@ function AppStore({ children }) {
       });
     }
   }, [friendsId]);
-  
+
   const usersCondition = useMemo(() => {
     if (user && friendsId) {
       const compareValue = [...friendsId, user.id];
@@ -85,7 +88,7 @@ function AppStore({ children }) {
 
   const listUser = useFirestore("users", usersCondition);
   const listMessages = useFirestore("message", null, null, "createdAt");
-  
+
   return (
     <AppStoreContext.Provider
       value={{
@@ -103,6 +106,8 @@ function AppStore({ children }) {
         selectUserChat,
         setSelectUserChat,
         listMessages,
+        userChat,
+        setUserChat,
       }}
     >
       <div

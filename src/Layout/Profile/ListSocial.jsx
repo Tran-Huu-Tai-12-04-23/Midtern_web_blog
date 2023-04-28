@@ -10,7 +10,7 @@ function ListSocial() {
     >
       <div className="card">
         <svg
-          fill-rule="nonzero"
+          fillRule="nonzero"
           height="30px"
           width="30px"
           viewBox="0,0,256,256"
@@ -22,18 +22,18 @@ function ListSocial() {
             style={{
               mixBlendMode: "normal",
             }}
-            text-anchor="none"
-            font-size="none"
-            font-weight="none"
-            font-family="none"
-            stroke-dashoffset="0"
-            stroke-dasharray=""
-            stroke-miterlimit="10"
-            stroke-linejoin="miter"
-            stroke-linecap="butt"
-            stroke-width="1"
+            textAnchor="none"
+            fontSize="none"
+            fontWeight="none"
+            fontFamily="none"
+            strokeDashoffset="0"
+            strokeDasharray=""
+            strokeMiterlimit="10"
+            strokeLinejoin="miter"
+            strokeLinecap="butt"
+            strokeWidth="1"
             stroke="none"
-            fill-rule="nonzero"
+            fillRule="nonzero"
           >
             <g transform="scale(8,8)">
               <path d="M11.46875,5c-3.55078,0 -6.46875,2.91406 -6.46875,6.46875v9.0625c0,3.55078 2.91406,6.46875 6.46875,6.46875h9.0625c3.55078,0 6.46875,-2.91406 6.46875,-6.46875v-9.0625c0,-3.55078 -2.91406,-6.46875 -6.46875,-6.46875zM11.46875,7h9.0625c2.47266,0 4.46875,1.99609 4.46875,4.46875v9.0625c0,2.47266 -1.99609,4.46875 -4.46875,4.46875h-9.0625c-2.47266,0 -4.46875,-1.99609 -4.46875,-4.46875v-9.0625c0,-2.47266 1.99609,-4.46875 4.46875,-4.46875zM21.90625,9.1875c-0.50391,0 -0.90625,0.40234 -0.90625,0.90625c0,0.50391 0.40234,0.90625 0.90625,0.90625c0.50391,0 0.90625,-0.40234 0.90625,-0.90625c0,-0.50391 -0.40234,-0.90625 -0.90625,-0.90625zM16,10c-3.30078,0 -6,2.69922 -6,6c0,3.30078 2.69922,6 6,6c3.30078,0 6,-2.69922 6,-6c0,-3.30078 -2.69922,-6 -6,-6zM16,12c2.22266,0 4,1.77734 4,4c0,2.22266 -1.77734,4 -4,4c-2.22266,0 -4,-1.77734 -4,-4c0,-2.22266 1.77734,-4 4,-4z"></path>
@@ -67,7 +67,7 @@ function ListSocial() {
           ></path>
           <path
             d="M28.352 36.914c0 0-3.032-21.087-15.63-34.292M1.269 17.848c0 0 24.2 2.117 32.075-11.102M7.804 34.152c0 0 8.624-19.807 31.058-12.194"
-            stroke-miterlimit="10"
+            strokeMiterlimit="10"
             stroke="#ea4c89"
             fill="none"
           ></path>
@@ -88,7 +88,7 @@ function ListSocial() {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 100 100"
-          height="23x"
+          height="23px"
           width="23px"
           className="uiverse"
         >
@@ -113,9 +113,9 @@ function ListSocial() {
               x1="0"
               id="paint0_linear_501_142"
             >
-              <stop stop-color="#BF66FF"></stop>
-              <stop stop-color="#6248FF" offset="0.510417"></stop>
-              <stop stop-color="#00DDEB" offset="1"></stop>
+              <stop stopColor="#BF66FF"></stop>
+              <stop stopColor="#6248FF" offset="0.510417"></stop>
+              <stop stopColor="#00DDEB" offset="1"></stop>
             </linearGradient>
             <linearGradient
               gradientUnits="userSpaceOnUse"
@@ -125,9 +125,9 @@ function ListSocial() {
               x1="0"
               id="paint1_linear_501_142"
             >
-              <stop stop-color="#BF66FF"></stop>
-              <stop stop-color="#6248FF" offset="0.510417"></stop>
-              <stop stop-color="#00DDEB" offset="1"></stop>
+              <stop stopColor="#BF66FF"></stop>
+              <stop stopColor="#6248FF" offset="0.510417"></stop>
+              <stop stopColor="#00DDEB" offset="1"></stop>
             </linearGradient>
             <linearGradient
               gradientUnits="userSpaceOnUse"
@@ -137,9 +137,9 @@ function ListSocial() {
               x1="0"
               id="paint2_linear_501_142"
             >
-              <stop stop-color="#BF66FF"></stop>
-              <stop stop-color="#6248FF" offset="0.510417"></stop>
-              <stop stop-color="#00DDEB" offset="1"></stop>
+              <stop stopColor="#BF66FF"></stop>
+              <stop stopColor="#6248FF" offset="0.510417"></stop>
+              <stop stopColor="#00DDEB" offset="1"></stop>
             </linearGradient>
           </defs>
         </svg>
@@ -231,7 +231,7 @@ function ListSocial() {
               cx="45"
             ></circle>
             <path
-              stroke-linecap="round"
+              strokeLinecap="round"
               transform="matrix(1 0 0 1 0 0)"
               style={{
                 stroke: "none",
@@ -252,7 +252,7 @@ function ListSocial() {
         className="text"
         style={{
           color: "#fff",
-          border: "1px solid #39d99d",
+          border: "1px solid #4f84eb",
           padding: "2rem",
           borderRadius: "1rem",
         }}

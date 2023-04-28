@@ -193,7 +193,7 @@ const FormLogin = ({ onSwitchRoute }) => {
               color: "var(--dark-color)",
             }}
             notification={usernameNotification}
-            variant="User Name"
+            variant="UserName"
             width="70%"
             height="3rem"
             value={username}
@@ -261,6 +261,7 @@ const FormLogin = ({ onSwitchRoute }) => {
           <ButtonCustom
             name="Login"
             width="70%"
+            height="3rem"
             style={{
               fontWeight: "600",
               marginTop: "3rem",
@@ -276,6 +277,7 @@ const FormLogin = ({ onSwitchRoute }) => {
           <ButtonCustom
             name="Login with google"
             width="70%"
+            height="3rem"
             style={{
               marginTop: "2rem",
             }}

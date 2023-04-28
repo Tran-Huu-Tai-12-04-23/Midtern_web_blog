@@ -40,10 +40,7 @@ const Home = ({}) => {
       />
       <div className="row ">
         <div className="col-12 mb-5">
-          <Header
-            user={user ? user : {}}
-            setUser={setUser ? setUser : () => {}}
-          />
+          <Header />
         </div>
         <div className="col-2">
           <Sidebar />

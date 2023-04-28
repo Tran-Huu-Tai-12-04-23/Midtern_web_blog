@@ -21,7 +21,6 @@
     &:focus {
       border: none;
       outline: none;
-      border: 1px solid var(--bd-focus-color);
     }
 
     &:not(:placeholder-shown) ~ .label,

@@ -1,14 +1,17 @@
-import avatar_default from "../../Assets/img/avatar_default.jpg";
+import default_background from "../../Assets/img/default_background.png";
 import ButtonCustom from "../../Components/ButtonCustom";
 import { FaUserFriends, FaUniversity } from "react-icons/fa";
 import { BsPostcard } from "react-icons/bs";
 import { MdOutlineJoinInner } from "react-icons/md";
+import { AuthUserUseContext } from "../../Context/AuthUser";
 
 function SideBar() {
+  const { user } = AuthUserUseContext();
+
   return (
     <div className="w-100 p-4 d-flex justify-content-start align-items-center flex-column">
       <img
-        src={avatar_default}
+        src={user ? user.photoURL : ""}
         style={{
           width: "6rem",
           height: "6rem",
@@ -20,7 +23,7 @@ function SideBar() {
         name="Edit profile"
         width="10rem "
         height="2rem"
-        backgroundColor="#39d99d"
+        backgroundColor="#4f84eb"
         style={{
           borderRadius: "3rem",
           fontSize: ".8rem",
@@ -82,7 +85,7 @@ function SideBar() {
       >
         <h1>Recent post</h1>
         <img
-          src="https://assets.materialup.com/uploads/ead2f69d-8ea0-4be8-ae1e-be6584d6bb45/preview.jpg"
+          src={default_background}
           alt=""
           className="br-primary "
           style={{
@@ -94,7 +97,7 @@ function SideBar() {
       </div>
       <ButtonCustom
         name="Logout"
-        backgroundColor="#39d99d"
+        backgroundColor="#4f84eb"
         style={{
           fontSize: ".8rem",
         }}

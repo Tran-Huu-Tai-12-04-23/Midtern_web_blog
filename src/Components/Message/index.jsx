@@ -3,7 +3,7 @@ import avatar_default from "../../Assets/img/avatar_default.jpg";
 
 function Message({ avatar, type = "sender", mes = "", time }) {
   return type === "received" ? (
-    <div className="start w-100 p-1">
+    <div className="start w-100 p-1 mb-3">
       <img
         style={{ width: "2rem", height: "2rem", marginRight: ".5rem" }}
         src={avatar}
@@ -29,7 +29,7 @@ function Message({ avatar, type = "sender", mes = "", time }) {
       </div>
     </div>
   ) : (
-    <div className="end w-100 p-1">
+    <div className="end w-100 p-1 mb-3">
       <div className="d-flex  flex-column">
         <h6
           style={{

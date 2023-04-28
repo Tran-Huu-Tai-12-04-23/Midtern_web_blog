@@ -1,6 +1,6 @@
 .active-navbar {
-  border-bottom: 1px solid #39d99d;
-  color: #39d99d;
+  border-bottom: 1px solid #4f84eb;
+  color: #4f84eb;
 }
 
 .main_back {
@@ -299,4 +299,16 @@
   font-weight: bold;
   letter-spacing: 0.33em;
   z-index: 3;
+}
+
+.icon-calender::-webkit-calendar-picker-indicator {
+  font-size: 2rem;
+  color: rgba(255, 2555, 255, 255);
+  opacity: 1;
+  filter: invert(1);
+}
+
+.icon-calender::-webkit-inner-spin-button,
+.icon-calender::-webkit-clear-button {
+  display: block;
 }

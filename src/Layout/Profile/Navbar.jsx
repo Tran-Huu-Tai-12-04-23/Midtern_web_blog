@@ -2,14 +2,11 @@ import { useState } from "react";
 import { v4 as uuid } from "uuid";
 import "./style.scss";
 
-function Navbar() {
+function Navbar({ active, setActive }) {
   const [navList, setNavList] = useState([
     "Profile settings",
     "Account settings",
-    "Privacy & Security",
-    "Notifications",
   ]);
-  const [active, setActive] = useState(0);
 
   const loaderNav = () => {
     return navList.map((nav, index) => {
@@ -20,7 +17,9 @@ function Navbar() {
           style={{
             padding: ".5rem",
             marginRight: "1rem",
+            cursor: "pointer",
           }}
+          onClick={() => setActive(index)}
         >
           {nav}
         </li>

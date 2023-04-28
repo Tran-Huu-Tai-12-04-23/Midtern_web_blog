@@ -12,11 +12,14 @@ import { addDocument } from "../../firebase/service";
 
 function BoxChat({ showChatBox, setShowChatBox, userId = 0, user }) {
   const [message, setMessage] = useState("");
-  const [userChat, setUserChat] = useState({
-    id: -1,
-  });
-  const { selectUserChat, friends, listMessages, setNotifications } =
-    AppStoreUseContext();
+  const {
+    userChat,
+    setUserChat,
+    selectUserChat,
+    friends,
+    listMessages,
+    setNotifications,
+  } = AppStoreUseContext();
 
   useEffect(() => {
     friends.map((friend) => {
@@ -86,14 +89,7 @@ function BoxChat({ showChatBox, setShowChatBox, userId = 0, user }) {
         style={{ height: "3rem" }}
       >
         <div className="start">
-          <img
-            className="avatar"
-            src={
-              userChat && userChat.photoURL !== ""
-                ? userChat.photoURL
-                : avatar_default
-            }
-          ></img>
+          <img className="avatar" src={userChat && userChat.photoURL}></img>
           <span>{userChat ? userChat.displayName : ""}</span>
         </div>
         <IoCloseSharp

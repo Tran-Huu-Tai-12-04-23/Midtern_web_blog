@@ -5,10 +5,10 @@ import { AppStoreUseContext } from "../../Context/AppStore";
 
 import SideBar from "./SideBar";
 import Content from "./Content";
+import Header from "../../Components/Header";
 
 const Profile = ({}) => {
-  // const { user, setUser } = AuthUserUseContext();
-  // const { setLoader } = AppStoreUseContext();
+  const { user, setUser } = AuthUserUseContext();
 
   return (
     <div
@@ -20,6 +20,9 @@ const Profile = ({}) => {
     >
       <div className="container-fluid">
         <div className="row">
+          <div className="col-12">
+            <Header />
+          </div>
           <div className="col-4">
             <SideBar />
           </div>

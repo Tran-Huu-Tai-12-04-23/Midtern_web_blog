@@ -11,7 +11,7 @@ const ButtonCustom = ({
   color = "#fff",
   backgroundColor = "#334d6e",
   style = {},
-  width = "5rem",
+  width = "unset",
   height = "2rem",
   children,
   handleClick = () => {},

@@ -194,6 +194,7 @@ const FormRegister = ({ onSwitchRoute }) => {
           <ButtonCustom
             name="Create account"
             width="70%"
+            height="3rem"
             style={{
               marginTop: "3rem",
               fontWeight: "600",
