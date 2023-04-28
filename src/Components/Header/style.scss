@@ -1,5 +1,14 @@
 .wrapper-header {
   height: 4rem;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 10;
+  background-color: #1b2730;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   .icon-menu:hover {
     color: #1396e7;
     scale: 1.4;

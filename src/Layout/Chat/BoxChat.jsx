@@ -76,7 +76,12 @@ function BoxChat({}) {
 
   return (
     <div className="h-100">
-      <header className="start">
+      <header
+        className="start pb-2 "
+        style={{
+          borderBottom: "1px solid #4f84eb",
+        }}
+      >
         <img
           className="avatar "
           style={{
@@ -87,9 +92,9 @@ function BoxChat({}) {
         <span>{userChat?.displayName}</span>
       </header>
       <div
-        className="content-chat d-flex  align-items-center flex-column"
+        className="content-chat d-flex  align-items-center flex-column pt-2"
         style={{
-          height: "calc( 100% - 15rem)",
+          height: "calc( 100% - 10rem)",
           overflow: "auto",
         }}
       >

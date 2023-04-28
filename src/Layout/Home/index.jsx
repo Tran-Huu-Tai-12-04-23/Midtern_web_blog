@@ -31,6 +31,7 @@ const Home = ({}) => {
       style={{
         height: "100vh",
         overflow: "hidden",
+        paddingTop: "4rem",
       }}
     >
       <CreateNews

@@ -3,7 +3,6 @@ import ButtonCustom from "../ButtonCustom";
 import { IoHeartSharp } from "react-icons/io5";
 import { MdModeComment } from "react-icons/md";
 import { RiShareForwardFill } from "react-icons/ri";
-import avatar_default from "../../Assets/img/avatar_default.jpg";
 import { formatDate } from "../../util/index";
 
 const Information = ({ data }) => {
@@ -16,11 +15,7 @@ const Information = ({ data }) => {
     >
       <div className="w-100 d-flex justify-content-start align-items-center">
         <ButtonCustom name="" width="3rem" backgroundColor="transparent">
-          <img
-            src={data.avatarUrl ? data.avatarUrl : avatar_default}
-            className="avatar "
-            style={{}}
-          ></img>
+          <img src={data?.avatarUrl} className="avatar " style={{}}></img>
         </ButtonCustom>
         <div className="column g-0">
           <label className="">{data.displayName}</label>

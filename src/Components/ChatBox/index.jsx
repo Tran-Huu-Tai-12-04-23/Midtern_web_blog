@@ -46,7 +46,8 @@ function ChatBox() {
         iconLeft={
           <FiMessageSquare
             style={{
-              fontSize: "3rem",
+              fontSize: "1rem",
+              marginRight: ".5rem",
             }}
           />
         }
@@ -54,6 +55,9 @@ function ChatBox() {
           display: !showChatBox ? "flex" : "none",
           position: "relative",
           zIndex: "2",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "1.5rem 1rem",
         }}
       >
         <div

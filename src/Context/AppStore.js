@@ -58,7 +58,6 @@ function AppStore({ children }) {
       });
     }
   }, [user]);
-
   useEffect(() => {
     if (friendsId.length > 0) {
       getFriendsFromId(friendsId).then((res) => {

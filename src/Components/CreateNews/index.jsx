@@ -71,6 +71,7 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
 
   async function uploadFiles(filePhoto, fileVideo) {
     setProcessUpload(true);
+    setModalPost(false);
     try {
       if (filePhoto && fileVideo) {
         const fileRefPhoto = ref(storage, `images/${filePhoto.name}-${uuid()}`);
@@ -103,7 +104,6 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
   }
 
   async function addNewPost(content, photoUrl, videoUrl, mode) {
-    setModalPost(false);
     setProcessUpload(true);
     addDocument("posts", {
       content,

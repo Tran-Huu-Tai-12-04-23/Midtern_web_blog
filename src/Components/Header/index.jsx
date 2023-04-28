@@ -15,6 +15,7 @@ import MenuCustom from "../MenuCustom";
 import { BiHomeAlt } from "react-icons/bi";
 import { BsBellFill } from "react-icons/bs";
 import { IoMdArrowDropdown } from "react-icons/io";
+import { IoSettingsOutline } from "react-icons/io5";
 import { CgMenuGridO } from "react-icons/cg";
 import { RiProfileLine } from "react-icons/ri";
 import { ImNewspaper } from "react-icons/im";
@@ -33,8 +34,9 @@ const Header = () => {
       icon: (
         <RiProfileLine style={{ fontSize: "1.5rem", marginRight: "1rem" }} />
       ),
-      handleClick: () => {},
+      handleClick: () => history("/profile"),
     },
+
     {
       name: "My Posts",
       icon: (
@@ -43,6 +45,15 @@ const Header = () => {
         ></ImNewspaper>
       ),
       handleClick: () => {},
+    },
+    {
+      name: "Settings",
+      icon: (
+        <IoSettingsOutline
+          style={{ fontSize: "1.5rem", marginRight: "1rem" }}
+        />
+      ),
+      handleClick: () => history("/setting"),
     },
     {
       name: "Log Out",
@@ -64,7 +75,7 @@ const Header = () => {
   ]);
   return (
     <>
-      <div className="wrapper-header w-100   pt-3" style={{}}>
+      <div className="wrapper-header w-100 " style={{}}>
         <div className="container-fluid">
           <div className="row">
             <div className="col-6 d-flex justify-content-start align-items-center ">

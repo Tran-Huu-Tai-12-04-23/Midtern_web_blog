@@ -12,6 +12,7 @@ function Chat() {
       className="chat bg-main container-fluid  overflow-hidden"
       style={{
         height: "100vh",
+        paddingTop: "4rem",
       }}
     >
       <Header />

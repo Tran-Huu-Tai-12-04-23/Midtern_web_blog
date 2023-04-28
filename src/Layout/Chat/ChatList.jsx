@@ -15,7 +15,7 @@ function ChatList() {
           key={friend.id}
           className="col-12 gx-0 hidden-scroll"
           style={{
-            maxHeight: "40vh",
+            maxHeight: "",
             overflowY: "scroll",
             marginBottom: "1rem",
           }}
@@ -59,7 +59,7 @@ function ChatList() {
           style={{
             overflow: "auto",
             overflowX: "hidden",
-            height: "calc( 100vh - 20rem) ",
+            height: "calc( 100vh - 5rem) ",
           }}
         >
           {friends && loadFriends()}

@@ -5,16 +5,27 @@ import { AppStoreUseContext } from "../../Context/AppStore";
 
 import CreateNewFeed from "./CreateNewFeed";
 import Information from "./Information";
+import SuggestNewFriends from "../../Layout/Home/SuggestNewFriends";
+
 const Content = ({ setShowModalPost = () => {} }) => {
   console.log("rendering content");
   const { posts } = AppStoreUseContext();
   function loadNewFeeds() {
-    return posts.map((newFeed) => {
-      return (
-        <div key={uuid()}>
-          <Information data={newFeed.post} />
-        </div>
-      );
+    return posts.map((newFeed, index) => {
+      if ((index + 1) % 5 === 0) {
+        return (
+          <div key={uuid()}>
+            <SuggestNewFriends />
+            <Information data={newFeed.post} />
+          </div>
+        );
+      } else {
+        return (
+          <div key={uuid()}>
+            <Information data={newFeed.post} />
+          </div>
+        );
+      }
     });
   }
   return (
