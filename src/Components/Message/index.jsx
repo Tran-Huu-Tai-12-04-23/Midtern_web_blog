@@ -1,5 +1,6 @@
 import React from "react";
 import avatar_default from "../../Assets/img/avatar_default.jpg";
+import { formatDate } from "../../util";
 
 function Message({ avatar, type = "sender", mes = "", time }) {
   return type === "received" ? (
@@ -24,7 +25,7 @@ function Message({ avatar, type = "sender", mes = "", time }) {
             color: "#ccc",
           }}
         >
-          {time}
+          {/* {formatDate(time?.seconds)} */}
         </span>
       </div>
     </div>
@@ -45,7 +46,7 @@ function Message({ avatar, type = "sender", mes = "", time }) {
             color: "#ccc",
           }}
         >
-          {time}
+          {formatDate(time)}
         </span>
       </div>
       <img

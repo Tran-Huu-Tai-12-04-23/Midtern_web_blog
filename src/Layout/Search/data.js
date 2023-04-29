@@ -1,6 +1,57 @@
 import { v4 as uuid } from "uuid";
 
-export const friendList = [
+export const posts = [
+  {
+    id: uuid(),
+    displayName: "Hải đăng",
+    avatarUrl:
+      "https://scontent.fsgn5-5.fna.fbcdn.net/v/t39.30808-1/323024105_923579831991876_8843654213659125002_n.jpg?stp=dst-jpg_p148x148&_nc_cat=100&ccb=1-7&_nc_sid=aa3c98&_nc_ohc=eiQR1k2Mu_8AX_Sqisi&_nc_ht=scontent.fsgn5-5.fna&oh=00_AfBQZV5g0aPaX-3L8ZdEdBtjUD_qKTwxK_-0F0ZrYOp6_A&oe=6450CEF7",
+    content: `Chào mọi người, em mới hoàn thành clone trang web Spotify bằng Reactjs.
+    Tech:
+    Reactjs
+    Redux-toolkit
+    Scss
+    MUI
+    Axios
+    React-router-dom, ….
+    Features:
+    Đăng nhập, đăng xuất
+    Play, replay, next, prev, change volume, bài hát
+    Thêm, xóa bài hát, playlist, album, podcast yêu thích
+    Tạo playlist
+    Edit details playlist
+    Thêm, xóa bài hát vào my playlist
+    Follow nghệ sĩ
+    Và một số tính năng khác
+    Do spotify yêu cầu tài khoản premium nên 1 số tính năng em không clone được.
+    Rất mong mọi người có thể xem qua và góp ý cho em về trang web ạ.
+    Vì để mọi người đăng nhập bằng account riêng thì phải làm đơn đăng kí lên spotify, nên mọi người đăng nhập bằng tài khoản, mật khẩu dưới đây giúp em với ạ.`,
+    createdAt: "1 hours ago",
+  },
+];
+
+export const pages = [
+  {
+    namePage: "Học lập trình F8",
+    photoURL:
+      "https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-6/313209665_526415922829139_1931573599479211662_n.png?stp=c25.0.64.64a_cp0_dst-png_p64x64&_nc_cat=107&ccb=1-7&_nc_sid=ac9ee4&_nc_ohc=4i2szxrVVFAAX-E8pDm&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfA35YweOG4wzYXYLwqTfOIIkFpgm667Fn_01wH5eEZsZA&oe=64512028",
+    id: uuid(),
+    des: "Tại F8, các khóa học luôn có phần thực hành để làm ra sản phẩm thực tế.",
+    detail:
+      "Là sản phẩm thực tế, nên luôn luôn có những kỹ thuật khó, thời lượng dài, nhiều video trên mỗi khóa học.",
+  },
+  {
+    namePage: "Học lập trình F8",
+    photoURL:
+      "https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-6/313209665_526415922829139_1931573599479211662_n.png?stp=c25.0.64.64a_cp0_dst-png_p64x64&_nc_cat=107&ccb=1-7&_nc_sid=ac9ee4&_nc_ohc=4i2szxrVVFAAX-E8pDm&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfA35YweOG4wzYXYLwqTfOIIkFpgm667Fn_01wH5eEZsZA&oe=64512028",
+    id: uuid(),
+    des: "Tại F8, các khóa học luôn có phần thực hành để làm ra sản phẩm thực tế.",
+    detail:
+      "Là sản phẩm thực tế, nên luôn luôn có những kỹ thuật khó, thời lượng dài, nhiều video trên mỗi khóa học.",
+  },
+];
+
+export const peoples = [
   {
     name: "John",
     id: uuid(),

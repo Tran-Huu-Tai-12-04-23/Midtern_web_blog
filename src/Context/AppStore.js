@@ -18,7 +18,7 @@ const AppStoreContext = createContext();
 
 function AppStore({ children }) {
   const { user } = AuthUserUseContext();
-  const [loader, setLoader] = useState(false);
+  // const [loader, setLoader] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [posts, setPosts] = useState([]);
   const [processUpload, setProcessUpload] = useState(false);
@@ -93,8 +93,8 @@ function AppStore({ children }) {
       value={{
         notifications,
         setNotifications,
-        loader,
-        setLoader,
+        // loader,
+        // setLoader,
         posts,
         processUpload,
         setProcessUpload,
@@ -119,7 +119,6 @@ function AppStore({ children }) {
       >
         {loadNotifications()}
       </div>
-      <Loader show={loader} />
       {children}
     </AppStoreContext.Provider>
   );

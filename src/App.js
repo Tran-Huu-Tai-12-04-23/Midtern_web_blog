@@ -14,12 +14,13 @@ import Setting from "./Layout/Setting";
 import Chat from "./Layout/Chat";
 import Search from "./Layout/Search";
 import AuthUser from "./Context/AuthUser";
+import CreateNewGroup from "./Layout/CreateNewGroup";
 
 function App() {
   const history = useNavigate();
   useEffect(() => {
     const storedLink = localStorage.getItem("link");
-    history(storedLink);
+    // history(storedLink);
   }, []);
 
   useEffect(() => {
@@ -42,6 +43,7 @@ function App() {
           <Route path="/chat" element={<Chat />} />
           <Route path="/setting" element={<Setting />} />
           <Route path="/search" element={<Search />} />
+          <Route path="/me/create-new-group" element={<CreateNewGroup />} />
           <Route path="/" element={<Home />} />
         </Routes>
       </AppStore>

@@ -16,8 +16,12 @@ const ChatList = () => {
     return friends.map((friend) => {
       return (
         <div
+          onClick={() => {
+            setSelectUserChat(friend.id);
+            setShowChatBox(true);
+          }}
           key={friend.id}
-          className="col-12 gx-0 hidden-scroll"
+          className="col-12 gx-0 hidden-scroll hover-bg p-2 br-primary"
           style={{
             maxHeight: "40vh",
             overflowY: "scroll",
@@ -47,22 +51,6 @@ const ChatList = () => {
                 <span className="cl-second fs-small">Active</span>
               </div>
             </div>
-            <ButtonCustom
-              handleClick={() => {
-                setSelectUserChat(friend.id);
-                setShowChatBox(true);
-              }}
-              name="Send"
-              color="#fff"
-              backgroundColor="#4f84eb"
-              height="2rem"
-              style={{
-                borderRadius: "2rem",
-                fontWeight: "bold",
-                fontSize: ".8rem",
-                marginLeft: "auto",
-              }}
-            />
           </div>
         </div>
       );

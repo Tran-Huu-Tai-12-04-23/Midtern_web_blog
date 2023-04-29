@@ -1,5 +1,6 @@
 import axios from "axios";
 import { SHA256 } from "crypto-js";
+import { formatRelative } from "date-fns/esm";
 
 export const api = axios.create({
   baseURL: "http://localhost/api-web-blog/",
@@ -16,12 +17,16 @@ export const hashPass = (password) => {
 export const verifyPass = (password, hashedPassword) => {
   return SHA256(password).toString() === hashedPassword;
 };
-export const formatDate = (timestamp) => {
-  if (timestamp) {
-    const milliseconds =
-      timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000;
-    const date = new Date(milliseconds);
 
-    return date.toLocaleString();
+export function formatDate(seconds) {
+  let formattedDate = "";
+
+  if (seconds) {
+    formattedDate = formatRelative(new Date(seconds * 1000), new Date());
+
+    formattedDate =
+      formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
   }
-};
+
+  return formattedDate;
+}

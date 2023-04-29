@@ -164,8 +164,9 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
           borderRadius: "1rem",
           padding: "1rem",
           boxShadow: "-3px 7px 234px -17px rgba(31,123,230,0.75)",
-          transition: ".4s",
-          top: modalPost ? "40%" : "-40%",
+          animation:
+            "showModalTop .4s cubic-bezier(0.57, 1.29, 0.77, 1) forwards",
+          display: modalPost ? "block" : "none",
         }}
         onClick={(e) => {
           e.stopPropagation();

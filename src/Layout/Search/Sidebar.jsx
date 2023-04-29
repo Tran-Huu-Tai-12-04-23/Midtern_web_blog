@@ -1,20 +1,22 @@
-import { MdDynamicFeed, MdOutlineInsertPhoto } from "react-icons/md";
+import { MdDynamicFeed } from "react-icons/md";
 import { BiMessageAltEdit } from "react-icons/bi";
 import { FiUsers } from "react-icons/fi";
-import { AiOutlineVideoCamera } from "react-icons/ai";
 import { HiOutlineUserGroup } from "react-icons/hi";
 
-function Sidebar() {
+function Sidebar({ setContentActive = () => {}, contentActive }) {
   return (
     <div className="p-2" style={{}}>
       <ul>
         <li
-          className="start hover-bg p-2 br-primary active-navbar"
+          className={`start hover-bg p-2 br-primary ${
+            contentActive === 0 ? "active-navbar" : ""
+          } `}
           style={{
             cursor: "pointer",
             marginBottom: "1rem",
             fontSize: "1rem",
           }}
+          onClick={() => setContentActive(0)}
         >
           <MdDynamicFeed
             style={{
@@ -25,28 +27,15 @@ function Sidebar() {
           <span>All</span>
         </li>
         <li
-          className="start hover-bg p-2 br-primary"
+          className={`start hover-bg p-2 br-primary ${
+            contentActive === 1 ? "active-navbar" : ""
+          } `}
           style={{
             cursor: "pointer",
             marginBottom: "1rem",
             fontSize: "1rem",
           }}
-        >
-          <BiMessageAltEdit
-            style={{
-              marginRight: ".5rem",
-              fontSize: "2rem",
-            }}
-          />
-          <span>Posts</span>
-        </li>
-        <li
-          className="start hover-bg p-2 br-primary"
-          style={{
-            cursor: "pointer",
-            marginBottom: "1rem",
-            fontSize: "1rem",
-          }}
+          onClick={() => setContentActive(1)}
         >
           <FiUsers
             style={{
@@ -57,44 +46,15 @@ function Sidebar() {
           <span>Peoples</span>
         </li>
         <li
-          className="start hover-bg p-2 br-primary"
+          className={`start hover-bg p-2 br-primary ${
+            contentActive === 2 ? "active-navbar" : ""
+          } `}
           style={{
             cursor: "pointer",
             marginBottom: "1rem",
             fontSize: "1rem",
           }}
-        >
-          <MdOutlineInsertPhoto
-            style={{
-              marginRight: ".5rem",
-              fontSize: "2rem",
-            }}
-          />
-          <span>Photo</span>
-        </li>
-        <li
-          className="start hover-bg p-2 br-primary"
-          style={{
-            cursor: "pointer",
-            marginBottom: "1rem",
-            fontSize: "1rem",
-          }}
-        >
-          <AiOutlineVideoCamera
-            style={{
-              marginRight: ".5rem",
-              fontSize: "2rem",
-            }}
-          />
-          <span>Videos</span>
-        </li>
-        <li
-          className="start hover-bg p-2 br-primary"
-          style={{
-            cursor: "pointer",
-            marginBottom: "1rem",
-            fontSize: "1rem",
-          }}
+          onClick={() => setContentActive(2)}
         >
           <HiOutlineUserGroup
             style={{
@@ -103,6 +63,25 @@ function Sidebar() {
             }}
           />
           <span>Groups</span>
+        </li>
+        <li
+          className={`start hover-bg p-2 br-primary ${
+            contentActive === 3 ? "active-navbar" : ""
+          } `}
+          style={{
+            cursor: "pointer",
+            marginBottom: "1rem",
+            fontSize: "1rem",
+          }}
+          onClick={() => setContentActive(3)}
+        >
+          <BiMessageAltEdit
+            style={{
+              marginRight: ".5rem",
+              fontSize: "2rem",
+            }}
+          />
+          <span>Posts</span>
         </li>
       </ul>
     </div>

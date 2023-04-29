@@ -9,17 +9,20 @@ function CardFriend({ data }) {
         backgroundColor: "rgba(255, 255, 255, .1)",
       }}
     >
-      <img
-        style={{
-          maxHeight: "20rem",
-          maxWidth: "15rem",
-          width: "100%",
-          marginBottom: ".5rem",
-          borderRadius: ".5rem",
-        }}
-        src={avatar_default}
-      ></img>
-      <h1 className="w-100">Tran Huu Tai</h1>
+      <div className="start">
+        <img
+          style={{
+            maxHeight: "10rem",
+            maxWidth: "5rem",
+            width: "100%",
+            marginBottom: ".5rem",
+            borderRadius: ".5rem",
+            marginRight: ".5rem",
+          }}
+          src={data.photoURL}
+        ></img>
+        <h1 className="w-100">{data.name}</h1>
+      </div>
       <ButtonCustom
         name="Remove"
         width="100%"

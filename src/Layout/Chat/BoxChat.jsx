@@ -69,7 +69,7 @@ function BoxChat({}) {
           key={uuid()}
           mes={message.text}
           type={message.user_id1 === user?.id ? "sender" : "received"}
-          time="2 days ago"
+          time={message?.createdAt?.seconds}
         />
       ));
   };

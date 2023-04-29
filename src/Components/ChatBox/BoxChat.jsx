@@ -67,7 +67,7 @@ function BoxChat({ showChatBox, setShowChatBox, userId = 0, user }) {
           key={uuid()}
           mes={message.text}
           type={message.user_id1 === userId ? "sender" : "received"}
-          time="2 days ago"
+          time={message?.createdAt?.seconds}
         />
       ));
   };

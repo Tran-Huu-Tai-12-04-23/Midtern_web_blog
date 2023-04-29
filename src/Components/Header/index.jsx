@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { logOut } from "../../firebase/AuthGoogle.js";
 import { auth } from "../../firebase/index.js";
-import { signOut } from "firebase/auth";
 import "./style.scss";
 import logo from "../../Assets/img/logo.png";
 
@@ -21,12 +19,13 @@ import { RiProfileLine } from "react-icons/ri";
 import { ImNewspaper } from "react-icons/im";
 import { CiLogout } from "react-icons/ci";
 import { FaFacebookMessenger } from "react-icons/fa";
+import { MdGroups2 } from "react-icons/md";
+
 import avatar_default from "../../Assets/img/avatar_default.jpg";
 import { AuthUserUseContext } from "../../Context/AuthUser.js";
 
 const Header = () => {
-  const history = useNavigate();
-  const { user, setUser } = AuthUserUseContext();
+  const history = useNavigate();  const { user, setUser } = AuthUserUseContext();
   const [modalMenu, setModalMenu] = useState(false);
   const [menuItems, setMenuItems] = useState([
     {
@@ -45,6 +44,11 @@ const Header = () => {
         ></ImNewspaper>
       ),
       handleClick: () => {},
+    },
+    {
+      name: "Create Your Group",
+      icon: <MdGroups2 style={{ fontSize: "1.5rem", marginRight: "1rem" }} />,
+      handleClick: () => history("/me/create-new-group"),
     },
     {
       name: "Settings",

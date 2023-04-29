@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
 import { AppStoreUseContext } from "../../Context/AppStore";
 import { AuthUserUseContext } from "../../Context/AuthUser";
-import Information from "../../Components/Content/Information";
+import Information from "../../Components/Information";
 
 function ListPost() {
   const { posts } = AppStoreUseContext();

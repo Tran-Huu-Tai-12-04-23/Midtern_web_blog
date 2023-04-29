@@ -51,3 +51,27 @@ export const getFriendsFromId = async (friendsId) => {
   const querySnapshot = await getDocs(q);
   return querySnapshot.docs.map((doc) => doc.data());
 };
+
+export const register = async (data) => {
+  // let formData = {
+  //   username: username,
+  //   password: password,
+  //   confirm_password: confirmPassword,
+  // };
+  try {
+    const response = await fetch(
+      "http://localhost/api-web-blog/user?action=register",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
+    const data = await response.json();
+    return data.status;
+  } catch (error) {
+    console.error(error);
+  }
+};

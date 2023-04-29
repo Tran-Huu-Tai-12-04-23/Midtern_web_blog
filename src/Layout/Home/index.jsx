@@ -12,7 +12,6 @@ import ChatBox from "../../Components/ChatBox";
 
 const Home = ({}) => {
   const { user, setUser } = AuthUserUseContext();
-  const { setLoader } = AppStoreUseContext();
   const history = useNavigate();
 
   const [modalPost, setModalPost] = useState(false);
@@ -22,9 +21,6 @@ const Home = ({}) => {
     }
   }, [user]);
 
-  useEffect(() => {
-    setLoader(false);
-  }, []);
   return (
     <div
       className="home bg-main container-fluid "

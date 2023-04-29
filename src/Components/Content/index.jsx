@@ -4,7 +4,7 @@ import { v4 as uuid } from "uuid";
 import { AppStoreUseContext } from "../../Context/AppStore";
 
 import CreateNewFeed from "./CreateNewFeed";
-import Information from "./Information";
+import Information from "../Information";
 import SuggestNewFriends from "../../Layout/Home/SuggestNewFriends";
 
 const Content = ({ setShowModalPost = () => {} }) => {

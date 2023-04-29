@@ -22,11 +22,11 @@ import { AuthUserUseContext } from "../../Context/AuthUser";
 import { AppStoreUseContext } from "../../Context/AppStore";
 import { BiUser } from "react-icons/bi";
 import { FiLock } from "react-icons/fi";
-import { addDocument } from "../../firebase/service";
+import { addDocument, checkUsernameExists } from "../../firebase/service";
 
 const FormLogin = ({ onSwitchRoute }) => {
   const { user, setUser } = AuthUserUseContext();
-  const { loader, setLoader, setNotifications } = AppStoreUseContext();
+  const { setNotifications } = AppStoreUseContext();
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [passwordNotification, setPasswordNotification] = useState("");
@@ -119,7 +119,6 @@ const FormLogin = ({ onSwitchRoute }) => {
       id: userId,
       photoURL: photoURL,
     });
-    setLoader(true);
     history("/");
   };
 
@@ -139,13 +138,15 @@ const FormLogin = ({ onSwitchRoute }) => {
           currentUser.metadata.creationTime ===
           currentUser.metadata.lastSignInTime;
         if (isNewUser) {
-          let id = addDocument("users", {
-            displayName,
-            email,
-            id: uid,
-            photoURL,
-            friends: [],
-          });
+          if (!checkUsernameExists(displayName)) {
+            let id = addDocument("users", {
+              displayName,
+              email,
+              id: uid,
+              photoURL,
+              friends: [],
+            });
+          }
         }
         saveStoreLocal(uid, displayName, email, photoURL);
         setUser({
@@ -154,7 +155,6 @@ const FormLogin = ({ onSwitchRoute }) => {
           id: uid,
           photoURL,
         });
-        setLoader(true);
       } else {
         setUser(null);
       }

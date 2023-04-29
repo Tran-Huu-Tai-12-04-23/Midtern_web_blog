@@ -33,7 +33,7 @@ function SuggestNewFriends() {
       return (prev += slider.current.offsetWidth);
     });
   };
-  console.log(-translateX);
+
   return (
     <div className="slider d-flex p-4">
       <div

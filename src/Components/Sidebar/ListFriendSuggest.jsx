@@ -63,7 +63,14 @@ const ListFriendSuggest = () => {
   };
   return (
     <div className=" w-100 bg-second br-primary overflow-hidden mt-5 p-4">
-      <h6 className="bold">Who friends suggest ?</h6>
+      <h6
+        className="bold"
+        style={{
+          fontSize: ".8rem",
+        }}
+      >
+        Who friends suggest ?
+      </h6>
       <div className="container-fluid mt-2">
         <div className="row">
           <div
