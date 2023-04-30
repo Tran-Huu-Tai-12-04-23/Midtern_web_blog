@@ -1,9 +1,9 @@
 import PageSearch from "./PageSearch";
 
-function MainSearch({ contentActive }) {
+function MainSearch({ contentActive, theme }) {
   return (
     <div>
-      <PageSearch contentActive={contentActive} />
+      <PageSearch theme={theme} contentActive={contentActive} />
     </div>
   );
 }

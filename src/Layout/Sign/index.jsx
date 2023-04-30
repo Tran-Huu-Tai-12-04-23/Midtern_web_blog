@@ -16,6 +16,7 @@ const Sign = () => {
       className="wrapper-sign"
       style={{
         backgroundColor: "var(--dark-login-primary-color)",
+        color: "#fff",
       }}
     >
       <div className="container-fluid p-0 overflow-hidden ">

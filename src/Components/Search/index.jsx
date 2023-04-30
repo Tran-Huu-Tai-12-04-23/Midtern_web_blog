@@ -22,7 +22,13 @@ const Search = ({ theme }) => {
           color: !theme ? "#fff" : "#000",
         }}
       />
-      <input className="input-search bd-primary" onKeyPress={handleKeyPress} />
+      <input
+        className="input-search bd-primary"
+        style={{
+          color: !theme ? "#fff" : "#000",
+        }}
+        onKeyPress={handleKeyPress}
+      />
     </div>
   );
 };

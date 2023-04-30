@@ -2,13 +2,15 @@ import ButtonCustom from "../../Components/ButtonCustom";
 import Information from "../../Components/Information";
 import { pages, peoples, posts } from "./data";
 
-function PageSearch({ contentActive }) {
+function PageSearch({ contentActive, theme }) {
   const loadPage = () => {
     return pages.map((page) => {
       return (
         <div
           key={page.id}
-          className="d-flex justify-content-between align-items-center w-100 hover-bg p-2 br-primary mb-2"
+          className={`${
+            !theme ? "hover-bg-dark" : "hover-bg-light"
+          } d-flex justify-content-between align-items-center w-100 hover-bg  p-2 br-primary mb-2`}
           style={{
             cursor: "pointer",
           }}
@@ -24,17 +26,19 @@ function PageSearch({ contentActive }) {
                 {page.namePage}
               </h5>
               <span
-                className="cl-second mt-2"
+                className="mt-2"
                 style={{
                   fontSize: ".8rem",
+                  color: !theme ? "#ccc" : "#000",
                 }}
               >
                 {page.des}
               </span>
               <p
-                className="cl-second mt-2"
+                className=" mt-2"
                 style={{
                   fontSize: ".8rem",
+                  color: !theme ? "#ccc" : "#000",
                 }}
               >
                 {page.detail}
@@ -61,7 +65,10 @@ function PageSearch({ contentActive }) {
       return (
         <div
           key={people.id}
-          className="w-100 d-flex justify-content-between align-items-center p-2 mb-2 br-primary hover-bg"
+          className={`${
+            !theme ? "hover-bg-dark" : "hover-bg-light"
+          } d-flex justify-content-between align-items-center w-100 hover-bg  p-2 br-primary mb-2`}
+          style={{}}
         >
           <div className="start">
             <img src={people.photoURL} className="avatar m-2"></img>
@@ -75,9 +82,10 @@ function PageSearch({ contentActive }) {
                 {people.name}
               </h1>
               <span
-                className="cl-second"
+                className=""
                 style={{
                   fontSize: ".8rem",
+                  color: !theme ? "#ccc" : "#000",
                 }}
               >
                 Bạn bè · Đại học Tôn Đức Thắng · Sống tại Thành phố Hồ Chí Minh
@@ -116,7 +124,9 @@ function PageSearch({ contentActive }) {
         <div
           className="p-4 br-primary w-100  d-flex justify-content-start align-items-start flex-column "
           style={{
-            background: "rgba(255, 255, 255, 0.1)",
+            background: !theme
+              ? "rgba(255, 255, 255, 0.1)"
+              : "rgba(0, 0, 0, 0.1)",
           }}
         >
           {loadPage()}
@@ -127,7 +137,9 @@ function PageSearch({ contentActive }) {
         <div
           className="p-4 mt-4 br-primary w-100  d-flex justify-content-start align-items-start flex-column"
           style={{
-            background: "rgba(255, 255, 255, 0.1)",
+            background: !theme
+              ? "rgba(255, 255, 255, .1)"
+              : "rgba(0, 0, 0, .1)",
           }}
         >
           {loadPeople()}
@@ -138,7 +150,9 @@ function PageSearch({ contentActive }) {
         <div
           className="p-4 mt-4 br-primary w-100  d-flex justify-content-start align-items-start flex-column"
           style={{
-            background: "rgba(255, 255, 255, 0.1)",
+            background: !theme
+              ? "rgba(255, 255, 255, .1)"
+              : "rgba(0, 0, 0, .1)",
           }}
         >
           {loadPost()}

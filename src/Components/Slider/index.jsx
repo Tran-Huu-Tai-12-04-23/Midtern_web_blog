@@ -85,7 +85,7 @@ const Slider = ({ dataImage = [] }) => {
       <div
         className="w-100 center position-absolute"
         style={{
-          bottom: "16rem",
+          bottom: "10rem",
           left: "50%",
           transform: "translateX(-50%)",
         }}

@@ -224,3 +224,10 @@
   transition: 0.4s;
   cursor: pointer;
 }
+
+.hover-bg-light:hover {
+  background: rgba(227, 235, 241, 0.8);
+}
+.hover-bg-dark:hover {
+  background: rgba(0, 96, 250, 0.2);
+}

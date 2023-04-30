@@ -169,6 +169,7 @@ const FormLogin = ({ onSwitchRoute }) => {
         style={{
           minHeight: "100vh",
           backgroundColor: "var(--dark-login-secondary-color)",
+          color: "#fff",
         }}
       >
         <div
@@ -182,6 +183,7 @@ const FormLogin = ({ onSwitchRoute }) => {
             className="mb-5"
             style={{
               fontSize: "1.5rem",
+              color: "#fff",
             }}
           >
             Hello!!

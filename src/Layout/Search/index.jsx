@@ -2,8 +2,10 @@ import { useState } from "react";
 import Header from "../../Components/Header";
 import Sidebar from "./Sidebar";
 import MainSearch from "./MainSearch";
+import { UseGlobalsStylesContext } from "../../GlobalStyle";
 
 function Search() {
+  const { theme } = UseGlobalsStylesContext();
   const [contentActive, setContentActive] = useState(0);
 
   return (
@@ -12,13 +14,19 @@ function Search() {
       style={{
         minHeight: "100vh",
         paddingTop: "6rem",
+        background: !theme
+          ? "var(--bg-second-dark-theme)"
+          : "var(--bg-second-light-theme",
       }}
     >
       <Header />
       <div className="container-fluid">
         <div className="row">
           <div className="col-3">
-            <Sidebar setContentActive={setContentActive} contentActive={contentActive}/>
+            <Sidebar
+              setContentActive={setContentActive}
+              contentActive={contentActive}
+            />
           </div>
           <div
             className="col-9 custom-scroll pb-4"
@@ -27,7 +35,7 @@ function Search() {
               overflow: "auto",
             }}
           >
-            <MainSearch contentActive={contentActive} />
+            <MainSearch contentActive={contentActive} theme={theme} />
           </div>
         </div>
       </div>
