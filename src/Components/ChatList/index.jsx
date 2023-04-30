@@ -7,18 +7,22 @@ import { HiUserGroup } from "react-icons/hi";
 import { AppStoreUseContext } from "../../Context/AppStore";
 
 import avatar_default from "../../Assets/img/avatar_default.jpg";
-import { addDocument } from "../../firebase/service";
+import { useNavigate } from "react-router-dom";
+import { UseGlobalsStylesContext } from "../../GlobalStyle";
 
 const ChatList = () => {
-  const { friends, setSelectUserChat, setShowChatBox } = AppStoreUseContext();
-
+  const { friends, setUserSelectShowProfile } = AppStoreUseContext();
+  const { theme } = UseGlobalsStylesContext();
+  const history = useNavigate();
   const loadFriends = () => {
     return friends.map((friend) => {
       return (
         <div
           onClick={() => {
-            setSelectUserChat(friend.id);
-            setShowChatBox(true);
+            // setSelectUserChat(friend.id);
+            // setShowChatBox(true);
+            setUserSelectShowProfile(friend);
+            history("/profile");
           }}
           key={friend.id}
           className="col-12 gx-0 hidden-scroll hover-bg p-2 br-primary"
@@ -45,10 +49,23 @@ const ChatList = () => {
               }}
             ></img>
             <div className="">
-              <span>{friend.displayName}</span>
+              <h1
+                style={{
+                  fontSize: "1rem",
+                }}
+              >
+                {friend.displayName}
+              </h1>
               <div className="start mt-2">
                 <div className="active-user "></div>
-                <span className="cl-second fs-small">Active</span>
+                <span
+                  className=" fs-small"
+                  style={{
+                    color: !theme ? "#ccc" : "#000",
+                  }}
+                >
+                  Active
+                </span>
               </div>
             </div>
           </div>
@@ -58,19 +75,28 @@ const ChatList = () => {
   };
   return (
     <div
-      className="wrapper-ChatList  br-primary bg-second p-4 hidden-scroll"
+      className="wrapper-ChatList  br-primary p-4 hidden-scroll"
       style={{
         width: "95%",
         marginRight: "1rem",
         float: "right",
         overflow: "scroll",
+        background: !theme
+          ? "var(--bg-second-dark-theme)"
+          : "var(--bg-second-light-theme",
       }}
     >
-      <div className="w-100 border-bottom pb-2 start">
+      <div
+        className="w-100  pb-2 start"
+        style={{
+          borderBottom: "1px solid #ccc",
+          borderColor: !theme ? "#000" : "#000",
+        }}
+      >
         <HiUserGroup
           style={{
             fontSize: "1.5rem",
-            color: "#fff",
+            color: !theme ? "#fff" : "#000",
             marginRight: ".5rem",
           }}
         />

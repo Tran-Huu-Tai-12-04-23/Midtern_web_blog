@@ -10,7 +10,7 @@ import ButtonCustom from "../ButtonCustom";
 import { AppStoreUseContext } from "../../Context/AppStore";
 import { addDocument } from "../../firebase/service";
 
-function BoxChat({ showChatBox, setShowChatBox, userId = 0, user }) {
+function BoxChat({ theme, showChatBox, setShowChatBox, userId = 0, user }) {
   const [message, setMessage] = useState("");
   const {
     userChat,
@@ -80,7 +80,9 @@ function BoxChat({ showChatBox, setShowChatBox, userId = 0, user }) {
         height: "25rem",
         minHeight: "25rem",
         minWidth: "20rem",
-        backgroundColor: "#1b2730",
+        backgroundColor: !theme
+          ? "var(--bg-second-dark-theme)"
+          : "var(--bg-second-light-theme",
         display: showChatBox ? "block" : "none",
       }}
     >
@@ -138,7 +140,15 @@ function BoxChat({ showChatBox, setShowChatBox, userId = 0, user }) {
           <ButtonCustom
             height="2.5rem"
             name="Send"
-            iconLeft={<FiSend style={{ fontSize: "2rem" }} />}
+            iconLeft={
+              <FiSend
+                style={{ fontSize: "2rem", color: !theme ? "#fff" : "#000" }}
+              />
+            }
+            style={{
+              color: !theme ? "#fff" : "#000",
+              backgroundColor: !theme ? "#334d6e" : "#e4e6e8",
+            }}
             handleClick={handleSendMess}
           ></ButtonCustom>
         </div>

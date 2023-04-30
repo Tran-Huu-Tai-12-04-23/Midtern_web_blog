@@ -2,7 +2,7 @@ import { useState } from "react";
 import { v4 as uuid } from "uuid";
 import "./style.scss";
 
-function Navbar({ active, setActive }) {
+function Navbar({ theme, active, setActive }) {
   const [navList, setNavList] = useState([
     "Profile settings",
     "Account settings",
@@ -18,6 +18,7 @@ function Navbar({ active, setActive }) {
             padding: ".5rem",
             marginRight: "1rem",
             cursor: "pointer",
+            color: !theme ? "#ccc" : "#000",
           }}
           onClick={() => setActive(index)}
         >

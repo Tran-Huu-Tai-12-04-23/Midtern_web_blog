@@ -2,18 +2,20 @@ import { useState, useRef, useEffect } from "react";
 import CardFriend from "./CardFriend";
 import { friendList } from "./friendList.js";
 import { HiArrowSmRight, HiArrowSmLeft } from "react-icons/hi";
+import { UseGlobalsStylesContext } from "../../GlobalStyle";
 
-function SuggestNewFriends() {
+function SuggestNewFriends({ color = "#fff" }) {
   const [translateX, setTranslateX] = useState(0);
   const [lengthSlider, setLengthSlider] = useState(0);
   const slider = useRef(null);
   const friendWidth = useRef(null);
+  const { theme } = UseGlobalsStylesContext();
 
   const loadListFriend = () => {
     return friendList.map((friend) => {
       return (
         <div ref={friendWidth} className="col-3" key={friend.id}>
-          <CardFriend data={friend} />
+          <CardFriend data={friend} theme={theme} />
         </div>
       );
     });
@@ -46,8 +48,9 @@ function SuggestNewFriends() {
             fontSize: "3rem",
             padding: "1rem",
             borderRadius: "50%",
-            background: "rgba(0,0,0,.8)",
-            color: "#fff",
+            background: !theme ? "rgba(0,0,0,.8)" : "rgba(0, 0, 0, .3 )",
+            backdropFilter: "blur(1rem)",
+            color: !theme ? "#fff" : "#000",
             top: "50%",
             right: "0",
             transform: "translateY(-50%)",
@@ -62,8 +65,9 @@ function SuggestNewFriends() {
             fontSize: "3rem",
             padding: "1rem",
             borderRadius: "50%",
-            background: "rgba(0,0,0,.8)",
-            color: "#fff",
+            background: !theme ? "rgba(0,0,0,.8)" : "rgba(0, 0, 0, .3 )",
+            backdropFilter: "blur(1rem)",
+            color: !theme ? "#fff" : "#000",
             top: "50%",
             transform: "translateY(-50%)",
             left: "0",

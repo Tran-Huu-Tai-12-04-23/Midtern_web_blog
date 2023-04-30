@@ -11,7 +11,7 @@ import { addDocument } from "../../firebase/service";
 import { AiOutlineSend } from "react-icons/ai";
 import { AuthUserUseContext } from "../../Context/AuthUser";
 
-function BoxChat({}) {
+function BoxChat({ theme }) {
   const { user } = AuthUserUseContext();
   const [message, setMessage] = useState("");
   const {
@@ -128,11 +128,14 @@ function BoxChat({}) {
             padding: "1rem",
           }}
           handleClick={handleSendMess}
+          color={!theme ? "#fff" : "#000"}
+          backgroundColor={!theme ? "#334d6e" : "#c9d6df"}
           iconLeft={
             <AiOutlineSend
               style={{
                 fontSize: "1.5rem",
                 marginRight: ".5rem",
+                color: !theme ? "#fff" : "#000",
               }}
             />
           }

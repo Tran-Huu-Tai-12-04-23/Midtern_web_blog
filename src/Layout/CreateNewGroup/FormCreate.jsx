@@ -18,25 +18,24 @@ function FormCreate({
   setMode,
   members,
   setMembers,
+  theme,
 }) {
   const MySelect = styled(Select)({
-    color: "#fff",
+    color: !theme ? "#fff" : "#000",
     fontSize: "1rem",
     borderRadius: ".5rem",
   });
 
   const MyFormControl = styled(FormControl)({
-    color: "#fff",
+    color: !theme ? "#fff" : "#000",
     fontSize: "1.4rem",
     border: "1px solid #4f84eb ",
     borderRadius: ".5rem",
-    "& svg ": {
-      color: "#fff",
-    },
+    "& svg ": { color: !theme ? "#fff" : "#000" },
   });
 
   const MyBox = styled(Box)({
-    color: "#fff",
+    color: !theme ? "#fff" : "#000",
     borderRadius: ".5rem",
     "& label": {
       color: "#fff",
@@ -53,17 +52,20 @@ function FormCreate({
       className="p-4"
       style={{
         minHeight: "calc( 100vh - 4rem )",
-        backgroundColor: "#1b2730",
+        background: !theme
+          ? "var(--bg-second-dark-theme)"
+          : "var(--bg-second-light-theme",
+        fontSize: "1rem",
       }}
     >
-      <h1
+      <h5
         className="w-100 p-2"
         style={{
           borderBottom: "1px solid #4f84eb",
         }}
       >
         Group - Create
-      </h1>
+      </h5>
       <div className="w-100 mt-4 start p-2">
         <img
           src="https://scontent.fsgn5-3.fna.fbcdn.net/v/t39.30808-1/334099210_201585792452402_2473078645089024612_n.jpg?stp=cp0_dst-jpg_p40x40&_nc_cat=104&ccb=1-7&_nc_sid=7206a8&_nc_ohc=yah6BebQlKIAX_9NfZj&_nc_ht=scontent.fsgn5-3.fna&oh=00_AfCBoDbk64DKcMIwPf05--_wWRII8uAFuQr06tTCSE4Auw&oe=6452ADBE"
@@ -73,19 +75,18 @@ function FormCreate({
           }}
         ></img>
         <div className="w-100 d-flex justify-content-center align-items-start flex-column ml-2">
-          <h1>Tran huu Tai</h1>
+          <h5>Tran huu Tai</h5>
           <span
-            className="cl-second"
             style={{
               fontSize: ".8rem",
-              marginTop: ".5rem",
+              color: !theme ? "#ccc" : "#000",
             }}
           >
             Admin page
           </span>
         </div>
       </div>
-      <h1 className="w-100 mt-5 ">Name group</h1>
+      <h5 className="w-100 mt-5 ">Name group</h5>
       <Input
         handleChange={(e) => setGroupName(e.target.value)}
         value={groupName}
@@ -96,7 +97,7 @@ function FormCreate({
           borderBottom: "1px solid #4f84eb",
         }}
       />
-      <h1 className="w-100 mt-4 mb-4">Mode</h1>
+      <h5 className="w-100 mt-4 mb-4">Mode</h5>
       <MyBox>
         <MyFormControl fullWidth>
           <MySelect
@@ -119,8 +120,11 @@ function FormCreate({
           </MySelect>
         </MyFormControl>
       </MyBox>
-      <h1 className="w-100 mt-4 mb-4">Invite friends</h1>
-      <InviteMultiFriends setMembers={setMembers} />
+      <h5 className="w-100 mt-4 mb-4">Invite friends</h5>
+      <InviteMultiFriends
+        setMembers={setMembers}
+        color={!theme ? "#fff" : "#000"}
+      />
 
       <ButtonCustom
         name="Create"

@@ -6,9 +6,11 @@ import { AppStoreUseContext } from "../../Context/AppStore";
 import SideBar from "./SideBar";
 import Content from "./Content";
 import Header from "../../Components/Header";
+import { UseGlobalsStylesContext } from "../../GlobalStyle";
 
 const Setting = ({}) => {
   const { user, setUser } = AuthUserUseContext();
+  const { theme } = UseGlobalsStylesContext();
 
   return (
     <div
@@ -17,18 +19,19 @@ const Setting = ({}) => {
         minHeight: "100vh",
         overflow: "hidden",
         paddingTop: "4rem",
+        background: !theme
+          ? "var(--bg-second-dark-theme)"
+          : "var(--bg-second-light-theme",
       }}
     >
       <div className="container-fluid">
         <div className="row">
-          <div className="col-12">
-            <Header />
-          </div>
+          <Header />
           <div className="col-4">
-            <SideBar />
+            <SideBar theme={theme} />
           </div>
           <div className="col-8">
-            <Content />
+            <Content theme={theme} />
           </div>
         </div>
       </div>

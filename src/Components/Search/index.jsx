@@ -2,7 +2,7 @@ import "./style.scss";
 import { IoSearchOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
-const Search = () => {
+const Search = ({ theme }) => {
   const history = useNavigate();
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
@@ -10,8 +10,18 @@ const Search = () => {
     }
   };
   return (
-    <div className="search ">
-      <IoSearchOutline style={{ fontSize: "1.5rem" }} />
+    <div
+      className="search "
+      style={{
+        background: !theme ? "#1f3b56" : "#e4e6e8",
+      }}
+    >
+      <IoSearchOutline
+        style={{
+          fontSize: "1.5rem",
+          color: !theme ? "#fff" : "#000",
+        }}
+      />
       <input className="input-search bd-primary" onKeyPress={handleKeyPress} />
     </div>
   );

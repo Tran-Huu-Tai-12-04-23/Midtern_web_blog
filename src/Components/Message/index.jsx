@@ -1,8 +1,10 @@
 import React from "react";
 import avatar_default from "../../Assets/img/avatar_default.jpg";
 import { formatDate } from "../../util";
+import { UseGlobalsStylesContext } from "../../GlobalStyle";
 
 function Message({ avatar, type = "sender", mes = "", time }) {
+  const { theme } = UseGlobalsStylesContext();
   return type === "received" ? (
     <div className="start w-100 p-1 mb-3">
       <img
@@ -22,7 +24,7 @@ function Message({ avatar, type = "sender", mes = "", time }) {
         <span
           style={{
             fontSize: ".6rem",
-            color: "#ccc",
+            color: !theme ? "#ccc" : "#000",
           }}
         >
           {/* {formatDate(time?.seconds)} */}
@@ -43,7 +45,7 @@ function Message({ avatar, type = "sender", mes = "", time }) {
         <span
           style={{
             fontSize: ".6rem",
-            color: "#ccc",
+            color: !theme ? "#ccc" : "#000",
           }}
         >
           {formatDate(time)}

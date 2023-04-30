@@ -22,7 +22,7 @@ const names = [
   "Harris Glenn",
 ];
 
-function InviteMultiFriends({ setMembers }) {
+function InviteMultiFriends({ setMembers, color = "#fff" }) {
   const [selectedNames, setSelectedNames] = useState([]);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ function InviteMultiFriends({ setMembers }) {
   }, [selectedNames]);
 
   const MyFormControl = styled(FormControl)({
-    color: "#fff",
+    color: color,
     height: "max-content",
     display: "flex",
     justifyContent: "center",
@@ -39,10 +39,10 @@ function InviteMultiFriends({ setMembers }) {
     width: "100%",
 
     "& svg": {
-      color: "#fff",
+      color: color,
     },
     "& label": {
-      color: "white",
+      color: color,
       fontSize: "1rem",
     },
     "& select": {
@@ -52,7 +52,7 @@ function InviteMultiFriends({ setMembers }) {
     "& div": {
       width: "100%",
       fontSize: "1rem",
-      color: "white",
+      color: color,
     },
 
     "& .MuiOutlinedInput-notchedOutline": {
@@ -74,7 +74,7 @@ function InviteMultiFriends({ setMembers }) {
             <div
               className="d-flex justify-content-between align-items-center p-2 "
               style={{
-                color: "#fff",
+                color: color,
                 borderRadius: ".5rem",
                 background: "rgba(51, 152, 219, .1)",
               }}
@@ -88,7 +88,7 @@ function InviteMultiFriends({ setMembers }) {
               ></img>
               <div className="d-flex justify-content-between align-items-center">
                 <span>{name}</span>
-                <IoIosClose style={{ color: "#fff!", fontSize: "1.5rem" }} />
+                <IoIosClose style={{ color: color, fontSize: "1.5rem" }} />
               </div>
             </div>
           </MenuItem>

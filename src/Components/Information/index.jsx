@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 
 import ButtonCustom from "../ButtonCustom";
@@ -12,16 +13,20 @@ import { AppStoreUseContext } from "../../Context/AppStore";
 import Comment from "../Comment";
 import { comments } from "./data";
 import { AuthUserUseContext } from "../../Context/AuthUser";
+import CarouselComponent from "../CarouselComponent";
+import { UseGlobalsStylesContext } from "../../GlobalStyle";
 
 const Information = ({ data }) => {
+  const { theme } = UseGlobalsStylesContext();
   const { user } = AuthUserUseContext();
+  const history = useNavigate();
+  const videoRef = useRef(null);
   const [comment, setComment] = useState();
   const [listComment, setListComment] = useState(comments);
-  const { setNotifications } = AppStoreUseContext();
+  const { setNotifications, setPostSelectShowDetail } = AppStoreUseContext();
   const [love, setLove] = useState(false);
   const [showFullComment, setShowFullComment] = useState(false);
   const [isComment, setIsComment] = useState(false);
-
   function handleAddComment() {
     if (comment !== "") {
       setListComment((prev) => {
@@ -60,20 +65,29 @@ const Information = ({ data }) => {
       );
     });
   };
+
   return (
     <div
-      className="w-100 p-4 bg-second mt-4 br-primary "
+      className="w-100 p-4  mt-4 br-primary "
       style={{
         cursor: "pointer",
+        background: !theme
+          ? "var(--bg-second-dark-theme)"
+          : "var(--bg-second-light-theme",
       }}
     >
       <div className="w-100 d-flex justify-content-start align-items-center">
         <ButtonCustom name="" width="3rem" backgroundColor="transparent">
           <img src={data?.avatarUrl} className="avatar " style={{}}></img>
         </ButtonCustom>
-        <div className="column g-0">
-          <label className="">{data.displayName}</label>
-          <span className="cl-second fs-small ">
+        <div className="column g-0 align-items-start">
+          <h5 className="">{data.displayName ? data.displayName : "Guest"}</h5>
+          <span
+            className="fs-small "
+            style={{
+              color: !theme ? "#ccc" : "#000",
+            }}
+          >
             {formatDate(data?.createdAt?.seconds)}
           </span>
         </div>
@@ -97,12 +111,22 @@ const Information = ({ data }) => {
         style={{
           padding: "0 2rem 0 2rem",
         }}
+        onClick={(e) => {
+          e.preventDefault();
+          setPostSelectShowDetail(data);
+          history("/post-detail");
+        }}
       >
-        {data.photoUrl && (
+        {!Array.isArray(data?.photoUrl) && (
           <img className="w-100 br-primary" src={data.photoUrl} alt="" />
         )}
+        {Array.isArray(data?.photoUrl) && (
+          <CarouselComponent data={data?.photoUrl} />
+        )}
+
         {data.videoUrl && (
           <video
+            ref={videoRef}
             src={data.videoUrl}
             controls
             width="100%"
@@ -140,11 +164,11 @@ const Information = ({ data }) => {
             />
           }
           height="2rem"
-          backgroundColor="#20394c"
+          backgroundColor={!theme ? "#20394c" : "#e4e6e8"}
           width="unset"
           style={{
             fontSize: ".8rem",
-            color: "#ccc",
+            color: !theme ? "#fff" : "#000",
             justifyContent: "start",
             fontWeight: "bold",
             marginRight: "1rem",
@@ -158,16 +182,16 @@ const Information = ({ data }) => {
             />
           }
           height="2rem"
-          backgroundColor="#20394c"
+          backgroundColor={!theme ? "#20394c" : "#e4e6e8"}
           width="unset"
           style={{
             fontSize: ".8rem",
-            color: "#ccc",
+            color: !theme ? "#fff" : "#000",
             justifyContent: "start",
             fontWeight: "bold",
             marginRight: "1rem",
           }}
-          handleClick={handleAddComment}
+          handleClick={() => setShowFullComment(!showFullComment)}
         />
         <ButtonCustom
           name="Share"
@@ -177,11 +201,11 @@ const Information = ({ data }) => {
             />
           }
           height="2rem"
-          backgroundColor="#20394c"
+          backgroundColor={!theme ? "#20394c" : "#e4e6e8"}
           width="unset"
           style={{
             fontSize: ".8rem",
-            color: "#ccc",
+            color: !theme ? "#fff" : "#000",
             justifyContent: "start",
             fontWeight: "bold",
             marginRight: "1rem",
@@ -189,8 +213,10 @@ const Information = ({ data }) => {
         />
       </div>
       <div
-        className="w-100 d-flex justify-content-between align-items-center mt-4 pt-4"
-        style={{}}
+        className="w-100 justify-content-between align-items-center mt-4 pt-4"
+        style={{
+          display: showFullComment ? "flex" : "none",
+        }}
       >
         <Input
           variant=""
@@ -201,6 +227,7 @@ const Information = ({ data }) => {
             border: "none",
             borderBottom: "1px solid #4f84eb",
             flex: "1",
+            color: !theme ? "#fff" : "#000",
           }}
           handleFocus={() => setIsComment(true)}
           handleKeyPressEnter={handleAddComment}
@@ -218,6 +245,7 @@ const Information = ({ data }) => {
               padding: "1.5rem 1rem",
               marginRight: ".5rem",
               marginLeft: ".5rem",
+              color: !theme ? "#fff" : "#000",
             }}
             handleClick={() => setIsComment(false)}
           />
@@ -232,7 +260,7 @@ const Information = ({ data }) => {
           />
         </div>
       </div>
-      {listComment.length > 0 && (
+      {listComment.length > 0 && showFullComment && (
         <div
           className="d-flex justify-content-start align-item-start flex-column p-2 br-primary  br-primary mt-5"
           style={{

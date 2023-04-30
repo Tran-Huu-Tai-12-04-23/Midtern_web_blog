@@ -6,8 +6,10 @@ import { FiMessageSquare } from "react-icons/fi";
 import avatar_default from "../../Assets/img/avatar_default.jpg";
 import { AppStoreUseContext } from "../../Context/AppStore";
 import { AuthUserUseContext } from "../../Context/AuthUser";
+import { UseGlobalsStylesContext } from "../../GlobalStyle";
 
 function ChatBox() {
+  const { theme } = UseGlobalsStylesContext();
   const { showChatBox, setShowChatBox, friends, setSelectUserChat } =
     AppStoreUseContext();
   const [showSelectUser, setShowSelectUser] = useState(false);
@@ -58,6 +60,10 @@ function ChatBox() {
           justifyContent: "center",
           alignItems: "center",
           padding: "1.5rem 1rem",
+          background: !theme
+            ? "var(--bg-second-dark-theme)"
+            : "var(--bg-second-light-theme",
+          color: !theme ? "#fff" : "#000",
         }}
       >
         <div
@@ -82,6 +88,7 @@ function ChatBox() {
         </div>
       </ButtonCustom>
       <BoxChat
+        theme={theme}
         showChatBox={showChatBox}
         setShowChatBox={setShowChatBox}
         userId={user ? user.id : 0}

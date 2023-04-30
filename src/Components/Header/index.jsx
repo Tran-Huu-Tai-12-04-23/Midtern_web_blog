@@ -23,9 +23,14 @@ import { MdGroups2 } from "react-icons/md";
 
 import avatar_default from "../../Assets/img/avatar_default.jpg";
 import { AuthUserUseContext } from "../../Context/AuthUser.js";
+import ChooseTheme from "./ChooseTheme.jsx";
+import { AppStoreUseContext } from "../../Context/AppStore.js";
+import { UseGlobalsStylesContext } from "../../GlobalStyle/index.jsx";
 
 const Header = () => {
-  const history = useNavigate();  const { user, setUser } = AuthUserUseContext();
+  const history = useNavigate();
+  const { user, setUser } = AuthUserUseContext();
+  const { theme, setTheme } = UseGlobalsStylesContext();
   const [modalMenu, setModalMenu] = useState(false);
   const [menuItems, setMenuItems] = useState([
     {
@@ -77,9 +82,16 @@ const Header = () => {
       },
     },
   ]);
+
   return (
     <>
-      <div className="wrapper-header w-100 " style={{}}>
+      <div
+        className="wrapper-header w-100 "
+        style={{
+          backgroundColor: !theme ? "#1b2730" : "#ffffff",
+          borderBottom: "1px solid rgba(0,0, 0, .2)",
+        }}
+      >
         <div className="container-fluid">
           <div className="row">
             <div className="col-6 d-flex justify-content-start align-items-center ">
@@ -90,11 +102,11 @@ const Header = () => {
                 }}
                 onClick={() => history("/")}
               ></img>
-              <Search />
+              <Search theme={theme} />
             </div>
             <div className="col-6 d-flex justify-content-end align-items-center ">
               <ButtonCustom
-                backgroundColor="#fff"
+                backgroundColor={!theme ? "#fff" : "#e4e6e8"}
                 color="#000"
                 handleClick={() => history("/")}
                 iconLeft={
@@ -115,7 +127,7 @@ const Header = () => {
                 name="Home"
               />
               <ButtonCustom
-                backgroundColor="#fff"
+                backgroundColor={!theme ? "#fff" : "#e4e6e8"}
                 color="#000"
                 handleClick={() => history("/chat")}
                 iconLeft={
@@ -137,7 +149,10 @@ const Header = () => {
               />
               <div className="position-relative ">
                 <BsBellFill
-                  style={{ fontSize: "2rem", color: "#fff" }}
+                  style={{
+                    fontSize: "2rem",
+                    color: !theme ? "#fff" : "#000",
+                  }}
                 ></BsBellFill>
                 <div
                   className="position-absolute rounded-circle center"
@@ -152,6 +167,7 @@ const Header = () => {
                   1
                 </div>
               </div>
+              <ChooseTheme setTheme={setTheme} theme={theme} />
               <div
                 style={{
                   width: "1px",
@@ -162,13 +178,19 @@ const Header = () => {
                 }}
               ></div>
               {/* user === true */}
-              <MenuCustom />
               {user && (
                 <>
-                  <MenuCustom menuItems={menuItems}>
+                  <MenuCustom
+                    menuItems={menuItems}
+                    style={{
+                      backgroundColor: !theme ? "#1b2730" : "#fff",
+                      color: !theme ? "#fff" : "#000",
+                    }}
+                  >
                     <ButtonCustom
-                      backgroundColor="rgba(255, 255, 255, .1)"
-                      color="#fff"
+                      backgroundColor={
+                        !theme ? "rgba(255, 255, 255, .1)" : "#e4e6e8"
+                      }
                       iconLeft={
                         <img
                           src={
@@ -195,6 +217,7 @@ const Header = () => {
                       }
                       width="unset"
                       height="2.3rem"
+                      color={!theme ? "#fff" : "#000"}
                       style={{
                         fontWeight: 600,
                         marginRight: "1rem",
@@ -213,13 +236,11 @@ const Header = () => {
                   />
                 </>
               )}
-
               {/* user === false */}
               {!user && (
                 <Link to="/sign-to-website">
                   <ButtonCustom
                     backgroundColor="#027aff"
-                    color="#fff"
                     width="unset"
                     height="2rem"
                     style={{
@@ -235,14 +256,6 @@ const Header = () => {
           </div>
         </div>
       </div>
-      <Modal
-        style={{
-          display: modalMenu ? "flex" : "none",
-        }}
-        setActive={setModalMenu}
-      >
-        Hello
-      </Modal>
     </>
   );
 };

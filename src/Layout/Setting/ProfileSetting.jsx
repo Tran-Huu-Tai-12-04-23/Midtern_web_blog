@@ -7,7 +7,7 @@ import ButtonCustom from "../../Components/ButtonCustom";
 
 import { AuthUserUseContext } from "../../Context/AuthUser";
 
-function ProfileSetting() {
+function ProfileSetting({ theme }) {
   const { user } = AuthUserUseContext();
   const [fullName, setFullName] = useState(user ? user.displayName : "");
   const [joinDate, setJoinDate] = useState("");
@@ -56,6 +56,7 @@ function ProfileSetting() {
               border: "none",
               borderBottom: "1px solid #4f84eb",
               "--bd-focus-color": "#4f84eb",
+              filter: !theme ? " invert(1)" : "",
             }}
           />
         </div>
@@ -120,6 +121,7 @@ function ProfileSetting() {
               border: "none",
               borderBottom: "1px solid #4f84eb",
               "--bd-focus-color": "#4f84eb",
+              filter: !theme ? " invert(1)" : "",
             }}
           />
         </div>
@@ -134,7 +136,7 @@ function ProfileSetting() {
           <div className="container-fluid">
             <div className="row mt-4">
               <div className="col-6">
-                <ListSocial />
+                <ListSocial color={!theme ? "#ffff" : "#000"} />
                 <div className="w-100 start mt-5">
                   <ButtonCustom
                     name="Deactivate My Account"
@@ -173,7 +175,9 @@ function ProfileSetting() {
                     width="unset"
                     name="Delete"
                     backgroundColor="transparent"
-                    style={{}}
+                    style={{
+                      color: !theme ? "#fff" : "#000",
+                    }}
                   />
                 </div>
               </div>

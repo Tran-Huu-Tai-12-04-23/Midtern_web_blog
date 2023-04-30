@@ -5,7 +5,7 @@ import UserChat from "./UserChat";
 import { AppStoreUseContext } from "../../Context/AppStore";
 import { formatDate } from "../../util/index";
 
-function ChatList() {
+function ChatList({ theme }) {
   const { friends, setSelectUserChat } = AppStoreUseContext();
   const loadFriends = () => {
     return friends.map((friend) => {
@@ -24,6 +24,7 @@ function ChatList() {
             name={friend.displayName}
             avatar={friend.photoURL}
             time={formatDate(friend.createdAt)}
+            theme={theme}
           ></UserChat>
         </div>
       );

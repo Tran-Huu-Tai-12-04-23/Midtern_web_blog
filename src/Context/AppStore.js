@@ -1,4 +1,11 @@
-import { createContext, useState, useContext, useEffect, useMemo } from "react";
+import {
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+  useMemo,
+  memo,
+} from "react";
 import { v4 as uuid } from "uuid";
 import Loader from "../Components/Loader";
 import Notification from "../Components/Notification";
@@ -29,6 +36,8 @@ function AppStore({ children }) {
   const [userChat, setUserChat] = useState({
     id: -1,
   });
+  const [postSelectShowDetail, setPostSelectShowDetail] = useState(null);
+  const [userSelectShowProfile, setUserSelectShowProfile] = useState(null);
 
   const loadNotifications = () => {
     return notifications.map((n, i) => (
@@ -39,7 +48,7 @@ function AppStore({ children }) {
   };
   useEffect(() => {
     const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
-    const subscribe = onSnapshot(q, (snapshot) => {
+    const unsubscribe = onSnapshot(q, (snapshot) => {
       setPosts(
         snapshot.docs.map((doc) => ({
           id: doc.id,
@@ -48,8 +57,9 @@ function AppStore({ children }) {
         }))
       );
     });
-    return subscribe;
-  }, []);
+
+    return unsubscribe;
+  }, [db]);
 
   useEffect(() => {
     if (user) {
@@ -107,6 +117,10 @@ function AppStore({ children }) {
         listMessages,
         userChat,
         setUserChat,
+        postSelectShowDetail,
+        setPostSelectShowDetail,
+        userSelectShowProfile,
+        setUserSelectShowProfile,
       }}
     >
       <div
@@ -128,4 +142,4 @@ export const AppStoreUseContext = () => {
   return useContext(AppStoreContext);
 };
 
-export default AppStore;
+export default memo(AppStore);

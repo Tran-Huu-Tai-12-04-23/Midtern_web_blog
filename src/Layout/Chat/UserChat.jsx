@@ -1,4 +1,4 @@
-function UserChat({ name, avatar, time }) {
+function UserChat({ theme, name, avatar, time }) {
   return (
     <div
       className="mt-4 start hover-bg p-2 br-primary "
@@ -21,8 +21,8 @@ function UserChat({ name, avatar, time }) {
       >
         <span>{name}</span>
         <span
-          className="cl-second"
           style={{
+            color: !theme ? "#ccc" : "#000",
             fontSize: ".6rem",
           }}
         >

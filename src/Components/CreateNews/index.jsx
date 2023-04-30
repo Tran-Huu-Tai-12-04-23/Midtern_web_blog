@@ -1,6 +1,5 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import { storage } from "../../firebase/index.js";
-import { db } from "../../firebase/index.js";
 
 import {
   ref,
@@ -16,17 +15,24 @@ import { MdClose } from "react-icons/md";
 import { HiOutlineLockClosed, HiOutlineLockOpen } from "react-icons/hi";
 import { AiOutlineVideoCamera } from "react-icons/ai";
 import { MdOutlineAddAPhoto } from "react-icons/md";
+import { IoAdd } from "react-icons/io5";
+
 import ButtonCustom from "../ButtonCustom";
+
 import { AppStoreUseContext } from "../../Context/AppStore";
+import { UseGlobalsStylesContext } from "../../GlobalStyle";
 
 const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
   const [mode, setMode] = useState(false);
   const [fileVideo, setFileVideo] = useState(null);
   const [filePhoto, setFilePhoto] = useState(null);
+  const [listFilePhoto, setListFilePhoto] = useState([]);
   const [photoPreview, setPhotoPreview] = useState("");
   const [videoPreview, setVideoPreview] = useState("");
   const [content, setContent] = useState("");
   const { setNotifications, setProcessUpload } = AppStoreUseContext();
+  const inputPhoto = useRef(null);
+  const { theme } = UseGlobalsStylesContext();
 
   const handleSelectVideo = (e) => {
     setFileVideo(e.target.files[0]);
@@ -34,6 +40,9 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
     e.target.value = "";
   };
   const handleSelectPhoto = (e) => {
+    setListFilePhoto((prev) => {
+      return [...prev, e.target.files[0]];
+    });
     setFilePhoto(e.target.files[0]);
     handleImageChange(e.target.files[0]);
     e.target.value = "";
@@ -73,7 +82,18 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
     setProcessUpload(true);
     setModalPost(false);
     try {
-      if (filePhoto && fileVideo) {
+      if (listFilePhoto.length > 1) {
+        const listUrlPhoto = await Promise.all(
+          listFilePhoto.map(async (photo) => {
+            const fileRefPhoto = ref(storage, `images/${photo.name}-${uuid()}`);
+            const snapshotPhoto = await uploadBytes(fileRefPhoto, photo);
+            const photoUrl = await getDownloadURL(snapshotPhoto.ref);
+            return photoUrl;
+          })
+        );
+        addNewPost(content, listUrlPhoto, "", mode);
+        setProcessUpload(false);
+      } else if (filePhoto && fileVideo) {
         const fileRefPhoto = ref(storage, `images/${filePhoto.name}-${uuid()}`);
         const snapshotPhoto = await uploadBytes(fileRefPhoto, filePhoto);
         const photoUrl = await getDownloadURL(snapshotPhoto.ref);
@@ -134,6 +154,26 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
     setFileVideo(null);
     setPhotoPreview(null);
     setVideoPreview(null);
+    setListFilePhoto([]);
+  }
+
+  function renderPhotoPreview() {
+    return listFilePhoto.map((photo, index) => (
+      <div className="p-2 br-primary" style={{}} key={uuid()}>
+        <img
+          src={photo ? URL.createObjectURL(photo) : ""}
+          alt=""
+          className="w-100 "
+          style={{
+            borderRadius: "1rem",
+            width: "25rem!important",
+            objectFit: "contain",
+            height: "100%",
+            flex: 1,
+          }}
+        />
+      </div>
+    ));
   }
 
   return (
@@ -153,14 +193,16 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
       }}
     >
       <div
-        className="position-absolute "
+        className="position-absolute  "
         style={{
-          top: "40%",
+          top: "35%",
           left: "50%",
-          transform: "translate(-50%, -50%)",
-          maxWidth: "40rem",
-          width: "40rem",
-          backgroundColor: "#131b22",
+          transform: "translate(-50%, -40%)",
+          maxWidth: "45rem",
+          minWidth: "40rem",
+          background: !theme
+            ? "var(--bg-second-dark-theme)"
+            : "var(--bg-second-light-theme",
           borderRadius: "1rem",
           padding: "1rem",
           boxShadow: "-3px 7px 234px -17px rgba(31,123,230,0.75)",
@@ -182,6 +224,7 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
           onClick={(e) => {
             e.stopPropagation();
             setModalPost(false);
+            clearForm();
           }}
         />
         <h1
@@ -196,15 +239,10 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
           Create new post
         </h1>
         <div className="w-100 ">
-          <div className="user start flex-wrap">
-            <img
-              className="avatar"
-              style={{}}
-              src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAHkAdQMBIgACEQEDEQH/xAAcAAEAAQUBAQAAAAAAAAAAAAAABQEEBgcIAwL/xAA7EAABAwMBBAgDBQcFAAAAAAABAAIDBAURIQYSMUEHEyJRYXGBoRQzQhUjMpGxUnKCkrLB0RZTYuHw/8QAGAEBAAMBAAAAAAAAAAAAAAAAAAIDBAH/xAAeEQEAAwADAQADAAAAAAAAAAAAAQIRAxIhMUFCYf/aAAwDAQACEQMRAD8A3iiIgIiICIvCsq6ehp5KmsnjggjG8+WVwa1o7ySg90Ws710zWCjkkjtkFRcHMGA9o6tjj4E648ceWVr68dLu1de8/BzwW2Lk2niDnerng+wCDo1FzrZOlzaK2uHxrvtNv1Coc1n5FrNPdbM2S6VbHtBPHR1Ifba153WR1BBY89zX8M+BwUGfIqA5VUBERAREQEREBEVHHAJJwBzQQu1209v2VtD7hcXE/TDCz8cz+TR/c8gubdrdrLttZWdddJ/uWOzDSMP3cPkOZ/5HXyGiu+kbaeXanaaoqd8/BU5MNGzkGA6u83EZ8sDkscpqeeqk6ulgmnfx3Yoy8+yDyRe1VSVVG4Nq6aeAngJoyzPlleKaCEAjBGR3JnUDmeA71VwLXbjgWuH0kYP5IN09FPSVE+COx7S1YZNHhtLWTu0kbyY9x+ocieI8eO3mva5oc05BGQRwXG54Le/RpsHaJLNbrz9oXGrjnhbIKOSbdgY76gWNxvYdka6acEG0gQQCDkHgqqgGAANMKqAiIgIiIChtsqt9DsleaqL8cNDM9vmGFTKsr3RC5WeuoTwqad8X8zSEHJtlt0l0uVHbac7r53iMOP0jmfQAn0XQlmtNFZKFlHboGxRNGpA7Tz+048ytO9F8RZttSx1A3ZYmSgg8nhpBH6reA4LLz2ncaOGIzXnUwQ1UL4aqJk0TxhzJGhwPoVhdV0VWasrzLT1dXRwnV0MW64D90uBI91nC9ab5noqa3mvxbasT9WNh2Ys1giDLZQxxvAwZn9uR3m46+nBfe0Oz9t2hoX0lygDsjsStAEkR72u5foealUTtO6dYzHMV9tVRY7vVW2rwZad+7vgYD28WuHgQQVvnoLke/YKNr/wx1UzWeW9k+5KwPpxomR3O11zQA6aF8T/HcII/rK2V0PUwpujy1jnJ1sp/ikcf0wt1LdqxLJaMnGaIiKSIiIgIiICsbtXi30vWlu8Sd1o8VfKzutC24UjoSd05y09xUbbnjtc31pl9p+F6UaC7UsYjpbjJM97G8GSdW7e9Dne88rYoVhJb5qOdnxUOrHdiTGdTxwfJX6xXtMz621rEfBetN8z0XkvWm+Z6KDq6RERxq/pXtdVe9pbFb6YhofBM4vdq2MAt3nEeQHstkbDyQUlopbPAHFtFA2Nr3cX4GpPmdVbVtOZ6proYQ+oY0tjdjVoOM/oFLWC0uoGmSY/euGMDkFp4rWnIj4p5K1iJmfqZREWlnEREBERAREQWV2pDV0b4243x2mZ7wseYctGQQeYPIrLlG3C2CZxlhIbIeI5O/wC1Rzcfb2F3FyZ5KEXrTfM9FSWGWE4ljc0+I0/NVpvmHyWTJifWjdXSpyyeCqAScAEnuAV1BQOkOZ+yz9nmfNTrSbfEbWiI9Us8BLpKpwI39GZ7lKqgAAwOCqtta9YxltbtOiIikiIiICIiAiIgL4kkZGxz5HBrGjJc44ACq9waCScAc1zh0kbY3LaK61FFN1tNb6eUsZRnTJacb0nefYe6Dfd4qIpaUxRuD98jJb3ceKg4aaR0hDJ3NCxboq2l+1bV9l1cma2iaA0uOskXAHxI0B9O9Z0AAc4GVm5KTadbeOsdfFxatykLmueTv8XOPNSkU8Uu91UjX7pw7dOcHx7lh+097g2es09xnw4sG7FHzkeeDf8APgCtD2zaW8Wu8yXijrHtrZXl8zjq2UniHNzqPDlywrOKMjFPPWIn+urUUVsvdzfrDRXM076Z1TEHmF5zu/5B4g9xClVaoEREBERAREQEREFlc5C2EMH1H2XPXSxSNpds5nsaAKmnjmd4u1af6AugLqfvIx4FaF6ZqmP/AFbDG57WllEzOTji55/95qH7L5iI4mLWS6VFlutPcaM/ewPzuk4D28HNPgRke/JdFWq4U91t1PX0b9+CoYHsPMd4PiDoVzH18P8Aux/zBT9n2yqbTYLjaKedgjq/lyB+DCTo8t8x+R1XbRrnFydEp0lbS/b16+Hpn71BREsjxwkf9T/7Dw81i9BTfGV9LSHhUTxxH+JwH91aCaEDAljAHLeCv7DVQx362SdawhlZCT2hw32rv4QmZtbZdRWotik6pg3WbuGgcscPZSyhKQ7tVH+9hTS5X4nzxllURFJSIiICIiAomqudZDWOYy3yyQMcWue0OJOjSHDTUau0Hd6KWVEECLtcC7Mlmect3m43sjV+hy3j2W/n5ZT1s4lcZLIZcENBa0knVwOpZw0B9fLM8iCCjqXdQ98lly8S7rWthPabjIOrfTUDXjgar7pJ3TS7r7II2agOLeJxnm0YBxjJxy0U0nNBB1UzoaqRkdsZLGwgdmmdkncccA4wdQ0Z4a4VrHV1b5mtNlYxhH4nUztNPAevlpxWTIggfj7oe2La0M3S4Esdn8G8NOPcOGc5GNMqUoKmWoM3WxOYGPAbljm5Ba051HeSPRXRQIKoiICIiD//2Q=="
-              alt=""
-            />
+          <div className="user start flex-wrap position-relative">
+            <img className="avatar" style={{}} src={user?.photoURL} alt="" />
             <div className=" start">
-              <h5 className="p-4">Huu Tai</h5>
+              <h5 className="p-4">{user?.displayName}</h5>
               <HiOutlineLockClosed
                 style={{
                   fontSize: "1.5rem",
@@ -223,8 +261,8 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
                 name="mode"
                 className="reset p-2"
                 style={{
-                  backgroundColor: "#15304b",
-                  color: "#fff",
+                  backgroundColor: !theme ? "#15304b" : "rgba(0,0,0, .1)",
+                  color: !theme ? "#fff" : "#000",
                   borderRadius: ".5rem",
                   cursor: "pointer",
                 }}
@@ -237,8 +275,8 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
                   value="true"
                   className="reset"
                   style={{
-                    backgroundColor: "#15304b",
-                    color: "#fff",
+                    backgroundColor: !theme ? "#15304b" : "rgba(0,0,0, .1)",
+                    color: !theme ? "#fff" : "#000",
                   }}
                 >
                   Private
@@ -246,8 +284,8 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
                 <option
                   className="reset"
                   style={{
-                    backgroundColor: "#15304b",
-                    color: "#fff",
+                    backgroundColor: !theme ? "#15304b" : "rgba(0,0,0, .1)",
+                    color: !theme ? "#fff" : "#000",
                   }}
                   value="false"
                 >
@@ -262,7 +300,7 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
                 placeholder="What happening?"
                 style={{
                   backgroundColor: "transparent",
-                  color: "#fff",
+                  color: !theme ? "#fff" : "#000",
                   fontSize: "1rem",
                   width: "100%",
                   height: " 3rem",
@@ -272,21 +310,50 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
                 onChange={(e) => setContent(e.target.value)}
               />
             </div>
+            {filePhoto && (
+              <ButtonCustom
+                name="Add more photos"
+                backgroundColor="transparent"
+                style={{
+                  margin: "1rem",
+                  color: !theme ? "#fff" : "#000",
+                }}
+                handleClick={() => {
+                  inputPhoto?.current?.click();
+                }}
+                iconLeft={
+                  <IoAdd
+                    style={{
+                      fontSize: "2rem",
+                    }}
+                  />
+                }
+              />
+            )}
             <div
-              className="w-100 hidden-scroll"
+              className="w-100 hidden-scroll "
               style={{
                 maxHeight: "45vh",
-                overflow: "scroll",
+                overflow: "auto",
               }}
             >
-              <img
-                src={photoPreview}
-                alt=""
-                className="w-100"
-                style={{ borderRadius: "1rem" }}
-              />
+              {listFilePhoto.length > 0 && (
+                <div
+                  className=" w-100 "
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: `repeat(${
+                      listFilePhoto.length > 1 ? 2 : 1
+                    }, 1fr)`,
+                    gridGap: "2px",
+                  }}
+                >
+                  {renderPhotoPreview()}
+                </div>
+              )}
               {videoPreview && (
                 <video
+                  className="br-primary"
                   style={{ borderRadius: "1rem", marginTop: "2rem" }}
                   src={videoPreview}
                   controls
@@ -307,6 +374,9 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
                     }}
                   />
                 }
+                style={{
+                  color: !theme ? "#fff" : "#000",
+                }}
                 handleClick={() => {
                   document.getElementById("video").click();
                 }}
@@ -332,7 +402,13 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
                     }}
                   />
                 }
-                handleClick={() => document.getElementById("photo").click()}
+                style={{
+                  color: !theme ? "#fff" : "#000",
+                }}
+                handleClick={() => {
+                  setListFilePhoto([]);
+                  document.getElementById("photo").click();
+                }}
               />
               <input
                 type="file"
@@ -341,6 +417,7 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
                 style={{
                   display: "none",
                 }}
+                ref={inputPhoto}
                 onChange={handleSelectPhoto}
               />
             </div>
@@ -350,6 +427,10 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
                 handleClick={post}
                 width="100%"
                 height="2.5rem"
+                style={{
+                  backgroundColor: !theme ? "#15304b" : "rgba(0,0,0, .1)",
+                  color: !theme ? "#fff" : "#000",
+                }}
               />
             </div>
           </div>

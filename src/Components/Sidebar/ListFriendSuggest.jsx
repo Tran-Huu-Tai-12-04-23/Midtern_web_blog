@@ -3,11 +3,13 @@ import ButtonCustom from "../../Components/ButtonCustom";
 import { AppStoreUseContext } from "../../Context/AppStore";
 import avatar_default from "../../Assets/img/avatar_default.jpg";
 import { addFriend } from "../../firebase/service";
+import { UseGlobalsStylesContext } from "../../GlobalStyle";
 import { AuthUserUseContext } from "../../Context/AuthUser";
 
 const ListFriendSuggest = () => {
   const { listUser } = AppStoreUseContext();
   const { user } = AuthUserUseContext();
+  const { theme } = UseGlobalsStylesContext();
   const loaderListSuggestFriend = () => {
     return listUser.map((guest) => {
       return (
@@ -62,7 +64,14 @@ const ListFriendSuggest = () => {
     });
   };
   return (
-    <div className=" w-100 bg-second br-primary overflow-hidden mt-5 p-4">
+    <div
+      className=" w-100 bg-second br-primary overflow-hidden mt-5 p-4"
+      style={{
+        background: !theme
+          ? "var(--bg-second-dark-theme)"
+          : "var(--bg-second-light-theme",
+      }}
+    >
       <h6
         className="bold"
         style={{

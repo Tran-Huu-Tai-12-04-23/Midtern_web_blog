@@ -1,20 +1,23 @@
 import ButtonCustom from "../ButtonCustom";
 
 function CardUser({
+  color,
   style,
   onMouseMove = () => {},
   onMouseLeave = () => {},
   data = {},
+  backgroundColor = "rgba(255, 255, 255, .1)",
 }) {
   return (
     <div
       className=" br-primary p-3"
       style={{
         width: "20rem",
-        backgroundColor: "rgba(255, 255, 255, .1)",
+        backgroundColor: backgroundColor,
         backdropFilter: "blur(1rem)",
         zIndex: "2",
         ...style,
+        color: color,
       }}
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
@@ -79,6 +82,7 @@ function CardUser({
       </div>
       <ButtonCustom
         name="Add friend"
+        color={color}
         style={{
           marginTop: "1rem",
         }}

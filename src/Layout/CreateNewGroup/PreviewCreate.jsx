@@ -3,14 +3,16 @@ import { TextField } from "@mui/material";
 import { styled } from "@mui/system";
 import CreateNewFeed from "../../Components/Content/CreateNewFeed";
 
-function PreviewCreate({ groupName, mode, members }) {
+function PreviewCreate({ groupName, mode, members, theme }) {
   return (
     <div
-      className="center flex-column align-items-start br-primary m-4 custom-scroll p-4"
+      className="center flex-column align-items-start br-primary m-4 hidden-scroll p-4"
       style={{
         maxHeight: "calc( 100vh - 8rem)",
         border: "1px solid rgba(79, 132, 235, 1)",
-        backgroundColor: "#1b2730",
+        background: !theme
+          ? "var(--bg-second-dark-theme)"
+          : "var(--bg-second-light-theme",
         overflow: "auto",
       }}
     >
@@ -21,7 +23,7 @@ function PreviewCreate({ groupName, mode, members }) {
           width: "100%",
           maxHeight: "30rem",
           marginBottom: "1rem",
-          marginTop: "10rem",
+          marginTop: "28rem",
           borderRadius: ".5rem",
         }}
       />
@@ -49,7 +51,14 @@ function PreviewCreate({ groupName, mode, members }) {
           >
             {mode.charAt(0).toUpperCase() + mode.slice(1)} group
           </h5>
-          <span className="cl-second">{members.length} members</span>
+          <span
+            className=""
+            style={{
+              color: !theme ? "#ccc" : "#000",
+            }}
+          >
+            {members.length} members
+          </span>
         </div>
       </div>
       <div className="w-100 start mt-4">
@@ -57,7 +66,7 @@ function PreviewCreate({ groupName, mode, members }) {
           <li
             className="hover-bg br-primary active-navbar"
             style={{
-              padding: "2rem",
+              padding: "1rem 2rem",
               fontSize: "1rem",
             }}
           >
@@ -66,7 +75,7 @@ function PreviewCreate({ groupName, mode, members }) {
           <li
             className="hover-bg br-primary"
             style={{
-              padding: "2rem",
+              padding: "1rem 2rem",
               fontSize: "1rem",
             }}
           >
@@ -75,7 +84,7 @@ function PreviewCreate({ groupName, mode, members }) {
           <li
             className="hover-bg br-primary"
             style={{
-              padding: "2rem",
+              padding: "1rem 2rem",
               fontSize: "1rem",
             }}
           >

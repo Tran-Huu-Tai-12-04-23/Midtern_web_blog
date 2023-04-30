@@ -3,8 +3,10 @@ import ButtonCustom from "../ButtonCustom";
 import { formatDate } from "../../util";
 
 import CardUser from "../CardUser";
+import { UseGlobalsStylesContext } from "../../GlobalStyle";
 
-function Comment({ data }) {
+function Comment({ data, cardUser = true }) {
+  const { theme } = UseGlobalsStylesContext();
   const [showReply, setShowReply] = useState(false);
   const [showInfoUser, setShowInfoUser] = useState(false);
 
@@ -29,20 +31,27 @@ function Comment({ data }) {
               setShowInfoUser(false);
             }}
           ></img>
-          <CardUser
-            data={data}
-            style={{
-              position: "absolute",
-              bottom: "1rem",
-              left: "1rem",
-              display: showInfoUser ? "block" : "none",
-              transition: ".4s",
-            }}
-            onMouseMove={() => setShowInfoUser(true)}
-            onMouseLeave={() => {
-              setShowInfoUser(false);
-            }}
-          />
+          {cardUser && (
+            <CardUser
+              backgroundColor={
+                !theme ? "rgba(255, 255, 255, .1)" : "rgba(0, 0, 0, .1)"
+              }
+              color={!theme ? "#fff" : "#000"}
+              data={data}
+              style={{
+                position: "absolute",
+                bottom: "1rem",
+                left: "1rem",
+                display: showInfoUser ? "block" : "none",
+                transition: ".4s",
+                zIndex: "4",
+              }}
+              onMouseMove={() => setShowInfoUser(true)}
+              onMouseLeave={() => {
+                setShowInfoUser(false);
+              }}
+            />
+          )}
         </div>
         <h1
           className=""
@@ -55,11 +64,12 @@ function Comment({ data }) {
           {data.text}
         </h1>
         <span
-          className="cl-second"
+          className=""
           style={{
             fontSize: ".8rem",
             marginLeft: "1rem",
             display: "block",
+            color: !theme ? "#ccc" : "#000",
           }}
         >
           {formatDate(data.createdAt)}
@@ -71,7 +81,11 @@ function Comment({ data }) {
           display: showReply ? "flex" : "none",
         }}
       >
-        <ButtonCustom name="Reply" backgroundColor="transparent" />
+        <ButtonCustom
+          name="Reply"
+          backgroundColor="transparent"
+          color={!theme ? "#fff" : "#000"}
+        />
       </div>
     </div>
   );

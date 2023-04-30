@@ -1,11 +1,11 @@
 import "./style.scss";
 
-function ListSocial() {
+function ListSocial({ color = "#fff" }) {
   return (
     <div
       className="main"
       style={{
-        color: "#fff",
+        color: color,
       }}
     >
       <div className="card">
@@ -251,7 +251,7 @@ function ListSocial() {
       <p
         className="text"
         style={{
-          color: "#fff",
+          color: color,
           border: "1px solid #4f84eb",
           padding: "2rem",
           borderRadius: "1rem",

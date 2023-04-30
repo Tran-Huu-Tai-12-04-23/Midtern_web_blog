@@ -2,18 +2,20 @@ import { AppStoreUseContext } from "../../Context/AppStore";
 import ButtonCustom from "../ButtonCustom";
 import avatar_default from "../../Assets/img/avatar_default.jpg";
 import { AuthUserUseContext } from "../../Context/AuthUser";
+import { UseGlobalsStylesContext } from "../../GlobalStyle";
 
 const CardProfile = () => {
   const { user } = AuthUserUseContext();
+  const { theme } = UseGlobalsStylesContext();
 
   return (
     <div
-      className=" w-100 bg-second br-primary overflow-hidden position-relative"
-      style={
-        {
-          // height: "35vh",
-        }
-      }
+      className=" w-100  br-primary overflow-hidden position-relative"
+      style={{
+        background: !theme
+          ? "var(--bg-second-dark-theme)"
+          : "var(--bg-second-light-theme",
+      }}
     >
       <img
         style={{
@@ -64,7 +66,7 @@ const CardProfile = () => {
       </div>
       <ButtonCustom
         backgroundColor="transparent"
-        color="#fff"
+        color={!theme ? "#fff" : "#000"}
         width="100%"
         height="2rem"
         style={{

@@ -15,6 +15,7 @@ import Chat from "./Layout/Chat";
 import Search from "./Layout/Search";
 import AuthUser from "./Context/AuthUser";
 import CreateNewGroup from "./Layout/CreateNewGroup";
+import PostDetail from "./Layout/PostDetail";
 
 function App() {
   const history = useNavigate();
@@ -43,6 +44,7 @@ function App() {
           <Route path="/chat" element={<Chat />} />
           <Route path="/setting" element={<Setting />} />
           <Route path="/search" element={<Search />} />
+          <Route path="/post-detail" element={<PostDetail />} />
           <Route path="/me/create-new-group" element={<CreateNewGroup />} />
           <Route path="/" element={<Home />} />
         </Routes>

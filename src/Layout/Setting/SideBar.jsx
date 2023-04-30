@@ -5,11 +5,11 @@ import { BsPostcard } from "react-icons/bs";
 import { MdOutlineJoinInner } from "react-icons/md";
 import { AuthUserUseContext } from "../../Context/AuthUser";
 
-function SideBar() {
+function SideBar({ theme }) {
   const { user } = AuthUserUseContext();
 
   return (
-    <div className="w-100 p-4 d-flex justify-content-start align-items-center flex-column">
+    <div className="w-100 p-4 d-flex justify-content-start align-items-center flex-column ">
       <img
         src={user ? user.photoURL : ""}
         style={{
@@ -36,13 +36,32 @@ function SideBar() {
           fontSize: ".8rem",
         }}
       >
-        <div className="border-right cl-second">10 followers</div>
-        <span className="cl-second">From vietnam</span>
+        <div
+          className="border-right "
+          style={{
+            color: !theme ? "#ccc" : "#000",
+          }}
+        >
+          10 followers
+        </div>
+        <span
+          className=""
+          style={{
+            color: !theme ? "#ccc" : "#000",
+          }}
+        >
+          From vietnam
+        </span>
       </div>
 
       <div className="d-flex justify-content-start align-items-start w-100 flex-column mt-4">
         <ul>
-          <li className="start cl-second mb-2">
+          <li
+            className="start  mb-2"
+            style={{
+              color: !theme ? "#ccc" : "#000",
+            }}
+          >
             <FaUniversity
               style={{
                 marginRight: ".5rem",
@@ -50,7 +69,12 @@ function SideBar() {
             />
             <span className="">TDT university</span>
           </li>
-          <li className="start cl-second mb-2">
+          <li
+            className="start mb-2"
+            style={{
+              color: !theme ? "#ccc" : "#000",
+            }}
+          >
             <MdOutlineJoinInner
               style={{
                 marginRight: ".5rem",
@@ -58,7 +82,12 @@ function SideBar() {
             />
             <span className="">Join in 3days ago</span>
           </li>
-          <li className="start cl-second mb-2">
+          <li
+            className="start mb-2"
+            style={{
+              color: !theme ? "#ccc" : "#000",
+            }}
+          >
             <BsPostcard
               style={{
                 marginRight: ".5rem",
@@ -66,7 +95,12 @@ function SideBar() {
             />
             <span className="">35 post</span>
           </li>
-          <li className="start cl-second mb-2">
+          <li
+            className="start mb-2"
+            style={{
+              color: !theme ? "#ccc" : "#000",
+            }}
+          >
             <FaUserFriends
               style={{
                 marginRight: ".5rem",
@@ -100,6 +134,7 @@ function SideBar() {
         backgroundColor="#4f84eb"
         style={{
           fontSize: ".8rem",
+          padding: "1rem 2rem",
         }}
       />
     </div>

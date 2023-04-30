@@ -1,12 +1,15 @@
 import avatar_default from "../../Assets/img/avatar_default.jpg";
 import ButtonCustom from "../../Components/ButtonCustom";
 
-function CardFriend({ data }) {
+function CardFriend({ data, theme }) {
   return (
     <div
-      className="hover-bg p-2 br-primary hover-border w-100"
+      className="hover-bg p-2 br-primary  w-100"
       style={{
-        backgroundColor: "rgba(255, 255, 255, .1)",
+        background: !theme
+          ? "var(--bg-second-dark-theme)"
+          : "var(--bg-second-light-theme",
+        color: !theme ? "#fff" : "#000",
       }}
     >
       <div className="start">
@@ -21,7 +24,14 @@ function CardFriend({ data }) {
           }}
           src={data.photoURL}
         ></img>
-        <h1 className="w-100">{data.name}</h1>
+        <h1
+          className="w-100"
+          style={{
+            fontSize: ".6rem",
+          }}
+        >
+          {data.name}
+        </h1>
       </div>
       <ButtonCustom
         name="Remove"
@@ -29,10 +39,16 @@ function CardFriend({ data }) {
         style={{
           marginBottom: ".5rem",
           marginTop: ".5rem",
+          color: !theme ? "#fff" : "#000",
         }}
         backgroundColor="rgba(255, 255, 255, .4)"
       />
-      <ButtonCustom width="100%" name="Add Friend" backgroundColor="#4f84eb" />
+      <ButtonCustom
+        width="100%"
+        name="Add Friend"
+        backgroundColor={!theme ? "#4f84eb" : "#0070c0"}
+        style={{}}
+      />
     </div>
   );
 }

@@ -2,23 +2,25 @@ import { useEffect, useRef, useState } from "react";
 import { AuthUserUseContext } from "../../Context/AuthUser";
 import { AppStoreUseContext } from "../../Context/AppStore";
 import Header from "../../Components/Header";
-import avatar_default from "../../Assets/img/avatar_default.jpg";
-import { MdOutlinePhotoCamera } from "react-icons/md";
+import defaultBackground from "../../Assets/img/backgroundgroup.png";
+import { MdOutlinePhotoCamera, MdOutlineAddAPhoto } from "react-icons/md";
 import ButtonCustom from "../../Components/ButtonCustom";
 
 import { SlUserFollowing } from "react-icons/sl";
 import { MdHomeRepairService } from "react-icons/md";
 import { FaUniversity } from "react-icons/fa";
 import { IoImagesOutline } from "react-icons/io5";
-
 import ListPost from "./ListPost";
 
 function Profile() {
-  const { user, setUser } = AuthUserUseContext();
+  const { user } = AuthUserUseContext();
+  const { userSelectShowProfile } = AppStoreUseContext();
   const { friends } = AppStoreUseContext();
   const [avatarPhoto, setAvatarPhoto] = useState(null);
   const inputAvatar = useRef(null);
   const avatar = useRef(null);
+  const backgroundInput = useRef(null);
+  const backgroundProfile = useRef(null);
 
   function handleChangeAvatar() {
     if (inputAvatar) {
@@ -59,6 +61,13 @@ function Profile() {
       );
     });
   }
+  function changeBackground(e) {
+    let url = URL.createObjectURL(e.target.files[0]);
+    if (backgroundProfile) {
+      backgroundProfile.current.src = url;
+    }
+    e.target.files = null;
+  }
   return (
     <div
       className="bg-main"
@@ -67,17 +76,60 @@ function Profile() {
       }}
     >
       <Header />
-      <div className="container">
+      <div
+        className="container"
+        style={{
+          paddingTop: "6rem",
+        }}
+      >
         <div className="row">
           <div className="col-12 position-relative">
-            <img
+            <div
+              className="p-4 br-primary"
               style={{
-                height: "20rem",
-                width: "100%",
+                width: " 100%",
+                background: "rgba(0,0,0,0.1)",
               }}
-              src="https://w7.pngwing.com/pngs/929/974/png-transparent-blue-stripe-screenshot-blue-sky-daytime-sky-blue-background-blue-angle-other-thumbnail.png"
-              className="w-100"
-              alt=""
+            >
+              <img
+                style={{
+                  height: "20rem",
+                  width: "100%",
+                  margin: ".5rem",
+                  objectFit: "contain",
+                }}
+                ref={backgroundProfile}
+                src={defaultBackground}
+                className="w-100"
+                alt=""
+              />
+            </div>
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              ref={backgroundInput}
+              onChange={changeBackground}
+            />
+            <ButtonCustom
+              name="Another background photo"
+              backgroundColor="rgba(0,0,0, 0)"
+              style={{
+                padding: "2rem",
+                position: "absolute",
+                right: "0",
+                bottom: 0,
+                margin: "1rem",
+              }}
+              handleClick={() => backgroundInput?.current?.click()}
+              iconLeft={
+                <MdOutlineAddAPhoto
+                  style={{
+                    fontSize: "2rem",
+                    marginRight: ".5rem",
+                  }}
+                />
+              }
             />
             <div
               className="d-flex justify-content-center align-items-center position-absolute"
@@ -92,7 +144,11 @@ function Profile() {
             >
               <img
                 ref={avatar}
-                src={avatar_default}
+                src={
+                  userSelectShowProfile
+                    ? userSelectShowProfile.photoURL
+                    : user?.photoURL
+                }
                 className=""
                 style={{
                   width: "6rem",
@@ -126,7 +182,11 @@ function Profile() {
             }}
           >
             <div className="start">
-              <h1>Tran Huu Tai</h1>
+              <h1>
+                {userSelectShowProfile
+                  ? userSelectShowProfile.displayName
+                  : user?.displayName}
+              </h1>
               <span
                 className="cl-second"
                 style={{
