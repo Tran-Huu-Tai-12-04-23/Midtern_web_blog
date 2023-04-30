@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import "./style.scss";
 import "./reset.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -7,6 +7,25 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 const GlobalStylesContext = createContext();
 const GlobalStyles = ({ children }) => {
   const [theme, setTheme] = useState(false);
+  useEffect(() => {
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  useEffect(() => {
+    if (
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    ) {
+      setTheme(false);
+    } else {
+      setTheme(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    setTheme(localStorage.getItem("theme"));
+    localStorage.setItem("theme", theme);
+  }, []);
 
   return (
     <GlobalStylesContext.Provider

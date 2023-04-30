@@ -88,7 +88,7 @@ const Header = () => {
   return (
     <>
       <div
-        className="wrapper-header w-100 "
+        className="wrapper-header w-100 overflow-hidden"
         style={{
           backgroundColor: !theme ? "#1b2730" : "#ffffff",
           borderBottom: "1px solid rgba(0,0, 0, .2)",

@@ -11,6 +11,7 @@ import { MdHomeRepairService } from "react-icons/md";
 import { FaUniversity } from "react-icons/fa";
 import { IoImagesOutline } from "react-icons/io5";
 import ListPost from "./ListPost";
+import { UseGlobalsStylesContext } from "../../GlobalStyle";
 
 function Profile() {
   const { user } = AuthUserUseContext();
@@ -21,6 +22,7 @@ function Profile() {
   const avatar = useRef(null);
   const backgroundInput = useRef(null);
   const backgroundProfile = useRef(null);
+  const { theme } = UseGlobalsStylesContext();
 
   function handleChangeAvatar() {
     if (inputAvatar) {
@@ -120,6 +122,7 @@ function Profile() {
                 right: "0",
                 bottom: 0,
                 margin: "1rem",
+                color: !theme ? "white" : "black",
               }}
               handleClick={() => backgroundInput?.current?.click()}
               iconLeft={
@@ -127,6 +130,7 @@ function Profile() {
                   style={{
                     fontSize: "2rem",
                     marginRight: ".5rem",
+                    color: !theme ? "white" : "black",
                   }}
                 />
               }
@@ -164,6 +168,7 @@ function Profile() {
                   right: "-1rem",
                   zIndex: "2",
                   fontSize: "2rem",
+                  color: !theme ? "white" : "black",
                   cursor: "pointer",
                 }}
               />
@@ -202,6 +207,7 @@ function Profile() {
                 name="Add new post"
                 backgroundColor="transparent"
                 style={{
+                  color: !theme ? "white" : "black",
                   marginLeft: "1rem",
                 }}
               />

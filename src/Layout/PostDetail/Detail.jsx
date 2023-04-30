@@ -113,15 +113,16 @@ function Detail({}) {
             } p-4 br-primary position-relative`}
             style={{
               transition: ".4s",
+              zIndex: "30",
             }}
           >
             <IoMdClose
               className="hover-close"
               style={{
                 position: "absolute",
-                top: "0rem",
+                top: ".5rem",
                 left: "0rem",
-                zIndex: "3",
+                zIndex: "30",
                 fontSize: "2rem",
               }}
               onClick={(e) => {
@@ -135,7 +136,7 @@ function Detail({}) {
                 fontSize: "2rem",
                 position: "absolute",
                 top: ".5rem",
-                zIndex: "2",
+                zIndex: "30",
                 right: "1rem",
                 display: !zoom ? "block" : "none",
               }}
@@ -145,7 +146,7 @@ function Detail({}) {
               className="hover-active"
               style={{
                 fontSize: "2rem",
-                zIndex: "2",
+                zIndex: "30",
                 position: "absolute",
                 top: ".5rem",
                 right: "1rem",
@@ -253,6 +254,7 @@ function Detail({}) {
                 <ButtonCustom
                   name="Love"
                   handleClick={() => setLove(!love)}
+                  backgroundColor={!theme ? "#20394c" : "rgba(0,0,0, .1)"}
                   iconLeft={
                     <IoHeartSharp
                       style={{
@@ -263,7 +265,6 @@ function Detail({}) {
                     />
                   }
                   height="2rem"
-                  backgroundColor="#20394c"
                   width="unset"
                   style={{
                     fontSize: ".8rem",
@@ -271,6 +272,7 @@ function Detail({}) {
                     justifyContent: "start",
                     fontWeight: "bold",
                     marginRight: "1rem",
+                    color: !theme ? "#fff" : "#000",
                   }}
                 />
                 <ButtonCustom
@@ -281,7 +283,7 @@ function Detail({}) {
                     />
                   }
                   height="2rem"
-                  backgroundColor="#20394c"
+                  backgroundColor={!theme ? "#20394c" : "rgba(0,0,0, .1)"}
                   width="unset"
                   style={{
                     fontSize: ".8rem",
@@ -289,6 +291,7 @@ function Detail({}) {
                     justifyContent: "start",
                     fontWeight: "bold",
                     marginRight: "1rem",
+                    color: !theme ? "#fff" : "#000",
                   }}
                 />
                 <ButtonCustom
@@ -299,7 +302,7 @@ function Detail({}) {
                     />
                   }
                   height="2rem"
-                  backgroundColor="#20394c"
+                  backgroundColor={!theme ? "#20394c" : "rgba(0,0,0, .1)"}
                   width="unset"
                   style={{
                     fontSize: ".8rem",
@@ -307,6 +310,7 @@ function Detail({}) {
                     justifyContent: "start",
                     fontWeight: "bold",
                     marginRight: "1rem",
+                    color: !theme ? "#fff" : "#000",
                   }}
                 />
               </div>
