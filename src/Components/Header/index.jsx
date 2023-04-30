@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { auth } from "../../firebase/index.js";
 import "./style.scss";
 import logo from "../../Assets/img/logo.png";
+import logo_dark from "../../Assets/img/logo_dark.png";
+import logo_light from "../../Assets/img/logo_light.png";
 
 import Search from "../Search";
 import ButtonCustom from "../ButtonCustom";
@@ -96,9 +98,11 @@ const Header = () => {
           <div className="row">
             <div className="col-6 d-flex justify-content-start align-items-center ">
               <img
-                src={logo}
+                src={!theme ? logo_dark : logo_light}
                 style={{
                   width: "14rem",
+                  objectFit: "fill",
+                  scale: !theme ? "2" : "1.4",
                 }}
                 onClick={() => history("/")}
               ></img>

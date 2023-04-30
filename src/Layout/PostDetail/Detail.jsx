@@ -16,11 +16,13 @@ import Input from "../../Components/Input";
 import Comment from "../../Components/Comment";
 import { AppStoreUseContext } from "../../Context/AppStore";
 import { AuthUserUseContext } from "../../Context/AuthUser";
+import { UseGlobalsStylesContext } from "../../GlobalStyle";
 
 import { formatDate } from "../../util/index";
 
 function Detail({}) {
   const { user } = AuthUserUseContext();
+  const { theme } = UseGlobalsStylesContext();
   const { setNotifications, postSelectShowDetail, setPostSelectShowDetail } =
     AppStoreUseContext();
   const history = useNavigate();
@@ -87,9 +89,10 @@ function Detail({}) {
     <div
       className="wrapper-modal position-fixed"
       style={{
-        backgroundColor: "rgba(0,0,0,.5)",
+        background: !theme
+          ? "var(--bg-second-dark-theme)"
+          : "var(--bg-second-light-theme",
         zIndex: "4",
-        backdropFilter: "blur(1rem)",
         top: "0",
         right: 0,
         bottom: "0",
@@ -101,7 +104,6 @@ function Detail({}) {
         style={{
           paddingTop: "4rem",
           height: "100vh",
-          background: "rgba(0,0,0, .5)",
         }}
       >
         <div className="row h-100">
@@ -157,7 +159,6 @@ function Detail({}) {
                 style={{
                   padding: "1rem",
                   borderRadius: ".5rem",
-                  background: "rgba(0,0,0,.1)",
                   height: "calc(100vh - 10rem)",
                 }}
               >
@@ -177,7 +178,7 @@ function Detail({}) {
             {postSelectShowDetail?.photoUrl &&
               Array.isArray(postSelectShowDetail?.photoUrl) && (
                 <CarouselComponent
-                  height="calc(100vh - 10rem)"
+                  height="calc(100vh - 8rem)"
                   data={postSelectShowDetail?.photoUrl}
                 />
               )}
@@ -188,8 +189,7 @@ function Detail({}) {
                   style={{
                     padding: "1rem",
                     borderRadius: ".5rem",
-                    background: "rgba(0,0,0,.1)",
-                    height: "calc(100vh - 10rem)",
+                    height: "calc(100vh - 8rem)",
                   }}
                 >
                   <img
@@ -220,11 +220,12 @@ function Detail({}) {
                 }}
               ></img>
               <div className="column">
-                <h1>{postSelectShowDetail?.displayName}</h1>
+                <h5>{postSelectShowDetail?.displayName}</h5>
                 <span
-                  className="cl-second"
+                  className=""
                   style={{
                     fontSize: ".8rem",
+                    color: !theme ? "#ccc" : "#000",
                   }}
                 >
                   {formatDate(postSelectShowDetail?.createdAt?.seconds)}
@@ -352,9 +353,10 @@ function Detail({}) {
                     name="Cancel"
                     backgroundColor="transparent"
                     style={{
-                      padding: "1.5rem 1rem",
+                      padding: "1rem",
                       marginRight: ".5rem",
                       marginLeft: ".5rem",
+                      color: !theme ? "#fff" : "#000",
                     }}
                     handleClick={() => setIsComment(false)}
                   />
@@ -362,7 +364,7 @@ function Detail({}) {
                     name="Comment"
                     backgroundColor="#4f84eb"
                     style={{
-                      padding: "1.5rem 1rem",
+                      padding: "1rem 1rem",
                       marginRight: ".5rem",
                     }}
                     handleClick={handleAddComment}

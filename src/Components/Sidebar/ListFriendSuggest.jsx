@@ -32,9 +32,10 @@ const ListFriendSuggest = () => {
             ></img>
 
             <span
-              className="cl-second fs-small "
+              className=" bold"
               style={{
                 fontSize: "1rem",
+                color: !theme ? "#ccc" : "#000",
               }}
             >
               @{guest.displayName}
@@ -42,14 +43,14 @@ const ListFriendSuggest = () => {
           </div>
           <ButtonCustom
             backgroundColor="transparent"
-            color="#fff"
+            color={!theme ? "#fff" : "#000"}
             width="40px"
             height="3rem"
             style={{
               justifyContent: "start",
-              fontWeight: 600,
+              fontWeight: "bold",
               borderRadius: 0,
-              fontSize: ".6rem",
+              fontSize: ".8rem",
             }}
             handleClick={() => {
               if (user.id && guest.user_id) {

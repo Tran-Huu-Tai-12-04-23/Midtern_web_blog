@@ -56,9 +56,10 @@ const CardProfile = () => {
           {user ? user.displayName : ""}
         </h5>
         <label
-          className="cl-second center"
+          className="center"
           style={{
             fontSize: ".8rem",
+            color: !theme ? "#ccc" : "#000",
           }}
         >
           @Fullstack Developer

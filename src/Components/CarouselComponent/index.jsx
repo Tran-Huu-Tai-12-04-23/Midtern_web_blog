@@ -18,7 +18,6 @@ const CarouselComponent = ({ data = [], height = "30rem" }) => {
           style={{
             padding: "1rem",
             borderRadius: ".5rem",
-            background: "rgba(0,0,0,.1)",
             height: "100%",
           }}
         >
