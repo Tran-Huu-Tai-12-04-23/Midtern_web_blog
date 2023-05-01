@@ -22,6 +22,34 @@ import Input from "../Input";
 
 import { AppStoreUseContext } from "../../Context/AppStore";
 import { UseGlobalsStylesContext } from "../../GlobalStyle";
+function processImage(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const image = new Image();
+      image.onload = function () {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        // Tính toán kích thước mới cho ảnh (ví dụ: giảm kích thước xuống 50%)
+        const newWidth = image.width * 0.5;
+        const newHeight = image.height * 0.5;
+        // Thiết lập kích thước mới cho canvas
+        canvas.width = newWidth;
+        canvas.height = newHeight;
+        // Vẽ ảnh đã thu nhỏ lên canvas
+        ctx.drawImage(image, 0, 0, newWidth, newHeight);
+        // Lấy dữ liệu ảnh từ canvas
+        const processedDataUrl = canvas.toDataURL("image/jpeg");
+        resolve(processedDataUrl);
+      };
+      image.src = e.target.result;
+    };
+    reader.onerror = function (error) {
+      reject(error);
+    };
+    reader.readAsDataURL(file);
+  });
+}
 
 const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
   const [mode, setMode] = useState(false);
@@ -41,6 +69,9 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
     e.target.value = "";
   };
   const handleSelectPhoto = (e) => {
+    processImage(e.target.files[0]).then((res) => {
+      console.log(res);
+    });
     setListFilePhoto((prev) => {
       return [...prev, e.target.files[0]];
     });

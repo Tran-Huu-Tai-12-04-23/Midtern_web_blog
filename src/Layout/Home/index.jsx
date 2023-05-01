@@ -28,7 +28,7 @@ const Home = ({}) => {
       className="home bg-main container-fluid "
       style={{
         height: "100vh",
-        overflow: "hidden",
+        // overflow: "hidden",
         paddingTop: "4rem",
       }}
     >
