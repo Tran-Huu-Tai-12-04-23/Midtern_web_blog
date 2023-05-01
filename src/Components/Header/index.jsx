@@ -33,6 +33,7 @@ const Header = () => {
   const history = useNavigate();
   const { user, setUser } = AuthUserUseContext();
   const { theme, setTheme } = UseGlobalsStylesContext();
+  const { setUserSelectShowProfile } = AppStoreUseContext();
   const [modalMenu, setModalMenu] = useState(false);
   const [menuItems, setMenuItems] = useState([
     {
@@ -40,17 +41,10 @@ const Header = () => {
       icon: (
         <RiProfileLine style={{ fontSize: "1.5rem", marginRight: "1rem" }} />
       ),
-      handleClick: () => history("/profile"),
-    },
-
-    {
-      name: "My Posts",
-      icon: (
-        <ImNewspaper
-          style={{ fontSize: "1.5rem", marginRight: "1rem" }}
-        ></ImNewspaper>
-      ),
-      handleClick: () => {},
+      handleClick: () => {
+        setUserSelectShowProfile(null);
+        history("/profile");
+      },
     },
     {
       name: "Create Your Group",

@@ -138,12 +138,16 @@ const FormLogin = ({ onSwitchRoute }) => {
           currentUser.metadata.creationTime ===
           currentUser.metadata.lastSignInTime;
         if (isNewUser) {
-          addDocument("users", {
-            displayName,
-            email,
-            id: uid,
-            photoURL,
-            friends: [],
+          checkUsernameExists(username).then((res) => {
+            if (!res) {
+              addDocument("users", {
+                displayName,
+                email,
+                id: uid,
+                photoURL,
+                friends: [],
+              });
+            }
           });
         }
         saveStoreLocal(uid, displayName, email, photoURL);

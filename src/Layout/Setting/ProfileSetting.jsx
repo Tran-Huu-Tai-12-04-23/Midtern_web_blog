@@ -56,8 +56,9 @@ function ProfileSetting({ theme }) {
               border: "none",
               borderBottom: "1px solid #4f84eb",
               "--bd-focus-color": "#4f84eb",
-              filter: !theme ? " invert(1)" : "",
+              // filter: !theme ? " invert(1)" : "",
             }}
+            color={!theme ? "#fff" : "#000"}
           />
         </div>
       </div>
@@ -121,7 +122,8 @@ function ProfileSetting({ theme }) {
               border: "none",
               borderBottom: "1px solid #4f84eb",
               "--bd-focus-color": "#4f84eb",
-              filter: !theme ? " invert(1)" : "",
+              // filter: !theme ? " invert(1)" : "",
+              color: !theme ? "#fff" : "#000",
             }}
           />
         </div>

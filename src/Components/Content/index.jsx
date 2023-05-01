@@ -7,7 +7,6 @@ import Information from "../Information";
 import SuggestNewFriends from "../../Layout/Home/SuggestNewFriends";
 
 const Content = ({ setShowModalPost = () => {}, posts = [] }) => {
-  console.log("rendering content");
   const contentRef = useRef(null);
 
   return (

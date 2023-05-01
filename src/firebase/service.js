@@ -17,10 +17,16 @@ export const addDocument = async (nameCollection, data) => {
   });
 };
 
+function normalizeText(text) {
+  if (!text) return false;
+  return text.normalize("NFD").replace(/[\u0300-\u036f\s]/g, "");
+}
 export const checkUsernameExists = async (username) => {
   const querySnapshot = await getDocs(collection(db, "users"));
   const users = querySnapshot.docs.map((doc) => doc.data());
-  return users.some((user) => user.username === username);
+  return users.some((user) => {
+    return normalizeText(user.displayName) === normalizeText(username);
+  });
 };
 
 export const addFriend = async (userId, friendId) => {

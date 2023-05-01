@@ -1,4 +1,5 @@
 import { memo } from "react";
+import { useNavigate } from "react-router-dom";
 import ButtonCustom from "../../Components/ButtonCustom";
 import { AppStoreUseContext } from "../../Context/AppStore";
 import avatar_default from "../../Assets/img/avatar_default.jpg";
@@ -7,19 +8,27 @@ import { UseGlobalsStylesContext } from "../../GlobalStyle";
 import { AuthUserUseContext } from "../../Context/AuthUser";
 
 const ListFriendSuggest = () => {
-  const { listUser } = AppStoreUseContext();
+  const { listUser, setUserSelectShowProfile } = AppStoreUseContext();
   const { user } = AuthUserUseContext();
   const { theme } = UseGlobalsStylesContext();
+  const history = useNavigate();
+
   const loaderListSuggestFriend = () => {
     return listUser.map((guest) => {
       return (
         <div
           key={guest.id}
-          className="hover-bg p-2 br-primary"
+          className={`${
+            !theme ? "hover-bg-dark" : "hover-bg-light"
+          } p-2 br-primary transition`}
           style={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
+          }}
+          onClick={(e) => {
+            setUserSelectShowProfile(guest);
+            history("/profile");
           }}
         >
           <div className="d-flex start">
@@ -32,7 +41,7 @@ const ListFriendSuggest = () => {
             ></img>
 
             <span
-              className=" bold"
+              className=" "
               style={{
                 fontSize: "1rem",
                 color: !theme ? "#ccc" : "#000",
@@ -52,7 +61,8 @@ const ListFriendSuggest = () => {
               borderRadius: 0,
               fontSize: ".8rem",
             }}
-            handleClick={() => {
+            handleClick={(e) => {
+              e.stopPropagation();
               if (user.id && guest.user_id) {
                 addFriend(user.id, guest.user_id);
                 addFriend(guest.user_id, user.id);

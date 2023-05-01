@@ -7,7 +7,10 @@ function ChooseTheme({ setTheme = () => {}, theme }) {
         type="checkbox"
         className="dn"
         id="dn"
-        onChange={() => setTheme(!theme)}
+        onChange={() => {
+          localStorage.setItem("theme", !theme);
+          setTheme(!theme);
+        }}
       />
       <label htmlFor="dn" className="toggle">
         <span className="toggle__handler">

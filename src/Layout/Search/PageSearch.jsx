@@ -1,10 +1,43 @@
+import { useEffect, useState } from "react";
 import ButtonCustom from "../../Components/ButtonCustom";
 import Information from "../../Components/Information";
-import { pages, peoples, posts } from "./data";
+import { AppStoreUseContext } from "../../Context/AppStore";
+import {
+  groups,
+  peoples,
+  searchPeoples,
+  searchGroups,
+  searchPosts,
+} from "./data";
 
-function PageSearch({ contentActive, theme }) {
-  const loadPage = () => {
-    return pages.map((page) => {
+function PageSearch({ contentActive, theme, search }) {
+  const { posts } = AppStoreUseContext();
+  const [postsSearch, setPostsSearch] = useState([]);
+  const [peopleSearch, setPeopleSearch] = useState([]);
+  const [groupSearch, setGroupSearch] = useState([]);
+
+  useEffect(() => {
+    setPostsSearch(searchPosts(posts, search));
+  }, [search]);
+  useEffect(() => {
+    setGroupSearch(searchGroups(groups, search));
+  }, [search]);
+  useEffect(() => {
+    setPeopleSearch(searchPeoples(peoples, search));
+  }, [search]);
+
+  const loadPost = () => {
+    return postsSearch.map((post) => {
+      return (
+        <div key={post?.id} className="w-100">
+          <Information data={post?.post} />
+        </div>
+      );
+    });
+  };
+
+  const loadGroup = () => {
+    return groupSearch.map((page) => {
       return (
         <div
           key={page.id}
@@ -61,7 +94,7 @@ function PageSearch({ contentActive, theme }) {
     });
   };
   const loadPeople = () => {
-    return peoples.map((people) => {
+    return peopleSearch.map((people) => {
       return (
         <div
           key={people.id}
@@ -108,19 +141,9 @@ function PageSearch({ contentActive, theme }) {
     });
   };
 
-  const loadPost = () => {
-    return posts.map((post) => {
-      return (
-        <div key={post.id}>
-          <Information data={post} />
-        </div>
-      );
-    });
-  };
-
   return (
     <>
-      {(contentActive == 0 || contentActive == 2) && (
+      {(contentActive == 0 || contentActive == 2) && groupSearch.length > 0 && (
         <div
           className="p-4 br-primary w-100  d-flex justify-content-start align-items-start flex-column "
           style={{
@@ -129,24 +152,25 @@ function PageSearch({ contentActive, theme }) {
               : "rgba(0, 0, 0, 0.1)",
           }}
         >
-          {loadPage()}
+          {loadGroup()}
         </div>
       )}
 
-      {(contentActive == 0 || contentActive == 1) && (
-        <div
-          className="p-4 mt-4 br-primary w-100  d-flex justify-content-start align-items-start flex-column"
-          style={{
-            background: !theme
-              ? "rgba(255, 255, 255, .1)"
-              : "rgba(0, 0, 0, .1)",
-          }}
-        >
-          {loadPeople()}
-        </div>
-      )}
+      {(contentActive == 0 || contentActive == 1) &&
+        peopleSearch.length > 0 && (
+          <div
+            className="p-4 mt-4 br-primary w-100  d-flex justify-content-start align-items-start flex-column"
+            style={{
+              background: !theme
+                ? "rgba(255, 255, 255, .1)"
+                : "rgba(0, 0, 0, .1)",
+            }}
+          >
+            {loadPeople()}
+          </div>
+        )}
 
-      {(contentActive == 0 || contentActive == 3) && (
+      {(contentActive == 0 || contentActive == 3) && postsSearch.length > 0 && (
         <div
           className="p-4 mt-4 br-primary w-100  d-flex justify-content-start align-items-start flex-column"
           style={{

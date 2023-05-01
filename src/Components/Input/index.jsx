@@ -20,6 +20,7 @@ const Input = ({
   handleFocus = () => {},
   handleBlur = () => {},
   className,
+  color,
 }) => {
   const [lock, setLock] = useState(false);
   const [typeInput, setType] = useState(type);
@@ -52,6 +53,9 @@ const Input = ({
           if (e.key === "Enter") {
             handleKeyPressEnter();
           }
+        }}
+        style={{
+          color: color,
         }}
         placeholder={placeholder}
         value={value}

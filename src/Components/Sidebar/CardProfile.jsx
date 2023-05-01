@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { AppStoreUseContext } from "../../Context/AppStore";
 import ButtonCustom from "../ButtonCustom";
 import avatar_default from "../../Assets/img/avatar_default.jpg";
@@ -6,7 +7,9 @@ import { UseGlobalsStylesContext } from "../../GlobalStyle";
 
 const CardProfile = () => {
   const { user } = AuthUserUseContext();
+  const { setUserSelectShowProfile } = AppStoreUseContext();
   const { theme } = UseGlobalsStylesContext();
+  const history = useNavigate();
 
   return (
     <div
@@ -77,7 +80,10 @@ const CardProfile = () => {
           borderRadius: 0,
         }}
         name="Profile"
-        link="/profile"
+        handleClick={() => {
+          setUserSelectShowProfile(null);
+          history("/profile");
+        }}
       />
     </div>
   );

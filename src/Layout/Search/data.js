@@ -1,36 +1,6 @@
 import { v4 as uuid } from "uuid";
 
-export const posts = [
-  {
-    id: uuid(),
-    displayName: "Hải đăng",
-    avatarUrl:
-      "https://scontent.fsgn5-5.fna.fbcdn.net/v/t39.30808-1/323024105_923579831991876_8843654213659125002_n.jpg?stp=dst-jpg_p148x148&_nc_cat=100&ccb=1-7&_nc_sid=aa3c98&_nc_ohc=eiQR1k2Mu_8AX_Sqisi&_nc_ht=scontent.fsgn5-5.fna&oh=00_AfBQZV5g0aPaX-3L8ZdEdBtjUD_qKTwxK_-0F0ZrYOp6_A&oe=6450CEF7",
-    content: `Chào mọi người, em mới hoàn thành clone trang web Spotify bằng Reactjs.
-    Tech:
-    Reactjs
-    Redux-toolkit
-    Scss
-    MUI
-    Axios
-    React-router-dom, ….
-    Features:
-    Đăng nhập, đăng xuất
-    Play, replay, next, prev, change volume, bài hát
-    Thêm, xóa bài hát, playlist, album, podcast yêu thích
-    Tạo playlist
-    Edit details playlist
-    Thêm, xóa bài hát vào my playlist
-    Follow nghệ sĩ
-    Và một số tính năng khác
-    Do spotify yêu cầu tài khoản premium nên 1 số tính năng em không clone được.
-    Rất mong mọi người có thể xem qua và góp ý cho em về trang web ạ.
-    Vì để mọi người đăng nhập bằng account riêng thì phải làm đơn đăng kí lên spotify, nên mọi người đăng nhập bằng tài khoản, mật khẩu dưới đây giúp em với ạ.`,
-    createdAt: "1 hours ago",
-  },
-];
-
-export const pages = [
+export const groups = [
   {
     namePage: "Học lập trình F8",
     photoURL:
@@ -41,13 +11,118 @@ export const pages = [
       "Là sản phẩm thực tế, nên luôn luôn có những kỹ thuật khó, thời lượng dài, nhiều video trên mỗi khóa học.",
   },
   {
-    namePage: "Học lập trình F8",
+    namePage: "CoderSchool",
     photoURL:
-      "https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-6/313209665_526415922829139_1931573599479211662_n.png?stp=c25.0.64.64a_cp0_dst-png_p64x64&_nc_cat=107&ccb=1-7&_nc_sid=ac9ee4&_nc_ohc=4i2szxrVVFAAX-E8pDm&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfA35YweOG4wzYXYLwqTfOIIkFpgm667Fn_01wH5eEZsZA&oe=64512028",
+      "https://coursereport-s3-production.global.ssl.fastly.net/uploads/school/logo/359/original/logo-cs-01-01.png",
     id: uuid(),
-    des: "Tại F8, các khóa học luôn có phần thực hành để làm ra sản phẩm thực tế.",
+    des: "CoderSchool là một trung tâm đào tạo lập trình chuyên nghiệp tại Việt Nam.",
     detail:
-      "Là sản phẩm thực tế, nên luôn luôn có những kỹ thuật khó, thời lượng dài, nhiều video trên mỗi khóa học.",
+      "Chúng tôi cung cấp các khóa học về các ngôn ngữ lập trình phổ biến như JavaScript, Python, Ruby, và nhiều hơn nữa.",
+  },
+  {
+    namePage: "FreeCodeCamp",
+    photoURL:
+      "https://topdev.vn/blog/wp-content/uploads/2020/09/fcc-twitter-1120X600-social-green.png",
+    id: uuid(),
+    des: "FreeCodeCamp cung cấp các khóa học lập trình miễn phí trực tuyến cho mọi người trên toàn thế giới.",
+    detail:
+      "Chúng tôi tập trung vào việc giúp bạn học tập và phát triển kỹ năng lập trình thông qua các bài thực hành và dự án.",
+  },
+  {
+    namePage: "Chợ Bàn Phím Cơ Việt Nam",
+    photoURL:
+      "https://scontent.fsgn5-6.fna.fbcdn.net/v/t39.30808-6/317846786_450127827309330_1179166961045900493_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=8631f5&_nc_ohc=3r0wAypRP6MAX8GoRtb&_nc_ht=scontent.fsgn5-6.fna&oh=00_AfDt4w9ysLv8kao51tjM9zabt2OBWLMJfDiHOmYnvme3gA&oe=6454442B",
+    id: uuid(),
+    des: "Chợ Bàn Phím Cơ Việt Nam cung cap phia co gia re",
+    detail: "",
+  },
+  {
+    namePage: "Stack Overflow",
+    photoURL:
+      "https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2021/02/30161518/1-1024x768.png",
+    id: uuid(),
+    des: "Stack Overflow là một diễn đàn chuyên về lập trình và công nghệ.",
+    detail:
+      "Chúng tôi cung cấp một nền tảng để những người lập trình có thể chia sẻ kiến thức, hỏi đáp với cộng đồng và tìm kiếm giải pháp cho các vấn đề kỹ thuật.",
+  },
+  {
+    namePage: "GitHub",
+    photoURL:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/2048px-Octicons-mark-github.svg.png",
+    id: uuid(),
+    des: "GitHub là một dịch vụ quản lý mã nguồn và phiên bản cho các dự án phát triển phần mềm.",
+    detail:
+      "Chúng tôi cung cấp các tính năng như kiểm soát phiên bản, quản lý công việc, và hợp tác nhóm cho các dự án phát triển phần mềm.",
+  },
+  {
+    namePage: "MDN Web Docs",
+    photoURL:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStPv9Wik7dshBoIzE3S---lc8MauoSoVgfDodp4sQbksJ8TRLcJMtrrsIw2DnhcBHzHSk&usqp=CAU",
+    id: uuid(),
+    des: "MDN Web Docs cung cấp tài liệu về các công nghệ web như HTML, CSS, JavaScript, và nhiều hơn nữa.",
+    detail:
+      "Chúng tôi cung cấp các hướng dẫn chi tiết, ví dụ và tài liệu tham khảo để giúp bạn hiểu và sử dụng các công nghệ web hiệu quả.",
+  },
+  {
+    namePage: "CodePen",
+    photoURL:
+      "https://pbs.twimg.com/profile_images/923214541290221569/dCMZxkwz_400x400.jpg",
+    id: uuid(),
+    des: "CodePen là một công cụ trực tuyến cho phép bạn viết và chia sẻ mã nguồn HTML, CSS, và JavaScript.",
+    detail: "Chúng tôi cung cấp một môi trường thân thiện cho việc thực hành",
+  },
+  {
+    namePage: "W3Schools",
+    photoURL:
+      "https://yt3.googleusercontent.com/dW6to0x5Crmeh7yi-YPLcQRqVrBtx2BSh8eoKTJbE8NbjloQ0sqlmdszIlxokJU_97-ndOt_=s900-c-k-c0x00ffffff-no-rj",
+    id: uuid(),
+    des: "W3Schools là một trang web cung cấp hướng dẫn và tài liệu về lập trình web.",
+    detail:
+      "Chúng tôi cung cấp các bài học, ví dụ và hướng dẫn về HTML, CSS, JavaScript và các công nghệ web khác.",
+  },
+  {
+    namePage: "CSS-Tricks",
+    photoURL:
+      "https://yt3.googleusercontent.com/UlAMBo5x3kCK1jYOvKMviEZ7cUHg7UgLNLY33T-kHEFw9AU3xvVXfziGURctCy7n6zsl1iyk=s900-c-k-c0x00ffffff-no-rj",
+    id: uuid(),
+    des: "CSS-Tricks là một trang web chuyên về CSS và thiết kế web.",
+    detail:
+      "Chúng tôi cung cấp các hướng dẫn, bài viết và mã nguồn ví dụ về CSS, HTML, JavaScript và các công nghệ web liên quan.",
+  },
+  {
+    namePage: "HackerRank",
+    photoURL:
+      "https://camo.githubusercontent.com/898f94be504f7baf1ddb0a2811152dab61cfd723e683b6947be9ffa3c879ccc4/68747470733a2f2f75706c6f61642e77696b696d656469612e6f72672f77696b6970656469612f636f6d6d6f6e732f362f36352f4861636b657252616e6b5f6c6f676f2e706e67",
+    id: uuid(),
+    des: "HackerRank là một nền tảng trực tuyến cung cấp các bài tập lập trình và thử thách kỹ thuật.",
+    detail:
+      "Chúng tôi giúp bạn rèn kỹ năng lập trình thông qua việc giải quyết các bài toán và tham gia các cuộc thi lập trình.",
+  },
+  {
+    namePage: "Code Wars",
+    photoURL:
+      "https://res.cloudinary.com/practicaldev/image/fetch/s--F0lj1DhL--/c_imagga_scale,f_auto,fl_progressive,h_1080,q_auto,w_1080/https://dev-to-uploads.s3.amazonaws.com/i/gg560tf9upt8qfpdpny1.png",
+    id: uuid(),
+    des: "Code Wars là một nền tảng trực tuyến để rèn kỹ năng lập trình thông qua giải các bài tập.",
+    detail:
+      "Bạn có thể tham gia các trận đấu lập trình, hoàn thành các nhiệm vụ và thăng hạng trong cộng đồng lập trình viên.",
+  },
+  {
+    namePage: "CodeSignal",
+    photoURL: "https://i.ytimg.com/vi/jVAFPxVHtZQ/maxresdefault.jpg",
+    id: uuid(),
+    des: "CodeSignal là một nền tảng trực tuyến giúp bạn rèn kỹ năng lập trình và chuẩn bị cho phỏng vấn kỹ thuật.",
+    detail:
+      "Chúng tôi cung cấp các bài tập lập trình, phân loại kỹ năng, và mô phỏng phỏng vấn để bạn có thể cải thiện và thử nghiệm kiến thức của mình.",
+  },
+  {
+    namePage: "Dev.to",
+    photoURL:
+      "https://res.cloudinary.com/practicaldev/image/fetch/s--pcSkTMZL--/c_limit,f_auto,fl_progressive,q_80,w_190/https://practicaldev-herokuapp-com.freetls.fastly.net/assets/devlogo-pwa-512.png",
+    id: uuid(),
+    des: "Dev.to là một cộng đồng trực tuyến cho các nhà phát triển phần mềm và các chủ đề liên quan đến công nghệ.",
+    detail:
+      "Chúng tôi cung cấp các bài viết, hướng dẫn và cuộc thảo luận về lập trình, thiết kế web, quản lý dự án và nhiều chủ đề khác.",
   },
 ];
 
@@ -125,15 +200,68 @@ export const peoples = [
       "https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-1/341455213_186089854268234_6668297215071413940_n.jpg?stp=c27.0.160.160a_dst-jpg_p160x160&_nc_cat=107&ccb=1-7&_nc_sid=2fc63d&_nc_ohc=GOxjdbpJdxEAX-6HSVB&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfCU0EU-xtkvtZql4N_wgHKdtzfcPUfAFv1JbNCNz4T7_w&oe=64518D96",
   },
   {
-    name: "John",
+    name: "Nguyen",
     id: uuid(),
     photoURL:
       "https://scontent.fsgn5-3.fna.fbcdn.net/v/t39.30808-1/334099210_201585792452402_2473078645089024612_n.jpg?stp=dst-jpg_p200x200&_nc_cat=104&ccb=1-7&_nc_sid=7206a8&_nc_ohc=yah6BebQlKIAX8w7l5j&_nc_ht=scontent.fsgn5-3.fna&oh=00_AfAeXZpNy5vf3yZJ_CRPhWAE0fZbC6MnkSY7rmQP27JRTw&oe=6450B37E",
   },
   {
-    name: "John",
+    name: "Minh Nghia",
     id: uuid(),
     photoURL:
-      "https://scontent.fsgn5-3.fna.fbcdn.net/v/t39.30808-1/334099210_201585792452402_2473078645089024612_n.jpg?stp=dst-jpg_p200x200&_nc_cat=104&ccb=1-7&_nc_sid=7206a8&_nc_ohc=yah6BebQlKIAX8w7l5j&_nc_ht=scontent.fsgn5-3.fna&oh=00_AfAeXZpNy5vf3yZJ_CRPhWAE0fZbC6MnkSY7rmQP27JRTw&oe=6450B37E",
+      "https://cdn.dribbble.com/users/3293507/screenshots/14667603/media/d8cbe035a61f64afdf6deabca5182842.jpg?compress=1&resize=400x300&vertical=top",
   },
 ];
+
+export function searchPeoples(peoples, search) {
+  const results = [];
+  const normalizedSearch = normalizeText(search.toLowerCase());
+  for (let i = 0; i < peoples.length; i++) {
+    const people = peoples[i];
+    const normalizedName = normalizeText(people?.name.toLowerCase());
+    if (normalizedName.includes(normalizedSearch)) {
+      results.push(people);
+    }
+  }
+  return results;
+}
+function normalizeText(text) {
+  return text.normalize("NFD").replace(/[\u0300-\u036f\s]/g, "");
+}
+export function searchGroups(groups, search) {
+  const results = [];
+  const normalizedSearch = normalizeText(search.toLowerCase());
+  for (let i = 0; i < groups.length; i++) {
+    const group = groups[i];
+    const normalizedName = normalizeText(group?.namePage?.toLowerCase());
+    const normalizedDes = normalizeText(group?.des?.toLowerCase());
+    const normalizedDetail = normalizeText(group?.detail?.toLowerCase());
+    if (
+      normalizedName.includes(normalizedSearch) ||
+      normalizedDes.includes(normalizedSearch) ||
+      normalizedDetail.includes(normalizedSearch)
+    ) {
+      results.push(group);
+    }
+  }
+  return results;
+}
+
+export function searchPosts(posts, searchTerm) {
+  const results = [];
+  const normalizedSearchTerm = normalizeText(searchTerm.toLowerCase());
+  for (let i = 0; i < posts.length; i++) {
+    const post = posts[i];
+    const normalizedContent = normalizeText(post?.post.content.toLowerCase());
+    const normalizedDisplayName = normalizeText(
+      post?.post.displayName.toLowerCase()
+    );
+    if (
+      normalizedContent.includes(normalizedSearchTerm) ||
+      normalizedDisplayName.includes(normalizedSearchTerm)
+    ) {
+      results.push(post);
+    }
+  }
+  return results;
+}

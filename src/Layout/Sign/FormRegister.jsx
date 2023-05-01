@@ -65,21 +65,22 @@ const FormRegister = ({ onSwitchRoute }) => {
     }
   }
   function register(event) {
-    let check = checkUsernameExists(username);
-    if (!check) {
-      setNotifications((prev) => {
-        return [
-          ...prev,
-          {
-            text: "User already registered",
-            id: uuid(),
-            type: "warn",
-          },
-        ];
-      });
-    } else {
-      saveIntoFirebase();
-    }
+    checkUsernameExists(username).then((res) => {
+      if (res) {
+        setNotifications((prev) => {
+          return [
+            ...prev,
+            {
+              text: "User already registered",
+              id: uuid(),
+              type: "warn",
+            },
+          ];
+        });
+      } else {
+        saveIntoFirebase();
+      }
+    });
   }
 
   function saveIntoFirebase() {

@@ -25,7 +25,9 @@ const ChatList = () => {
             history("/profile");
           }}
           key={friend.id}
-          className="col-12 gx-0 hidden-scroll hover-bg p-2 br-primary"
+          className={`${
+            !theme ? "hover-bg-dark" : "hover-bg-light"
+          } p-2 br-primary col-12 gx-0 hidden-scroll p-2 transition`}
           style={{
             maxHeight: "40vh",
             overflowY: "scroll",

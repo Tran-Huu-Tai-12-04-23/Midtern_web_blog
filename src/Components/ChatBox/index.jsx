@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 import { v4 as uuid } from "uuid";
 import ButtonCustom from "../ButtonCustom";
 import BoxChat from "./BoxChat";
+import Tooltip from "@mui/material/Tooltip";
+
 import { FiMessageSquare } from "react-icons/fi";
 import avatar_default from "../../Assets/img/avatar_default.jpg";
 import { AppStoreUseContext } from "../../Context/AppStore";
@@ -18,18 +20,19 @@ function ChatBox() {
   const loaderFriendActive = () => {
     return friends.map((friend) => {
       return (
-        <img
-          key={uuid()}
-          className="avatar show-select-user-animation"
-          style={{
-            marginRight: ".5rem",
-          }}
-          src={friend.photoURL ? friend.photoURL : avatar_default}
-          onClick={() => {
-            setShowChatBox(true);
-            setSelectUserChat(friend.id);
-          }}
-        ></img>
+        <Tooltip title={friend?.displayName} key={uuid()}>
+          <img
+            className="avatar show-select-user-animation"
+            style={{
+              marginRight: ".5rem",
+            }}
+            src={friend.photoURL ? friend.photoURL : avatar_default}
+            onClick={() => {
+              setShowChatBox(true);
+              setSelectUserChat(friend.id);
+            }}
+          ></img>
+        </Tooltip>
       );
     });
   };
@@ -62,7 +65,7 @@ function ChatBox() {
           padding: "1.5rem 1rem",
           background: !theme
             ? "var(--bg-second-dark-theme)"
-            : "var(--bg-second-light-theme",
+            : "var(--bg-second-light-theme)",
           color: !theme ? "#fff" : "#000",
         }}
       >
@@ -98,4 +101,4 @@ function ChatBox() {
   );
 }
 
-export default ChatBox;
+export default memo(ChatBox);

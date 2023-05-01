@@ -1,5 +1,5 @@
 import "./style.scss";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, memo } from "react";
 
 import { BiError } from "react-icons/bi";
 import { CiCircleInfo } from "react-icons/ci";
@@ -60,4 +60,4 @@ const Notification = ({ type = "err", text = "", keyProp, id }) => {
   );
 };
 
-export default Notification;
+export default memo(Notification);

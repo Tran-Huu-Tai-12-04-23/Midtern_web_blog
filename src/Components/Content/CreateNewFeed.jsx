@@ -14,7 +14,6 @@ import { UseGlobalsStylesContext } from "../../GlobalStyle";
 const CreateNewFeed = ({ handLeShowModalPost = () => {} }) => {
   const { user } = AuthUserUseContext();
   const { theme } = UseGlobalsStylesContext();
-  // console.log(user);
   const { processUpload } = AppStoreUseContext();
   return (
     <div
@@ -71,6 +70,10 @@ const CreateNewFeed = ({ handLeShowModalPost = () => {} }) => {
             fontWeight: "bold",
             border: "1px solid #24a1ee",
           }}
+          handleClick={(e) => {
+            e.stopPropagation();
+            handLeShowModalPost();
+          }}
         />
         <ButtonCustom
           name="Video"
@@ -89,6 +92,10 @@ const CreateNewFeed = ({ handLeShowModalPost = () => {} }) => {
             fontWeight: "bold",
             border: "1px solid #24a1ee",
             marginLeft: "1rem",
+          }}
+          handleClick={(e) => {
+            e.stopPropagation();
+            handLeShowModalPost();
           }}
         />
       </div>

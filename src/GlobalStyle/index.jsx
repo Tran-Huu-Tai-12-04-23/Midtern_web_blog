@@ -7,24 +7,24 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 const GlobalStylesContext = createContext();
 const GlobalStyles = ({ children }) => {
   const [theme, setTheme] = useState(false);
-  useEffect(() => {
-    localStorage.setItem("theme", theme);
-  }, [theme]);
 
   useEffect(() => {
     if (
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches
+      JSON.parse(localStorage.getItem("theme")) != true &&
+      JSON.parse(localStorage.getItem("theme")) != false
     ) {
-      setTheme(false);
+      if (
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches
+      ) {
+        setTheme(false);
+      } else {
+        setTheme(true);
+      }
     } else {
-      setTheme(true);
+      console.log(JSON.parse(localStorage.getItem("theme")));
+      setTheme(JSON.parse(localStorage.getItem("theme")));
     }
-  }, []);
-
-  useEffect(() => {
-    setTheme(localStorage.getItem("theme"));
-    localStorage.setItem("theme", theme);
   }, []);
 
   return (

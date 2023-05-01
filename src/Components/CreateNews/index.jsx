@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect, useRef } from "react";
+import { useState, memo, useRef, useEffect } from "react";
 import { storage } from "../../firebase/index.js";
 
 import {
@@ -18,6 +18,7 @@ import { MdOutlineAddAPhoto } from "react-icons/md";
 import { IoAdd } from "react-icons/io5";
 
 import ButtonCustom from "../ButtonCustom";
+import Input from "../Input";
 
 import { AppStoreUseContext } from "../../Context/AppStore";
 import { UseGlobalsStylesContext } from "../../GlobalStyle";
@@ -27,7 +28,7 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
   const [fileVideo, setFileVideo] = useState(null);
   const [filePhoto, setFilePhoto] = useState(null);
   const [listFilePhoto, setListFilePhoto] = useState([]);
-  const [photoPreview, setPhotoPreview] = useState("");
+  const [listFilePhotoURL, setListFilePhotoURL] = useState([]);
   const [videoPreview, setVideoPreview] = useState("");
   const [content, setContent] = useState("");
   const { setNotifications, setProcessUpload } = AppStoreUseContext();
@@ -43,17 +44,14 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
     setListFilePhoto((prev) => {
       return [...prev, e.target.files[0]];
     });
+    let url = URL.createObjectURL(e.target.files[0]);
+    setListFilePhotoURL((prev) => {
+      return [...prev, url];
+    });
     setFilePhoto(e.target.files[0]);
-    handleImageChange(e.target.files[0]);
     e.target.value = "";
   };
 
-  function handleImageChange(filePhoto) {
-    if (filePhoto) {
-      const url = URL.createObjectURL(filePhoto);
-      setPhotoPreview(url);
-    }
-  }
   function handleVideoChange(fileVideo) {
     if (fileVideo) {
       const url = URL.createObjectURL(fileVideo);
@@ -62,7 +60,7 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
   }
 
   const post = async () => {
-    if (!fileVideo && !filePhoto && !setContent) {
+    if (!fileVideo && !listFilePhoto && !setContent) {
       setNotifications((prev) => {
         return [
           ...prev,
@@ -82,6 +80,7 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
     setProcessUpload(true);
     setModalPost(false);
     try {
+      console.log(listFilePhoto);
       if (listFilePhoto.length > 1) {
         const listUrlPhoto = await Promise.all(
           listFilePhoto.map(async (photo) => {
@@ -152,16 +151,16 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
     setContent("");
     setFilePhoto(null);
     setFileVideo(null);
-    setPhotoPreview(null);
     setVideoPreview(null);
     setListFilePhoto([]);
+    setListFilePhotoURL([]);
   }
 
   function renderPhotoPreview() {
-    return listFilePhoto.map((photo, index) => (
+    return listFilePhotoURL.map((photo, index) => (
       <div className="p-2 br-primary" style={{}} key={uuid()}>
         <img
-          src={photo ? URL.createObjectURL(photo) : ""}
+          src={photo ? photo : ""}
           alt=""
           className="w-100 "
           style={{
@@ -190,6 +189,7 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
       }}
       onClick={() => {
         setModalPost(false);
+        clearForm();
       }}
     >
       <div
@@ -295,22 +295,24 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
             </div>
 
             <div className="w-100 mt-3">
-              <input
+              <Input
                 className="reset"
                 placeholder="What happening?"
-                style={{
+                css={{
                   backgroundColor: "transparent",
                   color: !theme ? "#fff" : "#000",
+                  border: "none",
                   fontSize: "1rem",
                   width: "100%",
                   height: " 3rem",
                   padding: ".5rem 1rem",
                 }}
                 value={content}
-                onChange={(e) => setContent(e.target.value)}
+                variant=""
+                handleChange={(e) => setContent(e.target.value)}
               />
             </div>
-            {filePhoto && (
+            {listFilePhoto.length > 0 && (
               <ButtonCustom
                 name="Add more photos"
                 backgroundColor="transparent"
@@ -337,20 +339,18 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
                 overflow: "auto",
               }}
             >
-              {listFilePhoto.length > 0 && (
-                <div
-                  className=" w-100 "
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: `repeat(${
-                      listFilePhoto.length > 1 ? 2 : 1
-                    }, 1fr)`,
-                    gridGap: "2px",
-                  }}
-                >
-                  {renderPhotoPreview()}
-                </div>
-              )}
+              <div
+                className=" w-100 "
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: `repeat(${
+                    listFilePhotoURL.length > 1 ? 2 : 1
+                  }, 1fr)`,
+                  gridGap: "2px",
+                }}
+              >
+                {listFilePhotoURL.length > 0 && renderPhotoPreview()}
+              </div>
               {videoPreview && (
                 <video
                   className="br-primary"
@@ -407,6 +407,7 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
                 }}
                 handleClick={() => {
                   setListFilePhoto([]);
+                  setListFilePhotoURL([]);
                   document.getElementById("photo").click();
                 }}
               />
@@ -440,4 +441,4 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
   );
 };
 
-export default CreateNews;
+export default memo(CreateNews);

@@ -4,19 +4,28 @@ import { AppStoreUseContext } from "../../Context/AppStore";
 import { AuthUserUseContext } from "../../Context/AuthUser";
 import Information from "../../Components/Information";
 
-function ListPost() {
-  const { posts } = AppStoreUseContext();
+function ListPost({ userSelectShowProfile }) {
   const { user } = AuthUserUseContext();
+  const { posts } = AppStoreUseContext();
   const [postUser, setPostUser] = useState([]);
   useEffect(() => {
     let newPostUser = [];
     posts.map((post) => {
-      if (post.user_id === user.id) {
+      if (
+        post.user_id === userSelectShowProfile?.user_id ||
+        post.user_id === userSelectShowProfile?.id
+      ) {
+        newPostUser.push(post);
+      } else if (
+        !userSelectShowProfile &&
+        (post.user_id === user?.user_id || post.user_id === user?.id)
+      ) {
         newPostUser.push(post);
       }
     });
     setPostUser(newPostUser);
-  }, [posts]);
+  }, [userSelectShowProfile]);
+
   function loadPostUser() {
     return postUser.map((post) => {
       return (

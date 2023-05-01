@@ -38,6 +38,7 @@ function AppStore({ children }) {
   });
   const [postSelectShowDetail, setPostSelectShowDetail] = useState(null);
   const [userSelectShowProfile, setUserSelectShowProfile] = useState(null);
+  const [search, setSearch] = useState("");
 
   const loadNotifications = () => {
     return notifications.map((n, i) => (
@@ -121,6 +122,8 @@ function AppStore({ children }) {
         setPostSelectShowDetail,
         userSelectShowProfile,
         setUserSelectShowProfile,
+        search,
+        setSearch,
       }}
     >
       <div

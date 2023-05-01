@@ -38,29 +38,31 @@ function Profile() {
 
   function loadFriends() {
     return friends.map((friend) => {
-      return (
-        <div
-          key={friend.id}
-          className="col-3 hover-bg  flex-column  br-primary mt-2 p-2"
-          style={{
-            height: "8rem",
-          }}
-        >
-          <img
-            src={friend?.photoURL}
-            alt=""
-            className="br-primary "
+      if (friend?.id !== userSelectShowProfile?.id) {
+        return (
+          <div
+            key={friend.id}
+            className="col-3 hover-bg  flex-column  br-primary mt-2 p-2"
             style={{
-              marginRight: ".5rem",
-              marginBottom: ".5rem",
-              width: "5rem",
+              height: "8rem",
             }}
-          />
-          <span style={{ fontSize: ".8rem" }} className="">
-            {friend?.displayName}
-          </span>
-        </div>
-      );
+          >
+            <img
+              src={friend?.photoURL}
+              alt=""
+              className="br-primary "
+              style={{
+                marginRight: ".5rem",
+                marginBottom: ".5rem",
+                width: "5rem",
+              }}
+            />
+            <span style={{ fontSize: ".8rem" }} className="">
+              {friend?.displayName}
+            </span>
+          </div>
+        );
+      }
     });
   }
   function changeBackground(e) {
@@ -326,7 +328,7 @@ function Profile() {
                   </div>
                 </div>
                 <div className="col-8 pb-5">
-                  <ListPost />
+                  <ListPost userSelectShowProfile={userSelectShowProfile} />
                 </div>
               </div>
             </div>

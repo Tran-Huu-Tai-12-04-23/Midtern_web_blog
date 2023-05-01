@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import "./style.scss";
 
 import { Button } from "@mui/material";
+import { AppStoreUseContext } from "../../Context/AppStore";
+import { styled } from "@mui/system";
 
 const ButtonCustom = ({
   iconLeft = "",
@@ -18,21 +20,26 @@ const ButtonCustom = ({
   link,
 }) => {
   const history = useNavigate();
+  const MyButton = styled(Button)({
+    color: color,
+    width: width,
+    height: height,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    "&:hover": {
+      backgroundColor: "rgba(204, 204, 204, .2)",
+      color: "#0094ff",
+    },
+    backgroundColor: backgroundColor,
+    ...style,
+    borderRadius: ".5rem",
+  });
 
   return (
-    <Button
+    <MyButton
       variant="text"
-      className=" button center"
-      style={{
-        color: color,
-        backgroundColor: backgroundColor,
-        width: width,
-        height: height,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        ...style,
-      }}
+      className=" center"
       onClick={
         link
           ? () => {
@@ -47,7 +54,7 @@ const ButtonCustom = ({
         {children && children}
       </div>
       {iconRight && iconRight}
-    </Button>
+    </MyButton>
   );
 };
 export default ButtonCustom;
