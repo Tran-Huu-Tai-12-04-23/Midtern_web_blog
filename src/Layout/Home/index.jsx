@@ -25,10 +25,11 @@ const Home = ({}) => {
 
   return (
     <div
-      className="home bg-main container-fluid "
+      className="home bg-main container-fluid custom-scroll"
       style={{
         height: "100vh",
         // overflow: "hidden",
+        overflow: "auto",
         paddingTop: "4rem",
       }}
     >
@@ -41,13 +42,30 @@ const Home = ({}) => {
         <div className="col-12 mb-5">
           <Header />
         </div>
-        <div className="col-3">
+        <div
+          className="col-3 position-fixed"
+          style={{
+            top: "6rem",
+            left: 0,
+            bottom: 0,
+          }}
+        >
           <Sidebar />
         </div>
+        <div className="col-3"></div>
+
         <div className=" col-6">
           <Content setShowModalPost={setModalPost} posts={posts} />
         </div>
-        <div className="col-3">
+        <div className="col-3"></div>
+        <div
+          className="col-3 position-fixed"
+          style={{
+            top: "6rem",
+            right: 0,
+            bottom: 0,
+          }}
+        >
           <ChatList />
         </div>
       </div>

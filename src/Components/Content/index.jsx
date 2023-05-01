@@ -47,9 +47,9 @@ const Content = ({ setShowModalPost = () => {}, posts = [] }) => {
       className="wrapper-Content w-100  custom-scroll position-relative"
       style={{
         height: "calc(100vh - 8rem)",
-        overflow: "auto",
+        // overflow: "auto",
         paddingBottom: "2rem",
-        zIndex: "10000",
+        // zIndex: "10000",
       }}
     >
       <Suspense fallback={<div>Loading...</div>}>
