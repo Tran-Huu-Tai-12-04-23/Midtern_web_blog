@@ -25,7 +25,6 @@ const AppStoreContext = createContext();
 
 function AppStore({ children }) {
   const { user } = AuthUserUseContext();
-  const [loader, setLoader] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [posts, setPosts] = useState([]);
   const [processUpload, setProcessUpload] = useState(false);
@@ -104,8 +103,6 @@ function AppStore({ children }) {
       value={{
         notifications,
         setNotifications,
-        loader,
-        setLoader,
         posts,
         processUpload,
         setProcessUpload,

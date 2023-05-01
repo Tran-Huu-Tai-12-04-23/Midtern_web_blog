@@ -3,10 +3,12 @@ import "./style.scss";
 import "./reset.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
+import Loader from "../Components/Loader";
 
 const GlobalStylesContext = createContext();
 const GlobalStyles = ({ children }) => {
   const [theme, setTheme] = useState(false);
+  const [loader, setLoader] = useState(true);
 
   useEffect(() => {
     if (
@@ -32,8 +34,11 @@ const GlobalStyles = ({ children }) => {
       value={{
         theme,
         setTheme,
+        loader,
+        setLoader,
       }}
     >
+      <Loader show={loader} theme={theme} />
       <div
         className="theme"
         style={{

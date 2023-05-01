@@ -10,8 +10,8 @@ import { AppStoreUseContext } from "../../Context/AppStore";
 
 const Notification = ({ type = "err", text = "", keyProp, id }) => {
   const { setNotifications } = AppStoreUseContext();
-
   const [color, setColor] = useState();
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       setNotifications((pre) => {
@@ -53,6 +53,9 @@ const Notification = ({ type = "err", text = "", keyProp, id }) => {
           setNotifications((pre) => {
             return pre.filter((notification) => notification.id != id);
           });
+        }}
+        style={{
+          color: color,
         }}
         className="icon-close-notification hover-close"
       />

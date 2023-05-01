@@ -23,7 +23,7 @@ function PreviewCreate({ groupName, mode, members, theme }) {
           width: "100%",
           maxHeight: "30rem",
           marginBottom: "1rem",
-          marginTop: "28rem",
+          marginTop: "10rem",
           borderRadius: ".5rem",
         }}
       />

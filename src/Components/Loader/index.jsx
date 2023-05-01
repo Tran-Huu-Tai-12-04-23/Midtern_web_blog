@@ -1,5 +1,5 @@
 import "./style.scss";
-const Loader = ({ show }) => {
+const Loader = ({ show, theme }) => {
   return (
     <div
       className="wrapper center position-fixed"
@@ -10,7 +10,7 @@ const Loader = ({ show }) => {
         bottom: 0,
         zIndex: "100",
         backdropFilter: "blur(1rem)",
-        backgroundColor: "rgba(0,0,0,.3)",
+        backgroundColor: !theme ? "rgba(0,0,0,.3)" : "rgba(0, 0, 0, .6)",
         display: show ? "flex" : "none",
       }}
     >

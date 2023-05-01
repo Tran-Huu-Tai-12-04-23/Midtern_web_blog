@@ -213,12 +213,20 @@ export const peoples = [
   },
 ];
 
-export function searchPeoples(peoples, search) {
+export function searchPeoples(peoples, peoples2, search) {
   const results = [];
   const normalizedSearch = normalizeText(search.toLowerCase());
   for (let i = 0; i < peoples.length; i++) {
     const people = peoples[i];
     const normalizedName = normalizeText(people?.name.toLowerCase());
+    if (normalizedName.includes(normalizedSearch)) {
+      results.push(people);
+    }
+  }
+  for (let i = 0; i < peoples2.length; i++) {
+    const people = peoples2[i];
+    const normalizedName = normalizeText(people?.displayName?.toLowerCase());
+    console.log(people?.displayName?.toLowerCase());
     if (normalizedName.includes(normalizedSearch)) {
       results.push(people);
     }

@@ -16,8 +16,10 @@ import Search from "./Layout/Search";
 import AuthUser from "./Context/AuthUser";
 import CreateNewGroup from "./Layout/CreateNewGroup";
 import PostDetail from "./Layout/PostDetail";
+import { UseGlobalsStylesContext } from "./GlobalStyle";
 
 function App() {
+  const { setLoader } = UseGlobalsStylesContext();
   const history = useNavigate();
   useEffect(() => {
     const storedLink = localStorage.getItem("link");
@@ -33,6 +35,15 @@ function App() {
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      setLoader(false);
+    }, [1000]);
+    return () => {
+      clearTimeout(timeOut);
     };
   }, []);
   return (

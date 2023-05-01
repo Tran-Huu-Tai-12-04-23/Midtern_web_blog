@@ -135,16 +135,6 @@ const CreateNews = ({ user, modalPost, setModalPost = () => {} }) => {
     });
     setProcessUpload(false);
     clearForm();
-    setNotifications((prev) => {
-      return [
-        ...prev,
-        {
-          text: "Upload successfully!!",
-          type: "success",
-          id: uuid(),
-        },
-      ];
-    });
   }
 
   function clearForm() {

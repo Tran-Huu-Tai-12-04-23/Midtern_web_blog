@@ -11,7 +11,7 @@ import {
 } from "./data";
 
 function PageSearch({ contentActive, theme, search }) {
-  const { posts } = AppStoreUseContext();
+  const { posts, listUser } = AppStoreUseContext();
   const [postsSearch, setPostsSearch] = useState([]);
   const [peopleSearch, setPeopleSearch] = useState([]);
   const [groupSearch, setGroupSearch] = useState([]);
@@ -23,7 +23,7 @@ function PageSearch({ contentActive, theme, search }) {
     setGroupSearch(searchGroups(groups, search));
   }, [search]);
   useEffect(() => {
-    setPeopleSearch(searchPeoples(peoples, search));
+    setPeopleSearch(searchPeoples(peoples, listUser, search));
   }, [search]);
 
   const loadPost = () => {
@@ -112,7 +112,7 @@ function PageSearch({ contentActive, theme, search }) {
                   marginBottom: ".5rem",
                 }}
               >
-                {people.name}
+                {people.name ? people.name : people.displayName}
               </h1>
               <span
                 className=""
