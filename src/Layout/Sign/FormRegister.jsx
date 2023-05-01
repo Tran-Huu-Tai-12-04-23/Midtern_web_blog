@@ -221,10 +221,11 @@ const FormRegister = ({ onSwitchRoute }) => {
           >
             <span className="span p-2">Have you ready your account ?</span>
             <span
-              className=""
+              className="bold"
               style={{
                 color: "var(--color-link)",
                 cursor: "pointer",
+                fontSize: "1.4rem",
               }}
               onClick={onSwitchRoute}
             >

@@ -307,10 +307,11 @@ const FormLogin = ({ onSwitchRoute }) => {
           >
             <span className="span p-2">Do you have account yet?</span>
             <span
-              className=""
+              className="bold"
               style={{
                 color: "var(--color-link)",
                 cursor: "pointer",
+                fontSize: "1.4rem",
               }}
               onClick={onSwitchRoute}
             >
