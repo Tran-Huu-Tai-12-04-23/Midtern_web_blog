@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 
@@ -27,6 +27,7 @@ const Information = ({ data }) => {
   const [love, setLove] = useState(false);
   const [showFullComment, setShowFullComment] = useState(false);
   const [isComment, setIsComment] = useState(false);
+
   function handleAddComment() {
     if (comment !== "") {
       setListComment((prev) => {
@@ -107,7 +108,7 @@ const Information = ({ data }) => {
         </p>
       </div>
       <div
-        className="w-100 mt-4 mb-4 br-primary overflow-hidden"
+        className="w-100 h-100 mt-4 mb-4 br-primary overflow-hidden"
         style={{
           padding: "0 2rem 0 2rem",
         }}
@@ -118,7 +119,15 @@ const Information = ({ data }) => {
         }}
       >
         {!Array.isArray(data?.photoUrl) && (
-          <img className="w-100 br-primary" src={data.photoUrl} alt="" />
+          <img
+            className="w-100 br-primary "
+            style={{
+              maxHeight: "30rem",
+              objectFit: "contain",
+            }}
+            src={data.photoUrl}
+            alt=""
+          />
         )}
         {Array.isArray(data?.photoUrl) && (
           <CarouselComponent data={data?.photoUrl} />
@@ -273,4 +282,4 @@ const Information = ({ data }) => {
     </div>
   );
 };
-export default Information;
+export default memo(Information);
